@@ -5,67 +5,62 @@
 }
 
 *{
-    margin: 0%;
-    padding: 0%;
+    margin: 0;
+    padding: 0;
 }
 .container{
-    padding-left: 160px;
-    padding-right: 160px;
+	max-width: 1200px;
+	margin: auto;
 }
-.logo a{
+
+.logo{
+    padding-top: 60px;
+    padding-bottom: 30px;
     display: flex;
     justify-content: center;
+}
+
+.logo a{
     font-size: 48px;
     font-weight: 700;
     font-family: 'TildaSans', Arial, sans-serif;
-    margin-top: 70px;
-    margin-bottom: 50px;
 }
-.logo a:link{
+
+.logo a:link, .logo a:visited, .logo a:hover{
     color: black;
     text-decoration: none;
 }
-.logo a:visited{
-    color: black;
-    text-decoration: none;
-}
-.logo a:active{
-    color: red;
-    text-decoration: none;
-}
-.INFO {
-    font-size: 13px;
-}
+
 .ONAS{
-    text-align: center;
-    max-width: 751px;
-    margin-left: 410px;
     font-size: 24px;
     font-family: 'TildaSans', Arial, sans-serif;
     font-weight: 300;
-    line-height: 42.5px;  
+    text-align: center;
 }
+
+.INFO{
+    padding: 0px 200px 60px 200px;
+}
+
 .pictures{
-    display: flex;
-    justify-content: center;
-    margin-top: 13px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+    gap: 20px;
+    padding: 20px 20px 0px 20px;
 }
-.pics img{
-    width: 100%;
-    height: 373.63px;
-    width: 373.63px;
+
+.pictures img{
+    max-width: 100%;
+    aspect-ratio: 1 / 1; 
 }
-.first{
-    height: 766.25px;
-    width: 767.25px;
+
+.img1{
+    grid-column: 2 span;
+    grid-row: 2 span;
 }
-.pics{
-    display: flex;
-    flex-direction: column;
-    padding-left: 13px;
-    justify-content: space-between;
-    
-}
+
 .text-card{
     text-align: center;
     padding: 40px 0px;
@@ -75,12 +70,15 @@
     font-size: 32px;
     font-family: 'TildaSans', Arial, sans-serif;
     font-weight: 600;
+    margin-bottom: 20px;
 }
 
 .product-description{
     font-size: 20px;
     font-family: 'TildaSans', Arial, sans-serif;
     font-weight: 300;
+    margin-bottom: 20px;
+    padding: 0px 300px;
 }
 
 .buy{
@@ -95,4 +93,23 @@
     border: 0 none;
     text-align: center;
     cursor: pointer;
+    margin-top: 30px;
+}
+
+.price-wrapper {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 10px; 
+}
+
+.price-wrapper p{
+    font-size: 24px;
+    font-family: 'TildaSans', Arial, sans-serif;
+    font-weight: 600;
+}
+
+.old-price{
+    text-decoration: line-through;
+    color: #bdbdbd;
 }
