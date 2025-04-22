@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'TildaSans';
+    src: url('fonts/TildaSans-VF.woff2') format('woff2'),
+         url('fonts/TildaSans-VF.woff') format('woff');
+}
+
 *{
     margin: 0%;
     padding: 0%;
@@ -9,8 +15,9 @@
 .logo a{
     display: flex;
     justify-content: center;
-    font-size: 200%;
-    font-family: Tahoma;
+    font-size: 48px;
+    font-weight: 700;
+    font-family: 'TildaSans', Arial, sans-serif;
     margin-top: 70px;
     margin-bottom: 50px;
 }
@@ -30,11 +37,13 @@
     font-size: 13px;
 }
 .ONAS{
-text-align: center;
-max-width: 751px;
-margin-left: 410px;
-font-size: 24px;
-line-height: 42.5px;  
+    text-align: center;
+    max-width: 751px;
+    margin-left: 410px;
+    font-size: 24px;
+    font-family: 'TildaSans', Arial, sans-serif;
+    font-weight: 300;
+    line-height: 42.5px;  
 }
 .pictures{
     display: flex;
@@ -59,4 +68,31 @@ line-height: 42.5px;
 }
 .text-card{
     text-align: center;
+    padding: 40px 0px;
+}
+
+.product-name{
+    font-size: 32px;
+    font-family: 'TildaSans', Arial, sans-serif;
+    font-weight: 600;
+}
+
+.product-description{
+    font-size: 20px;
+    font-family: 'TildaSans', Arial, sans-serif;
+    font-weight: 300;
+}
+
+.buy{
+    height: 60px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'TildaSans', Arial, sans-serif;
+    padding-left: 60px;
+    padding-right: 60px;
+    color: #ffffff;
+    background-color: #ff5e42;
+    border: 0 none;
+    text-align: center;
+    cursor: pointer;
 }
