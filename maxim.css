@@ -1,0 +1,62 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+.container{
+    padding-left: 160px;
+    padding-right: 160px;
+}
+.logo a{
+    display: flex;
+    justify-content: center;
+    font-size: 200%;
+    font-family: Tahoma;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+.logo a:link{
+    color: black;
+    text-decoration: none;
+}
+.logo a:visited{
+    color: black;
+    text-decoration: none;
+}
+.logo a:active{
+    color: red;
+    text-decoration: none;
+}
+.INFO {
+    font-size: 13px;
+}
+.ONAS{
+text-align: center;
+max-width: 751px;
+margin-left: 410px;
+font-size: 24px;
+line-height: 42.5px;  
+}
+.pictures{
+    display: flex;
+    justify-content: center;
+    margin-top: 13px;
+}
+.pics img{
+    width: 100%;
+    height: 373.63px;
+    width: 373.63px;
+}
+.first{
+    height: 766.25px;
+    width: 767.25px;
+}
+.pics{
+    display: flex;
+    flex-direction: column;
+    padding-left: 13px;
+    justify-content: space-between;
+    
+}
+.text-card{
+    text-align: center;
+}
