@@ -24,6 +24,7 @@
     font-size: 48px;
     font-weight: 700;
     font-family: 'TildaSans', Arial, sans-serif;
+    
 }
 
 .logo a:link, .logo a:visited, .logo a:hover{
@@ -40,6 +41,7 @@
 
 .INFO{
     padding: 0px 200px 60px 200px;
+    
 }
 
 .pictures{
@@ -112,4 +114,11 @@
 .old-price{
     text-decoration: line-through;
     color: #bdbdbd;
+}
+.card{
+    background-color: #ffffff;
+    margin-bottom: 30px;
+}
+body{
+    background-color: #f0f0f0;
 }
