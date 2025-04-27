@@ -1,124 +1,65 @@
 @font-face {
-    font-family: 'TildaSans';
-    src: url('fonts/TildaSans-VF.woff2') format('woff2'),
-         url('fonts/TildaSans-VF.woff') format('woff');
+    font-family: 'Roboto';
+    src: url('fonts/Roboto-Italic-VariableFont_wdth\,wght.ttf') format('wdth'),
+         url('fonts/Roboto-VariableFont_wdth\,wght.ttf') format('wdth');
 }
-
 *{
-    margin: 0;
-    padding: 0;
+    padding: 0%;
+    margin: 0%;
 }
-.container{
-	max-width: 1200px;
-	margin: auto;
-}
-
-.logo{
-    padding-top: 60px;
-    padding-bottom: 30px;
+.header{
+    padding-left: 160px;
+    padding-right: 160px;
     display: flex;
-    justify-content: center;
-}
+    justify-content: space-between;
 
-.logo a{
-    font-size: 48px;
-    font-weight: 700;
-    font-family: 'TildaSans', Arial, sans-serif;
-    
 }
-
-.logo a:link, .logo a:visited, .logo a:hover{
-    color: black;
+.logo{
+    font-family: "Roboto";
+    color: #2E363E;
+    margin-bottom: 22px;
+    margin-top: 22px;
+    font-size: 52px;
+}
+.urls{
+    display: flex;
+    align-items: center;
+}
+.urls a{
+    color: #2E363E;
+    font-family: "Roboto";
+    font-size: 18px;
+    margin-left: 60px;
+}
+.urls a:link{
+    color: #2E363E;
     text-decoration: none;
 }
-
-.ONAS{
-    font-size: 24px;
-    font-family: 'TildaSans', Arial, sans-serif;
-    font-weight: 300;
-    text-align: center;
+.second{
+    margin-left: 120px;
 }
-
-.INFO{
-    padding: 0px 200px 60px 200px;
+.banner{
+    display: flex;
+}
+.block1{
+    background-image: url(img/banner1.png);
+    height: 819px;
+    width: 50%;
     
 }
-
-.pictures{
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto;
-    grid-auto-flow: column;
-    gap: 20px;
-    padding: 20px 20px 0px 20px;
+.block2{
+    background-image: url(img/banner2.png);
+    height: 819px;
+    width: 50%
 }
-
-.pictures img{
-    max-width: 100%;
-    aspect-ratio: 1 / 1; 
-}
-
-.img1{
-    grid-column: 2 span;
-    grid-row: 2 span;
-}
-
-.text-card{
+.banner_H{
+    margin-left: 90px;
+    margin-right: 90px;
+    width: 780px;
+    height: 112px;
     text-align: center;
-    padding: 40px 0px;
-}
-
-.product-name{
-    font-size: 32px;
-    font-family: 'TildaSans', Arial, sans-serif;
-    font-weight: 600;
-    margin-bottom: 20px;
-}
-
-.product-description{
-    font-size: 20px;
-    font-family: 'TildaSans', Arial, sans-serif;
-    font-weight: 300;
-    margin-bottom: 20px;
-    padding: 0px 300px;
-}
-
-.buy{
-    height: 60px;
-    font-size: 16px;
+    font-family: "Roboto";
+    font-size: 48px;
     font-weight: 700;
-    font-family: 'TildaSans', Arial, sans-serif;
-    padding-left: 60px;
-    padding-right: 60px;
-    color: #ffffff;
-    background-color: #ff5e42;
-    border: 0 none;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 30px;
-}
-
-.price-wrapper {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    gap: 10px; 
-}
-
-.price-wrapper p{
-    font-size: 24px;
-    font-family: 'TildaSans', Arial, sans-serif;
-    font-weight: 600;
-}
-
-.old-price{
-    text-decoration: line-through;
-    color: #bdbdbd;
-}
-.card{
-    background-color: #ffffff;
-    margin-bottom: 30px;
-}
-body{
-    background-color: #f0f0f0;
+    color: #F6F6F6;
 }
