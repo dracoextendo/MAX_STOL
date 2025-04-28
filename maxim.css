@@ -12,6 +12,7 @@
     padding-right: 160px;
     display: flex;
     justify-content: space-between;
+    height: 105px;
 
 }
 .logo{
@@ -47,12 +48,17 @@
     background-image: url(img/banner1.png);
     height: 819px;
     width: 50%;
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    
 }
 .block2{
     background-image: url(img/banner2.png);
     height: 819px;
-    width: 50%
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .banner_H{
     margin-left: 90px;
@@ -64,11 +70,8 @@
     font-size: 48px;
     font-weight: 700;
     color: #F6F6F6;
-    position: relative;
-    top: 300px;
-    bottom: 407px;
 }
-.banner_button{
+.banner_button1{
     color:#ffffff;
     width: 194px;
     height: 56px;
@@ -77,13 +80,32 @@
     border: none;
     font-size: 16px;
     font-family: "Roboto";
-    position: relative;
-    top: 300px;
-    bottom: 248px;
-    left: 384px;
-    right: 382px;
-    margin: 20px;
+    margin: 20px 384px 0px 382px;
+    cursor:grab;
 }
+.banner_button1:hover{
+  background: rgba(0,0,0,0);
+  color: #3a7999;
+  box-shadow: inset 0 0 0 3px #3a7999;
+}
+.banner_button2{
+    color:#ffffff;
+    width: 194px;
+    height: 56px;
+    text-align: center;
+    background-color: #F97832;
+    border: none;
+    font-size: 16px;
+    font-family: "Roboto";
+    margin: 20px 356px 0px 356px;
+    cursor: grab;
+}
+.banner_button2:hover{
+    background: rgba(0,0,0,0);
+    color: #3a7999;
+    box-shadow: inset 0 0 0 3px #3a7999;
+  }
+
 .banner_P{
     width: 780px;
     height: 63px;
@@ -93,7 +115,4 @@
     font-family: "Roboto";
     font-weight: 500;
     color: #F6F6F6;
-    position: relative;
-    top: 300px;
-    bottom: 324px;
 }
