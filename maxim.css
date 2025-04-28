@@ -85,8 +85,8 @@
 }
 .banner_button1:hover{
   background: rgba(0,0,0,0);
-  color: #3a7999;
-  box-shadow: inset 0 0 0 3px #3a7999;
+  color:  #F97832;
+  box-shadow: inset 0 0 0 3px  #F97832;
 }
 .banner_button2{
     color:#ffffff;
@@ -102,8 +102,8 @@
 }
 .banner_button2:hover{
     background: rgba(0,0,0,0);
-    color: #3a7999;
-    box-shadow: inset 0 0 0 3px #3a7999;
+    color:  #F97832;
+    box-shadow: inset 0 0 0 3px  #F97832;
   }
 
 .banner_P{
