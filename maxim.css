@@ -124,7 +124,9 @@
 .katalog{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 40px;
 }
 .cards_title{
     width: 1600px;
@@ -151,18 +153,15 @@
     text-align: center;
 }
 .card{
-    width: 755px;
-    height: 717px;
+    display: flex;
+    flex-direction: column;
+    max-width: 755px;
+    gap: 20px;
 }
 .card_pics{
     display: grid;
-    grid-template-columns: [start] 245px [line2] 245px [line3] 245px;
-    grid-template-rows: [row1] 250px [last] 250px;
     grid-auto-flow: column;
-    margin-top: 40px;
-    width: 755px;
-    height: 500px;
-    gap: 5px;
+    gap: 4px;
 }
 .card_pics img{
     max-width: 100%;
@@ -171,4 +170,43 @@
 .img1{
     grid-column: 2 span;
     grid-row: 2 span;
+}
+.item_name{
+    font-family: "Roboto";
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 38px;
+    text-align: center;
+    color: #2E363E;
+}
+.description{
+    font-family:"Roboto";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21px;
+    text-align: center;
+    color: #455A64;
+}
+.card_button{
+    color:#ffffff;
+    text-align: center;
+    background-color: #F97832;
+    border: none;
+    font-size: 16px;
+    font-family: "Roboto";
+    cursor:grab;
+    line-height: 19px;
+    font-weight: 700;
+    padding: 20px 60px;
+}
+.card_button:hover{
+    background: rgba(0,0,0,0);
+    color:  #F97832;
+    box-shadow: inset 0 0 0 3px  #F97832;
+}
+.card_text{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
 }
