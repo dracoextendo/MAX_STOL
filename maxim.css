@@ -131,7 +131,6 @@
     grid-template-columns: auto auto;
 }
 .cards_title{
-    width: 1600px;
     margin-top: 60px;
     display: flex;
     flex-direction: column;
@@ -241,6 +240,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    margin-bottom: 60px;
 }
 .reasons_H{
     font-family: "Roboto";
@@ -255,4 +255,57 @@
     line-height: 21px;
     text-align: center;
     color: #455A64;
+}
+.Box{
+    display: flex;
+    padding-top: 60px;
+    justify-content: end;
+    gap: 150px;
+    background-color: #D9D9D9;
+}
+.Box img{
+    max-width: 960px;
+    max-height: 576px;
+}
+.project{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    max-width: 935px;
+}
+.project_H3{
+    font-family: "Roboto";
+    font-size: 18px;
+    font-weight: 700;
+    color: #F97832;
+}
+.project_H1{
+    font-family: "Roboto";
+    font-size: 48px;
+    font-weight: 700;
+    color: #2E363E;
+}
+.project_P{
+    font-family: "Roboto";
+    font-size: 18px;
+    font-weight: 500;
+    color: #455A64;
+}
+.project_button{
+    color:#ffffff;
+    text-align: center;
+    background-color: #F97832;
+    border: none;
+    font-size: 16px;
+    font-family: "Roboto";
+    cursor:grab;
+    line-height: 19px;
+    font-weight: 700;
+    padding: 20px 60px;
+}
+.project_button:hover{
+    background: rgba(0,0,0,0);
+    color:  #F97832;
+    box-shadow: inset 0 0 0 3px  #F97832;
 }
