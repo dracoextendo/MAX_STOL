@@ -12,14 +12,13 @@
     display: flex;
     justify-content: space-between;
     margin: auto;
+    padding: 20px 40px;
     
 
 }
 .logo{
     font-family: "Roboto";
     color: #2E363E;
-    margin-bottom: 22px;
-    margin-top: 22px;
     font-size: 52px;
 }
 .urls{
@@ -71,6 +70,7 @@
     font-weight: 700;
     color: #F6F6F6;
     line-height: 56px;
+    min-width: 112px;
 }
 .banner_button1{
     color:#ffffff;
@@ -108,8 +108,6 @@
   }
 
 .banner_P{
-    width: 780px;
-    height: 63px;
     text-align: center;
     font-size: 18px;
     font-family: "Roboto";
@@ -136,16 +134,12 @@
     align-items: center;
 }
 .cards_title h1{
-    height: 56px;
-    width: 640px;
     font-family: "Roboto";
     font-size: 48px;
     font-weight: 700;
     text-align: center;
 }
 .cards_title p{
-    width: 780px;
-    height: 63px;
     margin-top: 20px;
     font-family: "Roboto";
     font-size: 18px;
