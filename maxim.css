@@ -39,6 +39,7 @@
 .banner{
     display: flex;
     justify-content: center;
+    height: 620px;
 }
 .block1{
     background-image: url(img/banner1.png);
@@ -46,7 +47,8 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    padding: 300px 90px 245px;
+    padding: 40px;
+    justify-content: center;
       
 }
 .block2{
@@ -55,7 +57,8 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    padding: 300px 90px 245px; 
+    padding: 40px;
+    justify-content: center; 
 }
 .block1 img{
     width: 50%;
@@ -71,6 +74,7 @@
     color: #F6F6F6;
     line-height: 56px;
     min-width: 112px;
+    min-height: 122px;
 }
 .banner_button1{
     color:#ffffff;
