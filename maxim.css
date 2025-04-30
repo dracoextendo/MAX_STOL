@@ -124,11 +124,11 @@
     margin: auto;
 }
 .katalog{
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     justify-content: space-between;
-    gap: 40px;
+    gap: 60px;
     margin-top: 40px;
+    grid-template-columns: auto auto;
 }
 .cards_title{
     width: 1600px;
@@ -154,7 +154,6 @@
 .card{
     display: flex;
     flex-direction: column;
-    max-width: 755px;
     gap: 20px;
 }
 .card_pics{
