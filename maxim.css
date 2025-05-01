@@ -1,311 +1,260 @@
-@font-face {
-    font-family: 'Roboto';
-    src: url('fonts/Roboto-Italic-VariableFont_wdth\,wght.ttf') format('wdth'),
-         url('fonts/Roboto-VariableFont_wdth\,wght.ttf') format('wdth');
-}
+/* CSS Document */
 *{
-    padding: 0%;
-    margin: 0%;
+    padding: 0;
+    margin: 0;
 }
-.header{
-    max-width: 1550px;
-    display: flex;
-    justify-content: space-between;
-    margin: auto;
-    padding: 20px 40px;
-    
 
+.container{
+    max-width: 1600px;
+    margin: auto;
+    padding: 0 20px;
 }
-.logo{
-    font-family: "Roboto";
-    color: #2E363E;
-    font-size: 52px;
+
+section{
+    margin-top: 60px;
 }
-.urls{
+
+.section-title{
     display: flex;
+    gap: 20px;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
 }
-.urls a{
+
+.section-title p{
+    max-width: 1280px;
+}
+
+/* Fonts */
+body{
+    font-family: "Roboto", sans-serif;
+}
+
+h1{
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 60px;
     color: #2E363E;
-    font-family: "Roboto";
-    font-size: 18px;
-    margin-left: 60px;
-    font-weight: bold;
 }
-.urls a:link{
+
+h2{
+    font-weight: 700;
+    font-size: 44px;
+    line-height: 56px;
+    color: #2E363E;
+}
+
+h3{
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 36px;
+    color: #2E363E;
+}
+
+h4{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    color: #F97832;
+}
+
+a{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
     color: #2E363E;
     text-decoration: none;
 }
+
+p{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #455A64;
+}
+
+button{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #F6F6F6;
+    text-align: center;
+}
+
+/* Buttons */
+button{
+    background-color: #F97832;
+    border: none;
+    padding: 20px 60px;
+}
+
+button:hover{
+  background: rgba(0,0,0,0);
+  color:  #F97832;
+  box-shadow: inset 0 0 0 3px   #F97832;
+  cursor: pointer;
+}
+
+/* Header */
+.banner{
+    margin-top: 0px;
+}
+
+.header-inner{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0px;
+}
+
+.header-links{
+    display: flex;
+    gap: 90px;
+}
+
+.menu{
+    display: flex;
+    align-items: center;
+}
+
+.contacts{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.menu-items{
+    display: flex;
+    gap: 60px;
+}
+
+.menu-items li{
+    display: inline;
+}
+
+.header-inner img{
+    display: block;
+    height: 36px;
+}
+
+/* Banner */
 .banner{
     display: flex;
     justify-content: center;
     height: 620px;
 }
-.block1{
-    background-image: url(img/banner1.png);
+
+.banner-block{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     padding: 40px;
     justify-content: center;
+}
+
+.banner-first{
+    background-image: url(img/banner1.png);
       
 }
-.block2{
-    background-image: url(img/banner2.png);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 40px;
-    justify-content: center; 
-}
-.block1 img{
-    width: 50%;
-}
-.block2 img{
-    width: 50%;
-}
-.banner_H{
-    text-align: center;
-    font-family: "Roboto";
-    font-size: 48px;
-    font-weight: 700;
-    color: #F6F6F6;
-    line-height: 56px;
-    min-width: 112px;
-    min-height: 122px;
-}
-.banner_button1{
-    color:#ffffff;
-    width: 194px;
-    height: 56px;
-    text-align: center;
-    background-color: #F97832;
-    border: none;
-    font-size: 16px;
-    font-family: "Roboto";
-    cursor:grab;
-    line-height: 19px;
-}
-.banner_button1:hover{
-  background: rgba(0,0,0,0);
-  color:  #F97832;
-  box-shadow: inset 0 0 0 3px   #F97832;
-}
-.banner_button2{
-    color:#ffffff;
-    width: 248px;
-    height: 56px;
-    text-align: center;
-    background-color: #F97832;
-    border: none;
-    font-size: 16px;
-    font-family: "Roboto";
-    cursor: grab;
-    line-height: 19px;
-}
-.banner_button2:hover{
-    background: rgba(0,0,0,0);
-    color:  #F97832;
-    box-shadow: inset 0 0 0 3px  #F97832;
-  }
 
-.banner_P{
+.banner-second{
+    background-image: url(img/banner2.png);
+}
+
+.banner h2, .banner p{
     text-align: center;
-    font-size: 18px;
-    font-family: "Roboto";
-    font-weight: 500;
     color: #F6F6F6;
-    line-height: 21px;
 }
-.container{
-    max-width: 1600px;
-    margin: auto;
-}
-.katalog{
+
+
+/* Catalog */
+.cards{
     display: grid;
     justify-content: space-between;
     gap: 60px;
     margin-top: 40px;
     grid-template-columns: auto auto;
-}
-.cards_title{
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.cards_title h1{
-    font-family: "Roboto";
-    font-size: 48px;
-    font-weight: 700;
     text-align: center;
 }
-.cards_title p{
-    margin-top: 20px;
-    font-family: "Roboto";
-    font-size: 18px;
-    font-weight: 500;
-    text-align: center;
-    line-height: 21px;
-}
+
 .card{
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-.card_pics{
+
+.card-pics{
     display: grid;
     grid-auto-flow: column;
-    gap: 4px;
+    gap: 10px;
 }
-.card_pics img{
+
+.card-pics img{
     max-width: 100%;
     aspect-ratio: 1 / 1;
+    display: block;
 }
-.img1{
+
+.card-pics img:first-child{
     grid-column: 2 span;
     grid-row: 2 span;
 }
-.item_name{
-    font-family: "Roboto";
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 38px;
-    text-align: center;
-    color: #2E363E;
-}
-.description{
-    font-family:"Roboto";
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 21px;
-    text-align: center;
-    color: #455A64;
-}
-.card_button{
-    color:#ffffff;
-    text-align: center;
-    background-color: #F97832;
-    border: none;
-    font-size: 16px;
-    font-family: "Roboto";
-    cursor:grab;
-    line-height: 19px;
-    font-weight: 700;
-    padding: 20px 60px;
-}
-.card_button:hover{
-    background: rgba(0,0,0,0);
-    color:  #F97832;
-    box-shadow: inset 0 0 0 3px  #F97832;
-}
-.card_text{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-}
-.reasons_title{
-    width: 1000px;
-    margin: auto;
-    gap: 20px;
+
+.card-text{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 60px;
+    gap: 20px;
 }
-.reasons_title_H{
-    font-family: "Roboto";
-    font-size: 48px;
-    font-weight: 700;
-    text-align: center;
-}
-.reasons_title_P{
-    font-family: "Roboto";
-    font-size: 18px;
-    font-weight: 500;
-    text-align: center;
-    line-height: 21px;
-    color: #455A64;
-}
-.reasons{
+
+/* Reasons */
+.reasons-flex{
     display: flex;
-    gap: 111px;
-    margin-top: 70px;
+    justify-content: space-between;
+    margin-top: 40px;
 }
+
 .reason{
+    max-width: 300px;
     display: flex;
+    gap: 20px;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 60px;
-}
-.reasons_H{
-    font-family: "Roboto";
-    font-size: 32px;
-    font-weight: 700;
     text-align: center;
 }
-.reasons_P{
-    font-family: "Roboto";
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 21px;
-    text-align: center;
-    color: #455A64;
+
+/* Individual project */
+.individual-project{
+    padding-top: 40px;
+    background-color: #F6F6F6;
+    padding-bottom: 60px;
 }
-.Box{
-    display: flex;
-    padding-top: 60px;
-    justify-content: end;
-    gap: 150px;
-    background-color: #D9D9D9;
-}
-.Box img{
-    max-width: 960px;
-    max-height: 576px;
-}
+
 .project{
+    display: flex;
+    justify-content: flex-end;
+    gap: 60px;
+    margin-bottom: 40px;
+}
+
+.individual-project img{
+    display: block;
+    max-width: 50%;
+    height: fit-content;
+}
+
+.project-text{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 40px;
-    max-width: 935px;
+    max-width: 40%;
 }
-.project_H3{
-    font-family: "Roboto";
-    font-size: 18px;
-    font-weight: 700;
-    color: #F97832;
+
+/* Contacts */
+.contacts{
+    margin-top: 0;
 }
-.project_H1{
-    font-family: "Roboto";
-    font-size: 48px;
-    font-weight: 700;
-    color: #2E363E;
-}
-.project_P{
-    font-family: "Roboto";
-    font-size: 18px;
-    font-weight: 500;
-    color: #455A64;
-}
-.project_button{
-    color:#ffffff;
-    text-align: center;
-    background-color: #F97832;
-    border: none;
-    font-size: 16px;
-    font-family: "Roboto";
-    cursor:grab;
-    line-height: 19px;
-    font-weight: 700;
-    padding: 20px 60px;
-}
-.project_button:hover{
-    background: rgba(0,0,0,0);
-    color:  #F97832;
-    box-shadow: inset 0 0 0 3px  #F97832;
-}
+
+/* Footer */
