@@ -263,7 +263,7 @@ button:hover{
     margin-bottom: 40px;
 }
 .ya-map{
-    max-width: 55%;
+    width: 55%;
 }
 .contacts-text{
     display: flex;
