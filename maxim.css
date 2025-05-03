@@ -256,3 +256,46 @@ button:hover{
 }
 
 /* Footer */
+footer{
+    background-color: #1E1E1E;
+    padding: 60px 0px;
+}
+
+.footer-inner{
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-inner h1, .footer-inner a{
+    color: #F6F6F6;
+}
+
+.footer-menu{
+    display: flex;
+    align-items: center;
+}
+
+.footer-menu-items{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-menu-items li{
+    display: inline;
+}
+
+.footer-contacts{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-contacts div{
+    display: flex;
+}
+
+.footer-contacts img{
+    display: block;
+}
+
