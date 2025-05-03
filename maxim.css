@@ -26,6 +26,22 @@ section{
     max-width: 1280px;
 }
 
+@media (max-width: 1280px) {
+    .container{
+        max-width: 1066px;
+        margin: auto;
+        padding: 0 20px;
+    }
+    
+    section{
+        margin-top: 40px;
+    }
+    
+    .section-title p{
+        max-width: 854px;
+    }
+}
+
 /* Fonts */
 body{
     font-family: "Roboto", sans-serif;
@@ -82,6 +98,70 @@ button{
     text-align: center;
 }
 
+@media (max-width: 1280px) {
+    h1{
+        font-size: 32px;
+        line-height: 36px;
+    }
+    
+    h2{
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    h3{
+        font-size: 20px;
+        line-height: 24px;
+    }
+    
+    h4{
+        font-size: 16px;
+        line-height: 20px;
+    }
+    
+    a{
+        font-size: 16px;
+        line-height: 20px;
+    }
+    
+    p{
+        font-size: 12px;
+        line-height: 18px;
+    }
+    
+    button{
+        font-size: 12px;
+        line-height: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    h1{
+        font-size: 28px;
+        line-height: 32px;
+    }
+    
+    h2{
+        font-size: 24px;
+        line-height: 28px;
+    }
+    
+    h3{
+        font-size: 18px;
+        line-height: 22px;
+    }
+    
+    p{
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    button{
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+
 /* Buttons */
 button{
     background-color: #F97832;
@@ -94,6 +174,12 @@ button:hover{
   color:  #F97832;
   box-shadow: inset 0 0 0 3px   #F97832;
   cursor: pointer;
+}
+@media (max-width: 1280px) {
+    button{
+        padding: 12px 40px;
+    }
+    
 }
 
 /* Header */
@@ -132,6 +218,27 @@ button:hover{
     display: block;
     height: 36px;
 }
+.phone-icon{
+    display: none;
+}
+
+@media (max-width: 1280px) {
+    .phone-icon{
+        display: block;
+    }
+    .phone-number{
+        display: none;
+    }
+    .contacts{
+        gap: 20px;
+    }
+    .header-links{
+        gap: 40px;
+    }
+    .menu-items{
+        gap: 40px;
+    }
+}
 
 /* Banner */
 
@@ -163,6 +270,15 @@ button:hover{
 .banner h2, .banner p{
     text-align: center;
     color: #F6F6F6;
+}
+
+@media (max-width: 1280px) {
+    .banner{
+        height: 413px;
+    }
+    .banner-block{
+        gap: 20px;
+    }
 }
 
 
@@ -206,6 +322,12 @@ button:hover{
     gap: 20px;
 }
 
+@media (max-width: 1280px) {
+    .cards{
+        gap: 40px;
+    }
+}
+
 /* Reasons */
 .reasons-flex{
     display: flex;
@@ -221,6 +343,15 @@ button:hover{
     align-items: center;
     text-align: center;
 }
+@media (max-width: 1280px) {
+    .reasons-flex{
+        margin-top: 20px;
+    }
+    .reason{
+        max-width: 180px;
+    }
+}
+
 
 /* Individual project */
 .individual-project{
@@ -249,6 +380,18 @@ button:hover{
     gap: 40px;
     max-width: 40%;
 }
+@media (max-width: 1280px) {
+    .project{
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+    .project-text{
+        gap: 20px;
+    }
+    .individual-project{
+        padding-bottom: 40px;
+    }
+}
 
 /* Contacts */
 .contacts-wrap{
@@ -260,10 +403,12 @@ button:hover{
     display: flex;
     justify-content: flex-end;
     gap: 60px;
-    margin-bottom: 40px;
 }
 .ya-map{
     width: 55%;
+}
+.ya-map iframe{
+    height: 480px;
 }
 .contacts-text{
     display: flex;
@@ -280,6 +425,14 @@ button:hover{
     padding-bottom: 20px;
 }
 
+@media (max-width: 1280px) {
+    .contacts-wrap{
+        height: 320px;
+    }
+    .ya-map iframe{
+        height: 320px;
+    }
+}
 
 
 
