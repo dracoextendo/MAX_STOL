@@ -49,12 +49,24 @@ section{
         padding: 0 20px;
     }
     
-    section{
-        margin-top: 40px;
+    .section-title p{
+        max-width: 512px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container{
+        max-width: 480px;
+        margin: auto;
+        padding: 0 20px;
+    }
+
+    .section-title{
+        gap: 12px;
     }
     
     .section-title p{
-        max-width: 512px;
+        max-width: 384px;
     }
 }
 
@@ -274,6 +286,14 @@ button:hover{
     .menu-items{
         justify-content: space-between;
         width: 100%;
+        gap: unset;
+    }
+}
+
+@media (max-width: 576px) {
+    .menu-items{
+        text-align: center;
+        gap: 10px;
     }
 }
 
@@ -328,7 +348,18 @@ button:hover{
     .banner{
         height: 500px;
     }
+}
 
+@media (max-width: 576px) {
+    .banner-first{
+        display: none;
+    }
+    .banner-block{
+        gap: 12px;
+    }
+    .banner{
+        height: 373px;
+    }
 }
 
 
@@ -390,6 +421,19 @@ button:hover{
         gap: 12px;
     }
 }
+@media (max-width:576px) {
+    .cards{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .card{
+        gap: 12px;
+    }
+    .card-text{
+        gap: 12px;
+    }
+}
 
 /* Reasons */
 .reasons-flex{
@@ -423,6 +467,17 @@ button:hover{
     }
     .reason{
         max-width: 230px;
+    }
+}
+
+@media (max-width: 576px) {
+    .reasons-flex{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .reason{
+        max-width: 300px;
     }
 }
 
@@ -512,6 +567,7 @@ button:hover{
     .steps-flex{
         flex-direction: column;
         gap: 40px;
+        margin-top: 20px;
     }
     .step{
         flex-direction: row;
@@ -526,6 +582,23 @@ button:hover{
     .individual-project .container{
         padding: 0;
         margin: 0;
+    }
+}
+
+@media (max-width:576px) {
+    .project-text{
+        gap: 12px;
+    }
+    .project-container{
+        max-width: 480px;
+        margin: auto;
+        padding: 0 20px;
+    }
+    .steps-flex{
+        margin-top: 20px;
+    }
+    .step{
+        gap: 20px;
     }
 }
 
@@ -576,6 +649,7 @@ button:hover{
         padding-top: 40px;
     }
 }
+
 @media (max-width:768px) {
     .contacts-block{
         flex-direction: column;
@@ -604,7 +678,18 @@ button:hover{
     }
 }
 
-
+@media (max-width: 576px) {
+    .contacts-text{
+        max-width: 480px;
+    }
+    .contacts-info{
+        flex-direction: column;
+        align-items: center;
+    }
+    .ya-map iframe{
+        height: 430px;
+    }
+}
 
 /* Footer */
 footer{
