@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
     <meta charset="utf-8">
     <title>MAX_STOL</title>
-    <link rel="stylesheet" href="maxim.css">
+    <link rel="stylesheet" href="../static/maxim.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,8 +25,8 @@
               </ul>
             </div>
             <div class="contacts">
-              <a href=""><img src="img/Telegram.png" alt="tg"></a>
-              <a class="phone-icon" href=""><img src="img/phone.svg" alt="phone"></a>
+              <a href=""><img src="../static/img/Telegram.png" alt="tg"></a>
+              <a class="phone-icon" href=""><img src="../static/img/phone.svg" alt="phone"></a>
               <a class="phone-number" href="#">+7 (999) 999-99-99</a>
             </div>
           </nav>
@@ -52,54 +52,21 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
         <div class="cards">
+          {% for product in products %}
           <div class="card">
             <div class="card-pics">
-              <img src="img/denchik2.jpg" alt="den1">
-              <img src="img/denchik1.jpg" alt="den2">
-              <img src="img/denchik3.jpg" alt="den3">  
+              <img src="{{ product.first_image }}" alt="den1">
+              <img src="{{ product.second_image }}" alt="den2">
+              <img src="{{ product.third_image }}" alt="den3">
             </div>
             <div class="card-text"> 
-              <h3>Изделие DENCHIK</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+              <h4>{{ product.price }} руб.</h4>
               <button>Заказать</button>
             </div>
           </div>
-          <div class="card">
-            <div class="card-pics">
-              <img src="img/max1.jpg" alt="den1">
-              <img src="img/max2.jpg" alt="den2">
-              <img src="img/max3.jpg" alt="den3">  
-            </div>
-            <div class="card-text"> 
-              <h3>Изделие MAX</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <button>Заказать</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-pics">
-              <img src="img/ded1.jpg" alt="den1">
-              <img src="img/ded2.jpg" alt="den2">
-              <img src="img/ded3.jpg" alt="den3">  
-            </div>
-            <div class="card-text"> 
-              <h3>Изделие DED</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <button>Заказать</button>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-pics">
-              <img src="img/20114911241_fc14caa32a_k.jpg" alt="den1">
-              <img src="img/19921430990_70a8627057_k.jpg" alt="den2">
-              <img src="img/20114911381_abea93bb1b_k.jpg" alt="den3">  
-            </div>
-            <div class="card-text"> 
-              <h3>Изделие DRIPKA</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <button>Заказать</button>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </div>
     </section>
@@ -111,22 +78,22 @@
         </div>
         <div class="reasons-flex">
           <div class="reason">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <h3>Причина 1</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
           <div class="reason">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <h3>Причина 2</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
           <div class="reason">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <h3>Причина 3</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
           <div class="reason">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <h3>Причина 4</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
@@ -142,7 +109,7 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           <button>Связаться с нами</button>
         </div>
-        <img src="img/Group16.png" alt="photo">
+        <img src="../static/img/Group16.png" alt="photo">
       </div>
       <div class="container">
         <div class="section-title">
@@ -150,28 +117,28 @@
         </div>
         <div class="steps-flex">
           <div class="step">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <img src="img/Ellipse 4.svg" alt="Ellipse">
+            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -210,11 +177,11 @@
             </ul>
           </div>
           <div class="footer-contacts">
-            <div class="footer-icon"><a href="#"><img src="img/phone.svg" alt="phone"></a></div>
+            <div class="footer-icon"><a href="#"><img src="../static/img/phone.svg" alt="phone"></a></div>
             <div class="footer-text"><a href="#">+7 (999) 999-99-99</a></div>
-            <div class="footer-icon"><a href="#"><img src="img/pochta.svg" alt="pochta"></a></div>
+            <div class="footer-icon"><a href="#"><img src="../static/img/pochta.svg" alt="pochta"></a></div>
             <div class="footer-text"><a href="#">qwerty@qwerty.ru</a></div>
-            <div class="tg-footer"><a href="#"><img src="img/Telegram.png" alt="tg"></a></div>
+            <div class="tg-footer"><a href="#"><img src="../static/img/Telegram.png" alt="tg"></a></div>
           </div>
         </div>
       </div>
