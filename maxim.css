@@ -4,6 +4,10 @@
     margin: 0;
 }
 
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
 .container{
     max-width: 1600px;
     margin: auto;
@@ -772,3 +776,107 @@ footer{
     }
 }
 
+/* Order pop-up */
+.dialog{
+    width: auto;
+    max-width: none;
+    max-height: 100dvh;
+    height: 100dvh;
+    margin: auto;
+    padding: 60px 20px;
+    overflow-y: auto;
+    background: 0 0;
+    border: 0;
+    position: fixed;
+}
+
+dialog::backdrop {
+    background-color: rgb(0 0 0 / 0.9);
+  }
+
+.dialog-wrapper{
+    background-color: #fff;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.dialog-inner{
+    display: flex;
+    gap: 60px;
+    padding: 40px 60px 40px 40px;
+}
+
+.dialog-inner h4{
+    color: #2E363E;
+}
+
+.order-config{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.radio-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.radio-buttons input[type="radio"] {
+    display: none;
+}
+
+.checkbox-button{
+    padding: 8px 20px;
+    background-color: #F6F6F6;
+    cursor: pointer;
+}
+
+.checkbox-button p{
+    color: #2E363E;
+}
+
+.radio-buttons input[type="radio"]:checked + .checkbox-button {
+    background-color: #F97832;
+}
+
+.radio-buttons input[type="radio"]:checked + .checkbox-button p{
+    color: #F6F6F6;
+}
+
+.order-parameter{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.order-user{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    min-width: 516px;
+    align-items: flex-start;
+}
+
+.oder-user-fieldset{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.order-user-field{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input{
+    font-family: inherit;
+    font-size: inherit; 
+    line-height: inherit; 
+    color: inherit;
+    margin: 0; 
+    border: 1px solid #D9D9D9;
+    padding: 12px 16px;
+  }

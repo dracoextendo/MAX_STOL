@@ -10,6 +10,80 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   </head>
   <body>
+    <dialog class="dialog" id="orderDialog">
+      <div class="dialog-wrapper">
+        <div class="dialog-inner">
+          <div class="order-config">
+            <div class="card-pics">
+              <img src="img/denchik2.jpg" alt="den1">
+              <img src="img/denchik1.jpg" alt="den2">
+              <img src="img/denchik3.jpg" alt="den3">  
+            </div>
+            <div class="order-parameter">
+              <h4>Цвет столешницы</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="desk-color-1" name="desk-color">
+                <label for="desk-color-1" class="checkbox-button"><p>Option 1</p></label>
+                <input type="radio" id="desk-color-2" name="desk-color" checked>
+                <label for="desk-color-2" class="checkbox-button"><p>Option 1</p></label>
+              </div>
+            </div>
+            <div class="order-parameter">
+              <h4>Цвет металлокаркаса</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="frame-color-1" name="frame-color">
+                <label for="frame-color-1" class="checkbox-button"><p>Очень красивый</p></label>
+                <input type="radio" id="frame-color-2" name="frame-color">
+                <label for="frame-color-2" class="checkbox-button"><p>Супер красивый</p></label>
+                <input type="radio" id="frame-color-3" name="frame-color">
+                <label for="frame-color-3" class="checkbox-button"><p>Ебейше красивый</p></label>
+                <input type="radio" id="frame-color-4" name="frame-color" checked>
+                <label for="frame-color-4" class="checkbox-button"><p>Цвет говна</p></label>
+              </div>
+            </div>
+            <div class="order-parameter">
+              <h4>Глубина</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="depth-1" name="depth" checked>
+                <label for="depth-1" class="checkbox-button"><p>Option 1</p></label>
+                <input type="radio" id="depth-2" name="depth">
+                <label for="depth-2" class="checkbox-button"><p>Option 1</p></label>
+              </div>
+            </div>
+            <div class="order-parameter">
+              <h4>Длина</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="length-1" name="length" checked>
+                <label for="length-1" class="checkbox-button"><p>Option 1</p></label>
+                <input type="radio" id="length-2" name="length">
+                <label for="length-2" class="checkbox-button"><p>Option 1</p></label>
+              </div>
+            </div>
+          </div>
+          <div class="order-user">
+            <form class="oder-user-fieldset">
+              <div class="order-user-field">
+                <h4>ФИО*</h4>
+                <input type="text">
+              </div>
+              <div class="order-user-field">
+                <h4>Телефон*</h4>
+                <input type="tel" value="+7">
+              </div>
+              <div class="order-user-field">
+                <h4>E-mail</h4>
+                <input type="email">
+              </div>
+              <div class="order-user-field">
+                <h4>Telegram</h4>
+                <input type="email">
+              </div>
+            </form>
+            <button>Заказать</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
     <header>
       <div class="container">
         <div class="header-inner">
