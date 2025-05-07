@@ -1,5 +1,5 @@
 const dialog = document.getElementById('orderDialog')
-const dialogOpener = document.querySelector('.openDialogBtn')
+const dialogOpener = document.querySelectorAll('.openDialogBtn')
 const dialogCloser = dialog.querySelector('.closeDialogBtn')
 
 function openModalAndLockScroll() {
@@ -16,9 +16,6 @@ function close() {
   returnScroll()
 }
 
-dialogOpener.addEventListener('click', openModalAndLockScroll)
-dialogCloser.addEventListener('click', close)
-
 function closeOnBackDropClick({ currentTarget, target }) {
   const dialog = currentTarget
   const isClickedOnBackDrop = target === dialog
@@ -26,6 +23,11 @@ function closeOnBackDropClick({ currentTarget, target }) {
     close()
   }
 }
+
+dialogCloser.addEventListener('click', close)
+dialogOpener.forEach(opener => {
+  opener.addEventListener('click', openModalAndLockScroll);
+});
 
 dialog.addEventListener('click', closeOnBackDropClick)
 dialog.addEventListener('cancel', (event) => {
