@@ -809,6 +809,9 @@ dialog::backdrop {
 .dialog-inner h4{
     color: #2E363E;
 }
+.scroll-lock{
+    overflow: hidden;
+}
 
 .order-config{
     display: flex;
