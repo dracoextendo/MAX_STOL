@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
   <head>
     <meta charset="utf-8">
     <title>MAX_STOL</title>
@@ -10,12 +10,87 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   </head>
   <body>
+    <dialog class="dialog" id="orderDialog">
+      <div class="dialog-wrapper">
+        <div class="close-button closeDialogBtn"><img src="../static/img/close.svg" alt="#"></div>
+        <div class="dialog-inner">
+          <div class="order-config">
+            <div class="card-pics">
+              <img src="img/denchik2.jpg" alt="den1">
+              <img src="img/denchik1.jpg" alt="den2">
+              <img src="img/denchik3.jpg" alt="den3">
+            </div>
+            <div class="order-parameter">
+              <h4>Цвет столешницы</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="desk-color-1" name="desk-color">
+                <label for="desk-color-1" class="checkbox-button"><p>Option 1</p></label>
+                <input type="radio" id="desk-color-2" name="desk-color" checked>
+                <label for="desk-color-2" class="checkbox-button"><p>Option 1</p></label>
+              </div>
+            </div>
+            <div class="order-parameter">
+              <h4>Цвет металлокаркаса</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="frame-color-1" name="frame-color">
+                <label for="frame-color-1" class="checkbox-button"><p>Очень красивый</p></label>
+                <input type="radio" id="frame-color-2" name="frame-color">
+                <label for="frame-color-2" class="checkbox-button"><p>Супер красивый</p></label>
+                <input type="radio" id="frame-color-3" name="frame-color">
+                <label for="frame-color-3" class="checkbox-button"><p>Ебейше красивый</p></label>
+                <input type="radio" id="frame-color-4" name="frame-color" checked>
+                <label for="frame-color-4" class="checkbox-button"><p>Цвет говна</p></label>
+              </div>
+            </div>
+            <div class="order-parameter">
+              <h4>Глубина</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="depth-1" name="depth" checked>
+                <label for="depth-1" class="checkbox-button"><p>Option 1</p></label>
+                <input type="radio" id="depth-2" name="depth">
+                <label for="depth-2" class="checkbox-button"><p>Option 1</p></label>
+              </div>
+            </div>
+            <div class="order-parameter">
+              <h4>Длина</h4>
+              <div class="radio-buttons">
+                <input type="radio" id="length-1" name="length" checked>
+                <label for="length-1" class="checkbox-button"><p>Option 1</p></label>
+                <input type="radio" id="length-2" name="length">
+                <label for="length-2" class="checkbox-button"><p>Option 1</p></label>
+              </div>
+            </div>
+          </div>
+          <div class="order-user">
+            <form class="oder-user-fieldset">
+              <div class="order-user-field">
+                <h4>ФИО*</h4>
+                <input type="text" class="input-field">
+              </div>
+              <div class="order-user-field">
+                <h4>Телефон*</h4>
+                <input type="tel" value="+7" class="input-field">
+              </div>
+              <div class="order-user-field">
+                <h4>E-mail</h4>
+                <input type="email" class="input-field">
+              </div>
+              <div class="order-user-field">
+                <h4>Telegram</h4>
+                <input type="email" class="input-field">
+              </div>
+            </form>
+            <button class="button">Заказать</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
     <header>
       <div class="container">
         <div class="header-inner">
           <div class="logo">
             <h1>MAX_STOL</h1>
-          </div>  
+          </div>
           <nav class="header-links">
             <div class="menu">
               <ul class="menu-items">
@@ -25,8 +100,8 @@
               </ul>
             </div>
             <div class="contacts">
-              <a href=""><img src="../static/img/Telegram.png" alt="tg"></a>
-              <a class="phone-icon" href=""><img src="../static/img/phone.svg" alt="phone"></a>
+              <a href=""><img src="../static/img/tg.svg" alt="tg"></a>
+              <a class="phone-icon" href=""><img src="img/phone.svg" alt="phone"></a>
               <a class="phone-number" href="#">+7 (999) 999-99-99</a>
             </div>
           </nav>
@@ -37,12 +112,12 @@
       <div class="banner-block banner-first">
         <h2>Товары<br>в наличии</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button>В каталог</button>
+        <button  class="button">В каталог</button>
       </div>
       <div class="banner-block banner-second">
         <h2>Изготовление по<br>вашим размерам</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button>Оставить заявку</button>
+        <button  class="button">Оставить заявку</button>
       </div>
     </section>
     <section class="catalog">
@@ -63,7 +138,7 @@
               <h3>{{ product.name }}</h3>
               <p>{{ product.description }}</p>
               <h4>{{ product.price }} руб.</h4>
-              <button>Заказать</button>
+              <button class="openDialogBtn button">Заказать</button>
             </div>
           </div>
           {% endfor %}
@@ -107,7 +182,7 @@
           <h4>Проектирование мебели по<br>индивидуальному требованию</h4>
           <h2>Необходим индивидуальный проект?</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <button>Связаться с нами</button>
+          <button class="button">Связаться с нами</button>
         </div>
         <img src="../static/img/Group16.png" alt="photo">
       </div>
@@ -177,14 +252,15 @@
             </ul>
           </div>
           <div class="footer-contacts">
-            <div class="footer-icon"><a href="#"><img src="../static/img/phone.svg" alt="phone"></a></div>
+            <div class="footer-icon"><a href="#"><img src="img/phone.svg" alt="phone"></a></div>
             <div class="footer-text"><a href="#">+7 (999) 999-99-99</a></div>
-            <div class="footer-icon"><a href="#"><img src="../static/img/pochta.svg" alt="pochta"></a></div>
+            <div class="footer-icon"><a href="#"><img src="img/pochta.svg" alt="pochta"></a></div>
             <div class="footer-text"><a href="#">qwerty@qwerty.ru</a></div>
-            <div class="tg-footer"><a href="#"><img src="../static/img/Telegram.png" alt="tg"></a></div>
+            <div class="tg-footer"><a href="#"><img src="../static/img/tg.svg" alt="tg"></a></div>
           </div>
         </div>
       </div>
     </footer>
+    <script src="../static/js/popup.js"></script>
   </body>
 </html>
