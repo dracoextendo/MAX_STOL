@@ -14,6 +14,10 @@ router = APIRouter()
 async def get_products():
     return await ProductsDAO().find_all()
 
+@router.get("/product/{id}")
+async def get_product(id: int):
+    return await ProductsDAO.get_product(id)
+
 @router.post("/upload_product")
 async def upload_product(
         name: Annotated[str, Form()],

@@ -1,5 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
+from sqlalchemy.orm import selectinload
+
 from src.database import async_session_maker
 
 
@@ -24,3 +26,4 @@ class BaseDAO:
                     await session.rollback()
                     raise e
                 return {"ok": True}
+
