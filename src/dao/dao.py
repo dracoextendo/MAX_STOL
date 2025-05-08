@@ -32,6 +32,11 @@ class ProductsDAO(BaseDAO):
                 "product": {
                     "id": product.id,
                     "name": product.name,
+                    "description": product.description,
+                    "price": product.price,
+                    "first_image": product.first_image,
+                    "second_image": product.second_image,
+                    "third_image": product.third_image,
                 },
                 "desk_colors": [color.name for color in product.desk_colors],
                 "frame_colors": [color.name for color in product.frame_colors],
