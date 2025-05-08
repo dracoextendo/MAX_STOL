@@ -11,7 +11,7 @@ from os.path import dirname, abspath
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
 from src.database import alembic_db_url, Base
-from src.models.products import ProductsModel
+from src.models.products import ProductsModel, ProductDeskColor, ProductFrameColor, ProductDepth, ProductLength, DeskColors, FrameColors, Length, Depth
 
 config = context.config
 config.set_main_option("sqlalchemy.url", alembic_db_url)
