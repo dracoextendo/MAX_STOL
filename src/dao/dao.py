@@ -38,8 +38,8 @@ class ProductsDAO(BaseDAO):
                     "second_image": product.second_image,
                     "third_image": product.third_image,
                 },
-                "desk_colors": [color.name for color in product.desk_colors],
-                "frame_colors": [color.name for color in product.frame_colors],
-                "length": [length.value for length in product.length],
-                "depth": [depth.value for depth in product.depth]
+                "desk_colors": [{"id": color.id,"color": color.name} for color in product.desk_colors],
+                "frame_colors": [{"id": color.id,"color": color.name} for color in product.frame_colors],
+                "length": [{"id": length.id, "value": length.value} for length in product.length],
+                "depth": [{"id": depth.id, "value": depth.value} for depth in product.depth]
             }

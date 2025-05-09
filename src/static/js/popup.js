@@ -9,32 +9,78 @@ async function openModalAndLockScroll() {
   const img2 = dialog.querySelector(".img2")
   const img3 = dialog.querySelector(".img3")
   const deskColorInputs = dialog.querySelector(".desk-color > .radio-buttons")
+  const frameColorInputs = dialog.querySelector(".frame-color > .radio-buttons")
+  const depthInputs = dialog.querySelector(".depth > .radio-buttons")
+  const lengthInputs = dialog.querySelector(".length > .radio-buttons")
   deskColorInputs.innerHTML = '';
+  frameColorInputs.innerHTML = '';
+  depthInputs.innerHTML = '';
+  lengthInputs.innerHTML = '';
+
   apiData.desk_colors.forEach(deskColor=> {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "desk-color";
-    radio.value = deskColor;
-    radio.id = `color-${deskColor}`; //нужна доработка api
+    radio.value = deskColor.color;
+    radio.id = `desk-color-${deskColor.id}`;
 
     const label = document.createElement("label");
-    label.htmlFor = `color-${deskColor}`; // Связь с радио-кнопкой
-    label.textContent = deskColor;
+    label.htmlFor = `desk-color-${deskColor.id}`; // Связь с радио-кнопкой
+    label.textContent = deskColor.color;
     label.className = "checkbox-button"
     // Добавляем radio и label в контейнер (на одном уровне)
     deskColorInputs.appendChild(radio);
     deskColorInputs.appendChild(label);
-  });    
-  
+  });
 
+  apiData.frame_colors.forEach(frameColor=> {
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "frame-color";
+    radio.value = frameColor.color;
+    radio.id = `frame-color-${frameColor.id}`;
 
+    const label = document.createElement("label");
+    label.htmlFor = `frame-color-${frameColor.id}`; // Связь с радио-кнопкой
+    label.textContent = frameColor.color;
+    label.className = "checkbox-button"
+    // Добавляем radio и label в контейнер (на одном уровне)
+    frameColorInputs.appendChild(radio);
+    frameColorInputs.appendChild(label);
+  });
 
+  apiData.depth.forEach(depth=> {
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "depth";
+    radio.value = depth.value;
+    radio.id = `depth-${depth.id}`;
 
+    const label = document.createElement("label");
+    label.htmlFor = `depth-${depth.id}`; // Связь с радио-кнопкой
+    label.textContent = depth.value;
+    label.className = "checkbox-button"
+    // Добавляем radio и label в контейнер (на одном уровне)
+    depthInputs.appendChild(radio);
+    depthInputs.appendChild(label);
+  });
 
-  const frameColorInputs = dialog.querySelector(".frame-color > .radio-buttons")
-  const depthInputs = dialog.querySelector(".depth > .radio-buttons")
-  const lenghtInputs = dialog.querySelector(".lenght > .radio-buttons")
-   // Ждём загрузки данных
+  apiData.length.forEach(length=> {
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "length";
+    radio.value = length.value;
+    radio.id = `length-${length.id}`;
+
+    const label = document.createElement("label");
+    label.htmlFor = `length-${length.id}`; // Связь с радио-кнопкой
+    label.textContent = length.value;
+    label.className = "checkbox-button"
+    // Добавляем radio и label в контейнер (на одном уровне)
+    lengthInputs.appendChild(radio);
+    lengthInputs.appendChild(label);
+  });
+
   console.log(apiData); // Теперь данные будут здесь
   img1.setAttribute("src", apiData.product.first_image)
   img2.setAttribute("src", apiData.product.second_image)
