@@ -1,12 +1,15 @@
 import asyncio
 from fastapi import UploadFile, HTTPException
 from src.dao.base import BaseDAO
+from src.models.orders import OrdersModel
 from src.models.products import ProductsModel, DeskColors, FrameColors, Length, Depth, ProductDeskColor, \
     ProductFrameColor, ProductLength, ProductDepth
 from sqlalchemy.orm import selectinload
 from sqlalchemy import select, delete
 from src.database import async_session_maker
 from src.s3 import S3Client
+from src.schemas.orders import SGetOrder
+
 
 class ProductsDAO(BaseDAO):
     model = ProductsModel
@@ -211,3 +214,15 @@ class ProductsDAO(BaseDAO):
                         )
                 if delete_tasks: await asyncio.gather(*delete_tasks)
         return {"status": "Product deleted"}
+
+class OrdersDAO(BaseDAO):
+    model = OrdersModel
+
+    @classmethod
+    async def get_order(cls, order_id: int):
+        async with async_session_maker() as session:
+            async with session.begin():
+                order = await session.get(OrdersModel, order_id)
+                if not order:
+                    return None
+                return SGetOrder.model_validate(order).model_dump()
