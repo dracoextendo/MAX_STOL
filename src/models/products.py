@@ -32,25 +32,25 @@ class ProductsModel(Base):
 class ProductDeskColor(Base):
     __tablename__ = 'product_desk_color'
     id: Mapped[int] = mapped_column(primary_key=True)
-    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"))
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"))
     desk_color_id: Mapped[int] = mapped_column(ForeignKey("desk_colors.id"))
 
 class ProductFrameColor(Base):
     __tablename__ = 'product_frame_color'
     id: Mapped[int] = mapped_column(primary_key=True)
-    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"))
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"))
     frame_color_id: Mapped[int] = mapped_column(ForeignKey("frame_colors.id"))
 
 class ProductLength(Base):
     __tablename__ = 'product_length'
     id: Mapped[int] = mapped_column(primary_key=True)
-    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"))
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"))
     length_id: Mapped[int] = mapped_column(ForeignKey("length.id"))
 
 class ProductDepth(Base):
     __tablename__ = 'product_depth'
     id: Mapped[int] = mapped_column(primary_key=True)
-    product_id: Mapped[int] = mapped_column(ForeignKey("products.id"))
+    product_id: Mapped[int] = mapped_column(ForeignKey("products.id", ondelete="CASCADE"))
     depth_id: Mapped[int] = mapped_column(ForeignKey("depth.id"))
 
 class DeskColors(Base):

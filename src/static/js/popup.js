@@ -58,7 +58,7 @@ async function openModalAndLockScroll() {
 
     const label = document.createElement("label");
     label.htmlFor = `depth-${depth.id}`; // Связь с радио-кнопкой
-    label.textContent = depth.value;
+    label.textContent = depth.value + " см";
     label.className = "checkbox-button"
     // Добавляем radio и label в контейнер (на одном уровне)
     depthInputs.appendChild(radio);
@@ -74,7 +74,7 @@ async function openModalAndLockScroll() {
 
     const label = document.createElement("label");
     label.htmlFor = `length-${length.id}`; // Связь с радио-кнопкой
-    label.textContent = length.value;
+    label.textContent = length.value + " см";
     label.className = "checkbox-button"
     // Добавляем radio и label в контейнер (на одном уровне)
     lengthInputs.appendChild(radio);

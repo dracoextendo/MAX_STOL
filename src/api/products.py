@@ -1,43 +1,33 @@
-import asyncio
 from typing import Annotated
-
-from fastapi import APIRouter, Form, UploadFile
-
+from fastapi import APIRouter, Form, UploadFile, status, HTTPException
 from src.dao.dao import ProductsDAO
-from src.models.products import ProductsModel
-from src.schemas.products import SGetProduct
+from src.schemas.base import SBaseStatus
+from src.schemas.products import SGetProductInfo, SGetProduct
 from src.s3 import s3client
 
-router = APIRouter()
+router = APIRouter(tags=['Продукты'], prefix='/product')
 
-@router.get("/get_products", response_model=list[SGetProduct])
-async def get_products():
+@router.get("/get_all", response_model=list[SGetProduct], summary="Получить все продукты")
+async def get_all_products():
     return await ProductsDAO().find_all()
 
-@router.get("/product/{id}")
-async def get_product(id: int):
-    return await ProductsDAO.get_product(id)
+@router.get("/{id}", response_model=SGetProductInfo, summary="Получить информацию о продукте по id")
+async def get_product_by_id(id: int):
+    result = await ProductsDAO.get_product(id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return result
 
-@router.post("/upload_product")
-async def upload_product(
-        name: Annotated[str, Form()],
-        description: Annotated[str, Form()],
-        price: Annotated[int, Form()],
-        first_image: UploadFile,
-        second_image: UploadFile,
-        third_image: UploadFile,
-):
-    image_urls = await asyncio.gather(
-        s3client.upload_to_s3(first_image),
-        s3client.upload_to_s3(second_image),
-        s3client.upload_to_s3(third_image)
-    )
-    new_product = ProductsModel(
-        name=name,
-        description=description,
-        price=price,
-        first_image=image_urls[0],
-        second_image=image_urls[1],
-        third_image=image_urls[2],
-    )
-    return await ProductsDAO.add(new_product)
+@router.post("/upload", response_model=SBaseStatus, summary="Добавить продукт (не работает добавление нескольких характеристик через бэк, надо тестить на фронте)", status_code=status.HTTP_201_CREATED)
+async def upload_product(name: Annotated[str, Form()], description: Annotated[str, Form()], price: Annotated[int, Form()], first_image: UploadFile, second_image: UploadFile, third_image: UploadFile, desk_colors: Annotated[list[int], Form()],
+    frame_colors: Annotated[list[int], Form()],
+    lengths: Annotated[list[int], Form()],
+    depths: Annotated[list[int], Form()]):
+    return await ProductsDAO.add_product(name, description, price, first_image, second_image, third_image, desk_colors, frame_colors, lengths, depths, s3client)
+
+@router.delete("/{id}", response_model=SBaseStatus, summary="Удалить продукт")
+async def delete_product(id: int):
+    result = await ProductsDAO.delete_product(id, s3client)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return result
