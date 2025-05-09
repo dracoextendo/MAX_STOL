@@ -837,17 +837,11 @@ dialog::backdrop {
     padding: 8px 20px;
     background-color: #F6F6F6;
     cursor: pointer;
-}
-
-.checkbox-button p{
     color: #2E363E;
 }
 
 .radio-buttons input[type="radio"]:checked + .checkbox-button {
     background-color: #F97832;
-}
-
-.radio-buttons input[type="radio"]:checked + .checkbox-button p{
     color: #F6F6F6;
 }
 
