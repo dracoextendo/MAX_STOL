@@ -18,3 +18,11 @@ class S3Config(ConfigBase):
     endpoint_url: SecretStr
     bucket_name: SecretStr
     domain: SecretStr
+
+class DBConfig(ConfigBase):
+    model_config = SettingsConfigDict(env_prefix="DB_")
+    user: SecretStr
+    password: SecretStr
+    host: SecretStr
+    port: SecretStr
+    name: SecretStr
