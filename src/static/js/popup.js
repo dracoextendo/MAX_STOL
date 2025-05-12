@@ -128,3 +128,94 @@ async function getData(productId) {
    return data;
   
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Проверяем мобильное разрешение
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  // Инициализация слайдера только на мобильных
+  if (isMobile()) {
+    const banner = document.querySelector('.banner');
+    const slides = document.querySelectorAll('.banner-block');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    let currentSlide = 0;
+
+    // Инициализация слайдов
+    function initSlides() {
+      slides.forEach((slide, index) => {
+        if (index === 0) {
+          // Первый слайд видим
+          slide.style.display = 'flex';
+          slide.style.opacity = '1';
+          slide.style.zIndex = '1';
+        } else {
+          // Остальные скрыты
+          slide.style.display = 'none';
+          slide.style.opacity = '0';
+          slide.style.zIndex = '0';
+        }
+      });
+    }
+
+    // Показать конкретный слайд
+    function showSlide(index) {
+      // Корректируем индекс если вышел за пределы
+      if (index >= slides.length) index = 0;
+      if (index < 0) index = slides.length - 1;
+      
+      // Скрываем все слайды
+      slides.forEach(slide => {
+        slide.style.opacity = '0';
+        slide.style.zIndex = '0';
+        setTimeout(() => {
+          slide.style.display = 'flex';
+        }, 300); // После завершения анимации opacity
+      });
+      
+      // Показываем нужный слайд
+      slides[index].style.display = 'flex';
+      setTimeout(() => {
+        slides[index].style.opacity = '1';
+        slides[index].style.zIndex = '1';
+      }, 10);
+      
+      // Обновляем точки навигации
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+      
+      currentSlide = index;
+    }
+
+    // Переключение по точкам
+    dots.forEach(dot => {
+      dot.addEventListener('click', function() {
+        const slideIndex = parseInt(this.getAttribute('data-slide'));
+        showSlide(slideIndex);
+      });
+    });
+
+    // Кнопки "назад" и "вперед"
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+    // Инициализация
+    initSlides();
+
+    // Реакция на изменение размера окна
+    window.addEventListener('resize', function() {
+      if (!isMobile()) {
+        // На десктопе показываем только первый слайд
+        slides[0].style.display = 'none';
+        slides[0].style.opacity = '1';
+        slides[1].style.display = 'flex';
+      } else {
+        // На мобильных возвращаем слайдер
+        initSlides();
+      }
+    });
+  }
+});
