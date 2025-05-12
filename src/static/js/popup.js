@@ -2,6 +2,8 @@ const dialog = document.getElementById('orderDialog')
 const dialogOpener = document.querySelectorAll('.openDialogBtn')
 const dialogCloser = dialog.querySelector('.closeDialogBtn')
 const origin = window.location.origin 
+const success = document.getElementById("successDialog")
+const successOpener = document.querySelectorAll(".successOpener")
 
 async function openModalAndLockScroll() {
   const apiData = await getData(this.id);
