@@ -128,14 +128,11 @@ async function getData(productId) {
    return data;
   
 }
-
 document.addEventListener('DOMContentLoaded', function() {
-  // Проверяем мобильное разрешение
   function isMobile() {
     return window.innerWidth <= 768;
   }
 
-  // Инициализация слайдера только на мобильных
   if (isMobile()) {
     const banner = document.querySelector('.banner');
     const slides = document.querySelectorAll('.banner-block');
@@ -143,17 +140,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.querySelector('.prev');
     const nextBtn = document.querySelector('.next');
     let currentSlide = 0;
+    let startX = 0;
+    let endX = 0;
+    const swipeThreshold = 50;
 
     // Инициализация слайдов
     function initSlides() {
       slides.forEach((slide, index) => {
+        slide.style.transition = 'opacity 0.3s ease';
         if (index === 0) {
-          // Первый слайд видим
           slide.style.display = 'flex';
           slide.style.opacity = '1';
           slide.style.zIndex = '1';
         } else {
-          // Остальные скрыты
           slide.style.display = 'none';
           slide.style.opacity = '0';
           slide.style.zIndex = '0';
@@ -163,34 +162,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Показать конкретный слайд
     function showSlide(index) {
-      // Корректируем индекс если вышел за пределы
       if (index >= slides.length) index = 0;
       if (index < 0) index = slides.length - 1;
       
-      // Скрываем все слайды
-      slides.forEach(slide => {
-        slide.style.opacity = '0';
-        slide.style.zIndex = '0';
-        setTimeout(() => {
+      slides.forEach((slide, i) => {
+        if (i === index) {
           slide.style.display = 'flex';
-        }, 300); // После завершения анимации opacity
+          setTimeout(() => {
+            slide.style.opacity = '1';
+            slide.style.zIndex = '2'; // Активный слайд выше остальных
+          }, 10);
+        } else {
+          slide.style.opacity = '0';
+          slide.style.zIndex = '1';
+          setTimeout(() => {
+            slide.style.display = 'none';
+          }, 300);
+        }
       });
       
-      // Показываем нужный слайд
-      slides[index].style.display = 'flex';
-      setTimeout(() => {
-        slides[index].style.opacity = '1';
-        slides[index].style.zIndex = '1';
-      }, 10);
-      
-      // Обновляем точки навигации
       dots.forEach(dot => dot.classList.remove('active'));
       dots[index].classList.add('active');
       
       currentSlide = index;
     }
 
-    // Переключение по точкам
+    // Обработчики свайпа (улучшенные)
+    banner.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      endX = startX; // Инициализируем endX
+    }, { passive: true });
+
+    banner.addEventListener('touchmove', (e) => {
+      endX = e.touches[0].clientX;
+      // Блокируем скролл страницы при горизонтальном свайпе
+      if (Math.abs(startX - endX) > 10) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    banner.addEventListener('touchend', () => {
+      const diffX = startX - endX;
+      
+      if (diffX > swipeThreshold) {
+        showSlide(currentSlide + 1);
+      } else if (diffX < -swipeThreshold) {
+        showSlide(currentSlide - 1);
+      }
+    });
+
+    // Остальные обработчики...
     dots.forEach(dot => {
       dot.addEventListener('click', function() {
         const slideIndex = parseInt(this.getAttribute('data-slide'));
@@ -198,7 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
-    // Кнопки "назад" и "вперед"
     prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
     nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
 
@@ -208,12 +228,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Реакция на изменение размера окна
     window.addEventListener('resize', function() {
       if (!isMobile()) {
-        // На десктопе показываем только первый слайд
-        slides[0].style.display = 'none';
+        slides[0].style.display = 'flex';
         slides[0].style.opacity = '1';
-        slides[1].style.display = 'flex';
+        slides[1].style.display = 'none';
       } else {
-        // На мобильных возвращаем слайдер
         initSlides();
       }
     });
