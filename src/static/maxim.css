@@ -1007,3 +1007,26 @@ input{
 .close-button img{
     display: block;
 }
+@media (max-width:768px){
+    .dialog{
+        max-width: 630px;
+    }
+    .dialog-inner{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+@media (max-width:480px){
+     .dialog{
+        max-width: 480px;
+     }
+     .input-field{
+        max-width: 300px;
+     }
+     .order-user-field{
+        max-width: 300px;
+     }
+     .order-user-fieldset{
+        max-width: 300px;
+     }
+}

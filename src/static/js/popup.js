@@ -126,8 +126,11 @@ async function getData(productId) {
    
    // 4. Возвращаем полученные данные
    return data;
+  }
+
+
   
-}
+// слайдер - баннер 567-768
 document.addEventListener('DOMContentLoaded', function() {
   function isMobile() {
     return window.innerWidth <= 768;
