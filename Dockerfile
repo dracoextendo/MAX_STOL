@@ -1,11 +1,11 @@
-FROM python:3.13.3
+FROM python:3.13.3-slim
 
 WORKDIR /app
 
-RUN pip install -r requirements/requirements.txt
-
 COPY . .
 
-RUN cd src
+RUN pip install -r requirements/requirements.txt
 
-CMD ["python", "main.py"]
+WORKDIR /app/src
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
