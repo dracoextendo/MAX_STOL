@@ -29,4 +29,4 @@ class DBConfig(ConfigBase):
 
 class JWTConfig(ConfigBase):
     model_config = SettingsConfigDict(env_prefix="JWT_")
-    jwt_secret: SecretStr
+    secret: SecretStr
