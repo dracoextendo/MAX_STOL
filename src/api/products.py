@@ -15,7 +15,7 @@ router = APIRouter(tags=['Продукты'], prefix='/product')
 async def get_all_products():
     return await ProductsDAO().find_all()
 
-@router.get("/{id}", dependencies=[Depends(security.access_token_required)], response_model=SGetProductInfo, summary="Получить информацию о продукте по id")
+@router.get("/{id}", response_model=SGetProductInfo, summary="Получить информацию о продукте по id")
 async def get_product_by_id(id: int):
     result = await ProductsDAO.get_product(id)
     if result is None:
