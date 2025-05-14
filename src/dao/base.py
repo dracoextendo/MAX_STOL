@@ -13,6 +13,3 @@ class BaseDAO:
             query = select(cls.model)
             result = await session.execute(query)
             return result.scalars().all()
-
-
-

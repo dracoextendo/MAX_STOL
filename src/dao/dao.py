@@ -7,6 +7,7 @@ from src.models.products import ProductsModel, DeskColors, FrameColors, Length, 
 from sqlalchemy.orm import selectinload
 from sqlalchemy import select, delete
 from src.database import async_session_maker
+from src.models.users import UsersModel
 from src.s3 import S3Client
 from src.schemas.orders import SGetOrder
 
@@ -226,3 +227,15 @@ class OrdersDAO(BaseDAO):
                 if not order:
                     return None
                 return SGetOrder.model_validate(order).model_dump()
+
+class UsersDAO(BaseDAO):
+    model = UsersModel
+
+    @classmethod
+    async def get_user(cls, username: str):
+        async with async_session_maker() as session:
+            stmt = select(UsersModel).where(
+                UsersModel.username == username
+            )
+            result = await session.execute(stmt)
+            return result.scalars().first()
