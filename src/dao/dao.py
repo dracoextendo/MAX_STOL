@@ -2,10 +2,9 @@ import asyncio
 from fastapi import UploadFile, HTTPException
 from src.dao.base import BaseDAO
 from src.models.orders import OrdersModel
-from src.models.products import ProductsModel, DeskColors, FrameColors, Length, Depth, ProductDeskColor, \
-    ProductFrameColor, ProductLength, ProductDepth
+from src.models.products import ProductsModel, DeskColors, FrameColors, Length, Depth, ProductDeskColor, ProductFrameColor, ProductLength, ProductDepth
 from sqlalchemy.orm import selectinload
-from sqlalchemy import select, delete
+from sqlalchemy import select
 from src.database import async_session_maker
 from src.models.users import UsersModel
 from src.s3 import S3Client

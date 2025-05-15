@@ -121,7 +121,7 @@ dialog.addEventListener('cancel', (event) => {
 
 async function getData(productId) {
    // 2. Делаем запрос к API и ждем ответ (await)
-   const response = await fetch(`${origin}/product/${productId}`);
+   const response = await fetch(`${origin}/products/${productId}`);
   
    // 3. Преобразуем ответ в JSON-формат (если API возвращает JSON)
    const data = await response.json();

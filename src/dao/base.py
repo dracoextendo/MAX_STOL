@@ -1,6 +1,4 @@
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
-
 from src.database import async_session_maker
 
 
