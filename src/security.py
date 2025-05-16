@@ -10,5 +10,6 @@ config.JWT_ACCESS_TOKEN_EXPIRES=timedelta(hours=1)
 config.JWT_ACCESS_COOKIE_NAME="access_token"
 config.JWT_TOKEN_LOCATION = ["cookies"]
 config.JWT_COOKIE_SECURE = False # изменить на True после настройки HTTPS
+config.JWT_COOKIE_CSRF_PROTECT = False # изменить на True на продакшене
 
 security = AuthX(config=config)
