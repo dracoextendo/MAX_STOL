@@ -4,19 +4,19 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
-
 import sys
 from os.path import dirname, abspath
-
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
-
-from src.database import database_url, Base
+from src.config import DBConfig
+from src.database import Base
 from src.models.products import ProductsModel, ProductDeskColor, ProductFrameColor, ProductDepth, ProductLength, DeskColors, FrameColors, Length, Depth
 from src.models.orders import OrdersModel
 from src.models.users import UsersModel
 
+db_config = DBConfig()
+
 config = context.config
-config.set_main_option("sqlalchemy.url", database_url)
+config.set_main_option("sqlalchemy.url", db_config.DATABASE_URL)
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
