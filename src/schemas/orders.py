@@ -12,7 +12,7 @@ class SCreateOrder(BaseModel):
     desk_color: str
     frame_color: str
     depth: str
-    width: str
+    length: str
 
 class SGetOrder(SCreateOrder):
     id: int

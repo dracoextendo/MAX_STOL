@@ -8,7 +8,6 @@ from sqlalchemy import select
 from src.database import async_session_maker
 from src.models.users import UsersModel
 from src.s3 import S3Client
-from src.schemas.orders import SGetOrder
 
 
 class ProductsDAO(BaseDAO):
@@ -17,7 +16,7 @@ class ProductsDAO(BaseDAO):
     @classmethod
     async def get_product(cls, product_id: int):
         async with async_session_maker() as session:
-            stmt = (
+            query = (
                 select(ProductsModel)
                 .options(
                     selectinload(ProductsModel.desk_colors),
@@ -27,11 +26,10 @@ class ProductsDAO(BaseDAO):
                 )
                 .where(ProductsModel.id == product_id)
             )
-            result = await session.execute(stmt)
+            result = await session.execute(query)
             product = result.scalar_one_or_none()
             if not product:
                 return None
-
             return {
                 "product": {
                     "id": product.id,
@@ -221,11 +219,35 @@ class OrdersDAO(BaseDAO):
     @classmethod
     async def get_order(cls, order_id: int):
         async with async_session_maker() as session:
+            return await session.get(OrdersModel, order_id)
+
+    @classmethod
+    async def add_order(cls, order: OrdersModel):
+        async with async_session_maker() as session:
+            async with session.begin():
+                session.add(order)
+        return {"status": "Order added"}
+
+    @classmethod
+    async def update_order(cls, order_id: int, order: OrdersModel):
+        async with async_session_maker() as session:
+            async with session.begin():
+                current_order = await session.get(OrdersModel, order_id)
+                if not current_order:
+                    raise HTTPException(status_code=404, detail=f"Order id = {order_id} not found")
+                order.id = order_id
+                await session.merge(order)
+        return {"status": "Order updated"}
+
+    @classmethod
+    async def delete_order(cls, order_id: int):
+        async with async_session_maker() as session:
             async with session.begin():
                 order = await session.get(OrdersModel, order_id)
                 if not order:
-                    return None
-                return SGetOrder.model_validate(order).model_dump()
+                    raise HTTPException(status_code=404, detail=f"Order id = {order_id} not found")
+                await session.delete(order)
+        return {"status": "Order deleted"}
 
 class UsersDAO(BaseDAO):
     model = UsersModel
@@ -233,8 +255,8 @@ class UsersDAO(BaseDAO):
     @classmethod
     async def get_user(cls, username: str):
         async with async_session_maker() as session:
-            stmt = select(UsersModel).where(
+            query = select(UsersModel).where(
                 UsersModel.username == username
             )
-            result = await session.execute(stmt)
-            return result.scalars().first()
+            result = await session.execute(query)
+        return result.scalars().first()

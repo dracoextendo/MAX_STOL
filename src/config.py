@@ -27,6 +27,10 @@ class DBConfig(ConfigBase):
     port: SecretStr
     name: SecretStr
 
+    @property
+    def DATABASE_URL(self):
+        return f"postgresql+asyncpg://{self.user.get_secret_value()}:{self.password.get_secret_value()}@{self.host.get_secret_value()}:{self.port.get_secret_value()}/{self.name.get_secret_value()}"
+
 class JWTConfig(ConfigBase):
     model_config = SettingsConfigDict(env_prefix="JWT_")
     secret: SecretStr
