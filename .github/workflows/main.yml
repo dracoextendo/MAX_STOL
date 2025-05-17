@@ -17,4 +17,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATEKEY }}
         port: 22
+        script: |
+          mkdir test
       
