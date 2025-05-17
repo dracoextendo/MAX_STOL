@@ -1,5 +1,3 @@
-import enum
-
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base

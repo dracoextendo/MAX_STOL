@@ -16,7 +16,7 @@ async def get_all_orders():
     return await OrdersDAO().find_all()
 
 @router.get("/{id}", dependencies=[Depends(security.access_token_required)], response_model=SGetOrder, summary="Получить информацию о заказе по id")
-async def get_all_orders(id: int):
+async def get_order_by_id(id: int):
     result = await OrdersDAO.get_order(id)
     if result is None:
         raise HTTPException(status_code=404, detail="Order not found")
