@@ -257,6 +257,28 @@ p{
 .phone-icon{
     display: none;
 }
+.social-icon {
+ /* Фон квадрата */
+  fill: black; /* Цвет самой иконки */
+  transition: fill 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.social-icon:hover,
+.social-icon:focus {
+  fill:#e56722;
+   /* Можно изменить и фон при наведении */
+}
+
+.svg-icon{
+    display: flex;
+}
+
+.social-icon use {
+  width: 100%;
+  height: 100%;
+}
+
+
 
 @media (max-width: 1280px) {
     .phone-icon{
@@ -325,11 +347,13 @@ p{
 
 .banner-first{
     background-image: url(img/banner1.png);
+    background-repeat: no-repeat;
 
 }
 
 .banner-second{
     background-image: url(img/banner2.png);
+    background-repeat: no-repeat;
 }
 
 .banner h2, .banner p{
@@ -603,7 +627,7 @@ p{
 .individual-project img{
     display: block;
     max-width: 50%;
-    height: fit-content;
+    height: 100%;
 }
 
 .project-text{
