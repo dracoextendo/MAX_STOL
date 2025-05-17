@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
   <head>
     <meta charset="utf-8">
     <title>MAX_STOL deployed</title>
@@ -12,7 +12,7 @@
   <body>
     <dialog class="dialog" id="orderDialog">
       <div class="dialog-wrapper">
-        <div class="close-button closeDialogBtn"><img src="../static/img/close.svg" alt="#"></div>
+        <div class="close-button closeDialogBtn"><svg><use xlink:href="../static/sprite.svg#close-btn"></use></svg></div>
         <div class="dialog-inner">
           <div class="order-config">
             <div class="card-pics">
@@ -75,15 +75,15 @@
           <nav class="header-links">
             <div class="menu">
               <ul class="menu-items">
-                <li><a href="#">Каталог</a></li>
-                <li><a href="#">Индивидуальный проект</a></li>
-                <li><a href="#">Контакты</a></li>
+                <li><a href="#catalog">Каталог</a></li>
+                <li><a href="#individual-project">Индивидуальный проект</a></li>
+                <li><a href="#contacts">Контакты</a></li>
               </ul>
             </div>
             <div class="contacts">
-              <a href=""><img src="../static/img/tg.svg" alt="tg"></a>
-              <a class="phone-icon" href=""><img src="img/phone.svg" alt="phone"></a>
-              <a class="phone-number" href="#">+7 (999) 999-99-99</a>
+              <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#telegram"></use></svg></a>
+              <a class="icon phone-icon" href="tel: +79999999999"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#phone"></use></svg></a>
+              <a class="phone-number" href="tel: +79999999999">+7 (999) 999-99-99</a>
             </div>
           </nav>
         </div>
@@ -107,7 +107,7 @@
       <button class="slider-nav prev" aria-label="Previous slide"></button>
       <button class="slider-nav next" aria-label="Next slide"></button>
     </section>
-    <section class="catalog">
+    <section id="catalog" class="catalog">
       <div class="container">
         <div class="section-title">
           <h2>Каталог товаров</h2>
@@ -140,29 +140,29 @@
         </div>
         <div class="reasons-flex">
           <div class="reason">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-1"></use></svg></div>
             <h3>Причина 1</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
           <div class="reason">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-2"></use></svg></div>
             <h3>Причина 2</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
           <div class="reason">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-3"></use></svg></div>
             <h3>Причина 3</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
           <div class="reason">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-4"></use></svg></div>
             <h3>Причина 4</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
         </div>
       </div>
     </section>
-    <section class="individual-project">
+    <section id="individual-project" class="individual-project">
       <div class="project-container">
       <div class="project">
         <div class="project-text">
@@ -171,7 +171,7 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           <button class="button">Связаться с нами</button>
         </div>
-        <img src="../static/img/Group16.png" alt="photo">
+        <img src="../static/img/individual-order.png" alt="photo">
       </div>
       <div class="container">
         <div class="section-title">
@@ -179,28 +179,28 @@
         </div>
         <div class="steps-flex">
           <div class="step">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-1"></use></svg></div>
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-2"></use></svg></div>
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-3"></use></svg></div>
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <img src="../static/img/Ellipse%204.svg" alt="Ellipse">
+            <div><svg><use xlink:href="../static/sprite.svg#step-4"></use></svg></div>
             <div class="step-text">
             <h3>Напишите нам</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -210,14 +210,15 @@
       </div>
       </div>
     </section>
-    <section class="contacts-wrap">
+    <section id="contacts" class="contacts-wrap">
       <div class="contacts-block">
         <div class="contacts-text">
           <h2>Свяжитесь с нами</h2>
           <div class="contacts-info">
-          <p>+7 (999) 999-99-99</p>
-          <p>qwerty@qwerty.ru</p>
-          <p>улица Героя Юрия Смирнова, 13, Нижний Новгород, 603016</p>
+            <a href="tel: +79999999999">+7 (999) 999-99-99</a>
+            <a href="mailto: qwerty@qwerty.ru">qwerty@qwerty.ru</a>
+            <p>улица Героя Юрия Смирнова, 13,<br>Нижний Новгород, 603016</p>
+            <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#telegram"></use></svg></a>
           </div>
         </div>
         <div class="ya-map">
@@ -233,21 +234,23 @@
           </div>
           <div class="footer-menu">
             <ul class="footer-menu-items">
-              <li><a href="#">Каталог</a></li>
-              <li><a href="#">Индивидуальный проект</a></li>
-              <li><a href="#">Контакты</a></li>
+              <li><a href="#catalog">Каталог</a></li>
+              <li><a href="#individual-project">Индивидуальный проект</a></li>
+              <li><a href="#contacts">Контакты</a></li>
             </ul>
           </div>
           <div class="footer-contacts">
-            <div class="footer-icon"><a href="#"><img src="img/phone.svg" alt="phone"></a></div>
-            <div class="footer-text"><a href="#">+7 (999) 999-99-99</a></div>
-            <div class="footer-icon"><a href="#"><img src="img/pochta.svg" alt="pochta"></a></div>
-            <div class="footer-text"><a href="#">qwerty@qwerty.ru</a></div>
-            <div class="tg-footer"><a href="#"><img src="../static/img/tg.svg" alt="tg"></a></div>
+            <div class="footer-icon"><a class="icon" href="tel: +79999999999"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#phone"></use></svg></a></div>
+            <div class="footer-text"><a href="tel: +79999999999">+7 (999) 999-99-99</a></div>
+            <div class="footer-icon"><a class="icon" href="mailto: test@test.ru"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#email"></use></svg></a></div>
+            <div class="footer-text"><a href="mailto: test@test.ru">qwerty@qwerty.ru</a></div>
+            <div class="tg-footer"><a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#telegram"></use></svg></a></div>
           </div>
         </div>
       </div>
     </footer>
+
     <script src="../static/js/popup.js"></script>
+    <script src="../static/js/softscroll.js"></script>
   </body>
 </html>

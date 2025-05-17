@@ -30,6 +30,15 @@ section{
     max-width: 1280px;
 }
 
+.icon{
+    display: flex;
+}
+
+.svg-icon{
+    height: 36px;
+    width: 36px;
+}
+
 @media (max-width: 1280px) {
     .container{
         max-width: 1066px;
@@ -250,39 +259,17 @@ p{
     display: inline;
 }
 
-.header-inner img{
-    display: block;
-    height: 36px;
-}
 .phone-icon{
     display: none;
 }
-.social-icon {
- /* Фон квадрата */
-  fill: black; /* Цвет самой иконки */
-  transition: fill 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+header .svg-icon{
+    fill: #2E363E;
 }
-
-.social-icon:hover,
-.social-icon:focus {
-  fill:#e56722;
-   /* Можно изменить и фон при наведении */
-}
-
-.svg-icon{
-    display: flex;
-}
-
-.social-icon use {
-  width: 100%;
-  height: 100%;
-}
-
-
 
 @media (max-width: 1280px) {
     .phone-icon{
-        display: block;
+        display: flex;
     }
     .phone-number{
         display: none;
@@ -578,6 +565,12 @@ p{
     align-items: center;
     text-align: center;
 }
+
+.reason svg{
+    width: 100px;
+    height: 100px;
+}
+
 @media (max-width: 1280px) {
     .reasons-flex{
         margin-top: 20px;
@@ -651,6 +644,12 @@ p{
     align-items: center;
     text-align: center;
 }
+
+.step svg{
+    width: 90px;
+    height: 90px;
+}
+
 .step-text{
     display: flex;
     flex-direction: column;
@@ -755,15 +754,27 @@ p{
     gap: 40px;
     min-width: 30%;
     padding-top: 60px;
+    padding-left: 20px;
 }
-.contacts-wrap p , .contacts-wrap h2{
+.contacts-wrap a, .contacts-wrap p, .contacts-wrap h2{
     color: #F6F6F6;
+}
+
+.contacts-wrap a{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 .contacts-info{
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: start;
+}
+
+.contacts-info .svg-icon{
+    fill: #F6F6F6;
 }
 
 @media (max-width: 1280px) {
@@ -776,6 +787,11 @@ p{
     .contacts-text{
         padding-top: 40px;
     }
+
+    .contacts-wrap a{
+        font-size: 12px;
+        line-height: 18px;
+    }
 }
 
 @media (max-width:768px) {
@@ -787,7 +803,7 @@ p{
         align-items: center;
         max-width: 640px;
         gap: 20px;
-        padding: 40px 20px 0px 20px;
+        padding: 40px 0px 0px 0px;
         margin: auto;
     }
     .contacts-info{
@@ -817,6 +833,11 @@ p{
     }
     .ya-map iframe{
         height: 430px;
+    }
+
+    .contacts-wrap a{
+        font-size: 14px;
+        line-height: 20px;
     }
 }
 
@@ -861,6 +882,10 @@ footer{
 }
 .tg-footer {
     display: flex;
+}
+
+footer .svg-icon{
+    fill: #F6F6F6;
 }
 
 .footer-contacts img{
@@ -1026,11 +1051,18 @@ input{
     float: right;
     margin-top: 20px;
     margin-right: 20px;
+    display: flex;
 }
 
-.close-button img{
-    display: block;
+.close-button svg{
+    width: 24px;
+    height: 24px;
+    stroke: #2E363E;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
+
 @media (max-width:768px){
     .dialog{
         max-width: 630px;
