@@ -1,0 +1,28 @@
+name: MAX_STOL CD
+
+on:
+  push:
+    branches:
+    - backend
+    
+jobs:
+  build:
+    name: deploy to staging
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Deploy using SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATEKEY }}
+        port: 22
+        script: |
+          cd MAX_STOL/
+          git pull
+          docker build -t max-stol .
+          cd ..
+          docker stop max-stol-container
+          docker rm max-stol-container
+          docker run -d --name max-stol-container --env-file .env -p 80:8000 max-stol:latest
+      
