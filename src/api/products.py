@@ -32,8 +32,14 @@ async def update_product():
     return {"status": "success"}
 
 @router.post("/add", dependencies=[Depends(security.access_token_required)], response_model=SBaseStatus, summary="Добавить продукт (не работает добавление нескольких характеристик через бэк, надо тестить на фронте)", status_code=status.HTTP_201_CREATED)
-async def upload_product(name: Annotated[str, Form()], description: Annotated[str, Form()], price: Annotated[int, Form()], first_image: UploadFile, second_image: UploadFile, third_image: UploadFile, desk_colors: Annotated[list[int], Form()],
-    frame_colors: Annotated[list[int], Form()],
-    lengths: Annotated[list[int], Form()],
-    depths: Annotated[list[int], Form()]):
+async def upload_product(name: Annotated[str, Form()],
+                         description: Annotated[str, Form()],
+                         price: Annotated[int, Form()],
+                         first_image: UploadFile,
+                         second_image: UploadFile,
+                         third_image: UploadFile,
+                         desk_colors: Annotated[list[int], Form()],
+                         frame_colors: Annotated[list[int], Form()],
+                         lengths: Annotated[list[int], Form()],
+                         depths: Annotated[list[int], Form()]):
     return await ProductsDAO.add_product(name, description, price, first_image, second_image, third_image, desk_colors, frame_colors, lengths, depths, s3client)

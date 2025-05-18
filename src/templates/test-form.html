@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Upload Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .checkbox-group {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        .checkbox-item {
+            margin: 5px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload Product</h1>
+    <form id="productForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Desk Colors:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" name="desk_colors" value="1"> 1</div>
+                <div class="checkbox-item"><input type="checkbox" name="desk_colors" value="2"> 2</div>
+                <div class="checkbox-item"><input type="checkbox" name="desk_colors" value="3"> 3</div>
+                <div class="checkbox-item"><input type="checkbox" name="desk_colors" value="4"> 4</div>
+                <div class="checkbox-item"><input type="checkbox" name="desk_colors" value="5"> 5</div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Frame Colors:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" name="frame_colors" value="1"> 1</div>
+                <div class="checkbox-item"><input type="checkbox" name="frame_colors" value="2"> 2</div>
+                <div class="checkbox-item"><input type="checkbox" name="frame_colors" value="3"> 3</div>
+                <div class="checkbox-item"><input type="checkbox" name="frame_colors" value="4"> 4</div>
+                <div class="checkbox-item"><input type="checkbox" name="frame_colors" value="5"> 5</div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Lengths:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" name="lengths" value="1"> 1</div>
+                <div class="checkbox-item"><input type="checkbox" name="lengths" value="2"> 2</div>
+                <div class="checkbox-item"><input type="checkbox" name="lengths" value="3"> 3</div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Depths:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item"><input type="checkbox" name="depths" value="1"> 1</div>
+                <div class="checkbox-item"><input type="checkbox" name="depths" value="2"> 2</div>
+                <div class="checkbox-item"><input type="checkbox" name="depths" value="3"> 3</div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="first_image">First Image:</label>
+            <input type="file" id="first_image" name="first_image" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="second_image">Second Image:</label>
+            <input type="file" id="second_image" name="second_image" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="third_image">Third Image:</label>
+            <input type="file" id="third_image" name="third_image" required>
+        </div>
+        
+        <button type="button" onclick="submitForm()">Upload Product</button>
+    </form>
+
+    <script>
+        async function submitForm() {
+            const form = document.getElementById('productForm');
+            const formData = new FormData(form);
+            
+            // Get all checked values for list fields
+            const listFields = ['desk_colors', 'frame_colors', 'lengths', 'depths'];
+            listFields.forEach(field => {
+                const checkboxes = document.querySelectorAll(`input[name="${field}"]:checked`);
+                const values = Array.from(checkboxes).map(cb => parseInt(cb.value));
+                // Remove original checkbox values
+                formData.delete(field);
+                // Add each value separately
+                values.forEach(val => formData.append(field, val.toString()));
+            });
+            
+            try {
+                const response = await fetch('http://127.0.0.1:8000/products/add', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                console.log('Success:', result);
+                alert('Product uploaded successfully!');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error uploading product');
+            }
+        }
+    </script>
+</body>
+</html>

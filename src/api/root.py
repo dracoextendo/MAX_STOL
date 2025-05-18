@@ -9,3 +9,7 @@ templates = Jinja2Templates(directory='./templates')
 @router.get("/", summary="Главная страница")
 async def get_index_html(request: Request, products=Depends(get_all_products)):
     return templates.TemplateResponse("index.html", context={'request': request, 'products': products})
+
+@router.get("/test-form", summary="Тестовая форма для создания продукта")
+async def get_index_html(request: Request):
+    return templates.TemplateResponse("test-form.html", context={'request': request})
