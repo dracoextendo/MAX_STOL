@@ -1,7 +1,4 @@
-import uuid
 from typing import Annotated
-
-import bcrypt
 from fastapi import APIRouter, Form, HTTPException, Response
 from src.dao.dao import UsersDAO
 import src.security as security
@@ -29,6 +26,7 @@ async def auth(username: Annotated[str, Form()], password: Annotated[str, Form()
         return {"message": "Authenticated successfully"}
     raise HTTPException(status_code=401, detail="Incorrect username or password")
 
-@router.post('/logout', summary="Выход (в разработке)")
-async def logout():
-    pass
+@router.post('/logout', summary="Выход")
+async def logout(response: Response):
+    response.delete_cookie("access_token")
+    return {"message": "Logged out"}
