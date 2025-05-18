@@ -1,6 +1,7 @@
 import os
+from pathlib import Path
 
-from pydantic import SecretStr
+from pydantic import SecretStr, SecretBytes
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -33,4 +34,17 @@ class DBConfig(ConfigBase):
 
 class JWTConfig(ConfigBase):
     model_config = SettingsConfigDict(env_prefix="JWT_")
-    secret: SecretStr
+    private_key_path: SecretStr
+    public_key_path: SecretStr
+    algorithm: str = "RS256"
+    access_token_expire_minutes: int = 15
+
+    @property
+    def PRIVATE_KEY_PATH(self):
+        return Path(self.private_key_path.get_secret_value())
+
+    @property
+    def PUBLIC_KEY_PATH(self):
+        return Path(self.public_key_path.get_secret_value())
+
+jwt_config = JWTConfig()

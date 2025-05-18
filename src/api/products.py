@@ -5,7 +5,7 @@ from src.dao.dao import ProductsDAO
 from src.schemas.base import SBaseStatus
 from src.schemas.products import SGetProductInfo, SGetProduct
 from src.s3 import s3client
-from src.security import security
+from src.api.dependencies import access_token_validation
 
 router = APIRouter(tags=['Продукты'], prefix='/products')
 
@@ -20,18 +20,18 @@ async def get_product_by_id(id: int):
         raise HTTPException(status_code=404, detail="Product not found")
     return result
 
-@router.delete("/{id}", dependencies=[Depends(security.access_token_required)], response_model=SBaseStatus, summary="Удалить продукт")
+@router.delete("/{id}", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Удалить продукт")
 async def delete_product(id: int):
     result = await ProductsDAO.delete_product(id, s3client)
     if result is None:
         raise HTTPException(status_code=404, detail="Product not found")
     return result
 
-@router.put("/{id}", dependencies=[Depends(security.access_token_required)], response_model=SBaseStatus, summary="Обновить продукт (в разработке)")
+@router.put("/{id}", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Обновить продукт (в разработке)")
 async def update_product():
     return {"status": "success"}
 
-@router.post("/add", dependencies=[Depends(security.access_token_required)], response_model=SBaseStatus, summary="Добавить продукт (не работает добавление нескольких характеристик через бэк, надо тестить на фронте)", status_code=status.HTTP_201_CREATED)
+@router.post("/add", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Добавить продукт (не работает добавление нескольких характеристик через бэк, надо тестить на фронте)", status_code=status.HTTP_201_CREATED)
 async def upload_product(name: Annotated[str, Form()],
                          description: Annotated[str, Form()],
                          price: Annotated[int, Form()],
