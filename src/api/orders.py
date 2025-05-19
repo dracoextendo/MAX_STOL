@@ -1,7 +1,7 @@
 from typing import Annotated
-
 from fastapi import APIRouter, HTTPException, Depends, Form
 
+from src.api.auth import refresh_token
 from src.api.dependencies import access_token_validation
 from src.dao.dao import OrdersDAO
 from src.models.orders import OrdersModel
@@ -10,7 +10,7 @@ from src.schemas.orders import SGetOrder
 
 router = APIRouter(tags=['Заказы'], prefix='/orders')
 
-@router.get("", dependencies=[Depends(access_token_validation)], response_model=list[SGetOrder], summary="Получить все заказы")
+@router.get("", dependencies=[Depends(access_token_validation), Depends(refresh_token)], response_model=list[SGetOrder], summary="Получить все заказы")
 async def get_all_orders():
     return await OrdersDAO().find_all()
 

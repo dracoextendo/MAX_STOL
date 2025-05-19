@@ -1,8 +1,5 @@
-from fastapi import APIRouter, Request, Depends
-from fastapi.templating import Jinja2Templates
-
+from fastapi import APIRouter, Depends
 from src.api.dependencies import access_token_validation
-from src.api.products import get_all_products
 
 router = APIRouter(prefix="/admin",tags=['HTML', 'Admin'])
 
