@@ -1,3 +1,4 @@
+
 const dialog = document.getElementById('orderDialog')
 const dialogOpener = document.querySelectorAll('.openDialogBtn')
 const dialogCloser = dialog.querySelector('.closeDialogBtn')
@@ -137,15 +138,22 @@ async function getData(productId) {
 
 /// ПОПЫТка всплывашки))
 for (let i = 0; i < open_modal.length; i++) {
-    open_modal[i].onclick = function() { // клик на открытие
-        modal.classList.add('modal_vis'); // добавляем видимость окна
-        modal.classList.remove('bounceOutDown'); // удаляем эффект закрытия
-        body.classList.add('body_block'); // убираем прокрутку
-    };
-}
-close_modal.onclick = function() { // клик на закрытие
-    modal.classList.add('bounceOutDown'); // добавляем эффект закрытия
-    window.setTimeout(function() { // удаляем окно через полсекунды (чтобы увидеть эффект закрытия).
+  open_modal[i].onclick = function() { 
+    modal.classList.add('modal_vis', 'animate__animated', 'animate__fadeInUp'); 
+    modal.classList.remove('animate__bounceOutDown'); 
+    setTimeout(() => {
+      modal.classList.add('animate__animated', 'animate__bounceOutDown');
+      modal.classList.remove('animate__fadeInUp');
+      setTimeout(() => {
         modal.classList.remove('modal_vis');
-    })
-}  
+      }, 1000); 
+    }, 3000);
+  };
+}
+close_modal.onclick = function() { 
+  modal.classList.add('animate__animated', 'animate__bounceOutDown'); 
+  modal.classList.remove('animate__fadeInUp');
+  setTimeout(() => {
+    modal.classList.remove('modal_vis');
+  }, 1000);
+};

@@ -1064,16 +1064,6 @@ input{
     stroke-linejoin: round;
 }
 
-.open_modal{
-    color: #F6F6F6;
-    display: flex;
-    width: 100%;
-}
-
-.open_modal:hover{
-    color: #F97832;
-}
-
 .modal {
     display: none;
     background: none;
@@ -1088,46 +1078,33 @@ input{
     display: block;
 }
 .body_block {
-    overflow: hidden;
     margin-right: 17px;
 }
 #close_modal {
-    color: #BFE2FF;
-    font-size: 40px;
-    font-weight: bold;
-    font-family: Times, sans-serif;
-    border-radius: 50%;
-    border: 4px solid #BFE2FF;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    margin: 20px;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    transform: rotate(45deg);
-    transition: all 0.6s;
-    box-sizing: content-box;
+    box-sizing:content-box;
 }
 #close_modal:hover {
     color: #FFF;
-    transform: rotate(135deg);
 }
 .modal_txt {
     box-shadow: 0 4px 12px rgba(0,0,0,0.2), 0 16px 20px rgba(0,0,0,0.2);
     background: #FFF;
-    padding: 30px;
+    padding: 30px 20px;
     margin: 100px auto;
-    max-width: 800px;
-    font-size: 14px;
+    max-width: 350px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .modal_txt .close-button{
-    float: right;
-    display: flex;
-    margin-right: -16px;
-    margin-top: -17px;
+    margin: 0;
+}
+
+.success-close{
+   width: 15px;
+   height: 15px;
+   margin: 0px; 
 }
 
 @media (max-width:768px){
