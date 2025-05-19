@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   </head>
   <body>
     <dialog class="dialog" id="orderDialog">
@@ -56,14 +57,14 @@
                 <input type="email" class="input-field" placeholder="@никнейм">
               </div>
             </form>
-            <button class="button successOpener">Заказать</button>
+            <button class="button"><a class="open_modal" href="#open">Заказать</a></button>
+            <div id="modal" class="modal animate__bounceIn">
+              <div class="modal_txt animate__bounceIn">Ваша заявка отправлена!&nbsp✔️
+                <div class="close-button closeDialogBtn"><svg><use xlink:href="../static/sprite.svg#close-btn"></use></svg></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </dialog>
-    <dialog class="success">
-      <div class="success-wraper" id="successDialog">
-        <h1>Ура!</h1>
       </div>
     </dialog>
     <header>
