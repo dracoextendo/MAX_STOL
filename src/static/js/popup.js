@@ -1,4 +1,4 @@
-
+///////////////////////////////////////////////////////////////////ВСЕ ПЕРЕМЕНННЫЕ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const dialog = document.getElementById('orderDialog')
 const dialogOpener = document.querySelectorAll('.openDialogBtn')
 const dialogCloser = dialog.querySelector('.closeDialogBtn')
@@ -9,7 +9,7 @@ let modal = document.getElementById('modal');
 let body = document.getElementsByTagName('body')[0]; 
 
 
-// MAIN POPUP
+//////////////////////////////////////////////////////// ОСНОВНОЙ ПОПАП (КАРТОЧКА ТОВАРА + API + JSON)////////////////////////////////////////////////////////////////////////////////
 
 async function openModalAndLockScroll() {
   const apiData = await getData(this.id);
@@ -135,8 +135,10 @@ async function getData(productId) {
    // 4. Возвращаем полученные данные
    return data;
   }
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// ПОПЫТка всплывашки))
+///////////////////////////////////////ВСПЛЫВАШКА НА ОТПРАВКУ ФОРМЫ//////////////////////////////////////////////
+
 for (let i = 0; i < open_modal.length; i++) {
   open_modal[i].onclick = function() { 
     modal.classList.add('modal_vis', 'animate__animated', 'animate__fadeInUp'); 
@@ -157,3 +159,85 @@ close_modal.onclick = function() {
     modal.classList.remove('modal_vis');
   }, 1000);
 };
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////// ВАЛИДАЦИЯ ФОРМ///////////////////////////////////////
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('orderForm');
+  const submitBtn = document.querySelector('.open_modal.button');
+  
+  createErrorElements();
+  submitBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    let isValid = true;
+
+    const fullname = form.querySelector('[name="fullname"]');
+    if (!fullname.value.trim() || !/^[а-яА-ЯёЁ\s]{5,}$/.test(fullname.value.trim())) {
+      showError(fullname, 'Введите корректное ФИО (минимум 5 кириллических символов)');
+      isValid = false;
+    } else {
+      clearError(fullname);
+    }
+
+    const phone = form.querySelector('input[type="tel"]');
+    if (!/^\+7\d{10}$/.test(phone.value)) {
+      showError(phone, 'Введите корректный телефон (+7XXXXXXXXXX)');
+      isValid = false;
+    } else {
+      clearError(phone);
+    }
+
+    const email = form.querySelector('input[type="email"]:not([placeholder="@никнейм"])');
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      showError(email, 'Введите корректный email');
+      isValid = false;
+    } else {
+      clearError(email);
+    }
+
+    const telegram = form.querySelector('input[placeholder="@никнейм"]');
+    if (telegram.value && !/^@[a-zA-Z0-9_]{5,}$/.test(telegram.value)) {
+      showError(telegram, 'Введите корректный никнейм (@username)');
+      isValid = false;
+    } else {
+      clearError(telegram);
+    }
+
+    if (isValid) {
+      alert('Форма успешно отправлена!');
+      form.reset();
+    }
+  });
+
+  function createErrorElements() {
+    const fields = form.querySelectorAll('.order-user-field');
+    fields.forEach(field => {
+      if (!field.querySelector('.error-message')) {
+        const errorElement = document.createElement('span');
+        errorElement.className = 'error-message';
+        field.appendChild(errorElement);
+      }
+    });
+  }
+
+  function showError(input, message) {
+    const field = input.closest('.order-user-field');
+    const errorElement = field.querySelector('.error-message');
+    errorElement.textContent = message;
+    input.classList.add('error');
+    field.classList.add('has-error');
+  }
+
+  function clearError(input) {
+    const field = input.closest('.order-user-field');
+    const errorElement = field.querySelector('.error-message');
+    errorElement.textContent = '';
+    input.classList.remove('error');
+    field.classList.remove('has-error');
+  }
+});
+
+//////////////////////////////////////////////////////////////////////////////////////

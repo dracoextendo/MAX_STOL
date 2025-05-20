@@ -1038,6 +1038,21 @@ input{
     transition: all 0.3s ease;
 }
 
+
+
+.error-message {
+  color: #F97832;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+  height: 16px;
+}
+
+.order-user-field.has-error {
+  margin-bottom: 15px;
+}
+
+
 .input-field::placeholder {
     transition: all 0.3s ease;
     color: #aaa;

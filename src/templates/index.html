@@ -39,10 +39,10 @@
             </div>
           </div>
           <div class="order-user">
-            <form class="oder-user-fieldset">
+            <form class="oder-user-fieldset"  id="orderForm">
               <div class="order-user-field">
                 <h4>ФИО*</h4>
-                <input type="text" class="input-field" placeholder="Пушкин Александр Сергеевич*">
+                <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" required>
               </div>
               <div class="order-user-field">
                 <h4>Телефон*</h4>
@@ -57,7 +57,7 @@
                 <input type="email" class="input-field" placeholder="@никнейм">
               </div>
             </form>
-            <button class="open_modal button">Заказать</button>
+            <button type="submit" class="open_modal button">Заказать</button>
             <div id="modal" class="modal bounceIn">
               <div class="modal_txt"><p>Ваша заявка отправлена!&nbsp✔️</p>
                 <div class="close-button" id="close_modal"><svg class="success-close"><use xlink:href="../static/sprite.svg#close-btn"></use></svg></div>
