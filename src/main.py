@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
-from authx.exceptions import MissingTokenError
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -21,13 +20,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-@app.exception_handler(MissingTokenError)
-async def missing_token_exception_handler(request: Request, exc: MissingTokenError):
-    return JSONResponse(
-        status_code=401,
-        content={"detail": "Unauthorized"},
-    )
 
 if __name__ == "__main__":
     uvicorn.run("main:app")

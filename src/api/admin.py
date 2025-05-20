@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Request, Depends
-from fastapi.templating import Jinja2Templates
-from src.api.products import get_all_products
+from fastapi import APIRouter, Depends
+from src.api.dependencies import access_token_validation
 
 router = APIRouter(prefix="/admin",tags=['HTML', 'Admin'])
 
@@ -8,7 +7,7 @@ router = APIRouter(prefix="/admin",tags=['HTML', 'Admin'])
 async def get_login_html():
     pass
 
-@router.get("/", summary="Главная админки (в разработке)")
+@router.get("/", dependencies=[Depends(access_token_validation)], summary="Главная админки (в разработке)")
 async def get_admin_html():
     pass
 

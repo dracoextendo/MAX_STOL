@@ -20,9 +20,14 @@ jobs:
         script: |
           cd MAX_STOL/
           git pull
+          rm -rf certs/
+          mkdir certs
+          cd certs/
+          openssl genrsa -out jwt-private.pem 2048
+          openssl rsa -in jwt-private.pem -outform PEM -pubout -out jwt-public.pem
+          cd ..
           docker build -t max-stol .
           cd ..
           docker stop max-stol-container
           docker rm max-stol-container
           docker run -d --name max-stol-container --env-file .env -p 80:8000 max-stol:latest
-      

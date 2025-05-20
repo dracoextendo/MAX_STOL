@@ -403,4 +403,9 @@ class UsersDAO(BaseDAO):
                 UsersModel.username == username
             )
             result = await session.execute(query)
-        return result.scalars().first()
+        return result.scalar_one_or_none()
+
+    @classmethod
+    async def get_user_by_id(cls, user_id: int):
+        async with async_session_maker() as session:
+            return await session.get(UsersModel, user_id)

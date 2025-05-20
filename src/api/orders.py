@@ -1,32 +1,31 @@
 from typing import Annotated
-
 from fastapi import APIRouter, HTTPException, Depends, Form
-from watchfiles import awatch
 
+from src.api.auth import refresh_token
+from src.api.dependencies import access_token_validation
 from src.dao.dao import OrdersDAO
 from src.models.orders import OrdersModel
 from src.schemas.base import SBaseStatus
-from src.schemas.orders import SCreateOrder, SGetOrder
-from src.security import security
+from src.schemas.orders import SGetOrder
 
 router = APIRouter(tags=['Заказы'], prefix='/orders')
 
-@router.get("", dependencies=[Depends(security.access_token_required)], response_model=list[SGetOrder], summary="Получить все заказы")
+@router.get("", dependencies=[Depends(access_token_validation), Depends(refresh_token)], response_model=list[SGetOrder], summary="Получить все заказы")
 async def get_all_orders():
     return await OrdersDAO().find_all()
 
-@router.get("/{id}", dependencies=[Depends(security.access_token_required)], response_model=SGetOrder, summary="Получить информацию о заказе по id")
+@router.get("/{id}", dependencies=[Depends(access_token_validation)], response_model=SGetOrder, summary="Получить информацию о заказе по id")
 async def get_order_by_id(id: int):
     result = await OrdersDAO.get_order(id)
     if result is None:
         raise HTTPException(status_code=404, detail="Order not found")
     return result
 
-@router.delete("/{id}", dependencies=[Depends(security.access_token_required)], response_model=SBaseStatus, summary="Удалить заказ")
+@router.delete("/{id}", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Удалить заказ")
 async def delete_order(id: int):
     return await OrdersDAO.delete_order(id)
 
-@router.put("/{id}", dependencies=[Depends(security.access_token_required)], response_model=SBaseStatus, summary="Обновить заказ")
+@router.put("/{id}", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Обновить заказ")
 async def update_order(id:int,
                     username: Annotated[str, Form()],
                     phone: Annotated[str, Form()],
