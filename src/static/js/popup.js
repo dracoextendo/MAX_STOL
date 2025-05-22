@@ -29,12 +29,12 @@ async function openModalAndLockScroll() {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "desk-color";
-    radio.value = deskColor.color;
+    radio.value = deskColor.name;
     radio.id = `desk-color-${deskColor.id}`;
 
     const label = document.createElement("label");
     label.htmlFor = `desk-color-${deskColor.id}`; // Связь с радио-кнопкой
-    label.textContent = deskColor.color;
+    label.textContent = deskColor.name;
     label.className = "checkbox-button"
     // Добавляем radio и label в контейнер (на одном уровне)
     deskColorInputs.appendChild(radio);
@@ -45,12 +45,12 @@ async function openModalAndLockScroll() {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "frame-color";
-    radio.value = frameColor.color;
+    radio.value = frameColor.name;
     radio.id = `frame-color-${frameColor.id}`;
 
     const label = document.createElement("label");
     label.htmlFor = `frame-color-${frameColor.id}`; // Связь с радио-кнопкой
-    label.textContent = frameColor.color;
+    label.textContent = frameColor.name;
     label.className = "checkbox-button"
     // Добавляем radio и label в контейнер (на одном уровне)
     frameColorInputs.appendChild(radio);
