@@ -1,45 +1,64 @@
 from typing import Annotated
 from fastapi import APIRouter, Form, UploadFile, status, HTTPException
 from fastapi.params import Depends
+
+from src.api.responses import NOT_FOUND, UNAUTHORIZED, FORBIDDEN
 from src.dao.dao import ProductsDAO
-from src.schemas.base import SBaseStatus
-from src.schemas.products import SGetProductInfo, SGetProduct
-from src.s3 import s3client
+from src.schemas.base import SStatusOut
+from src.schemas.products import SProductInfoOut, SProductOut, SProductIn
 from src.api.dependencies import access_token_validation
 
 router = APIRouter(tags=['Продукты'], prefix='/products')
 
-@router.get("", response_model=list[SGetProduct], summary="Получить все продукты")
+@router.get("",
+            response_model=list[SProductOut],
+            summary="Получить все продукты")
 async def get_all_products():
     return await ProductsDAO().find_all()
 
-@router.get("/{id}", response_model=SGetProductInfo, summary="Получить информацию о продукте по id")
+@router.get("/{id}",
+            responses ={**NOT_FOUND},
+            response_model=SProductInfoOut,
+            summary="Получить информацию о продукте по id")
 async def get_product_by_id(id: int):
     result = await ProductsDAO.get_product(id)
     if result is None:
         raise HTTPException(status_code=404, detail="Product not found")
     return result
 
-@router.delete("/{id}", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Удалить продукт")
+@router.delete("/{id}",
+               dependencies=[Depends(access_token_validation)],
+               responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND},
+               response_model=SStatusOut,
+               summary="Удалить продукт")
 async def delete_product(id: int):
-    result = await ProductsDAO.delete_product(id, s3client)
+    result = await ProductsDAO.delete_product(id)
     if result is None:
         raise HTTPException(status_code=404, detail="Product not found")
     return result
 
-@router.put("/{id}", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Обновить продукт (в разработке)")
+@router.put("/{id}",
+            dependencies=[Depends(access_token_validation)],
+            responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND},
+            response_model=SStatusOut,
+            summary="Обновить продукт (в разработке)")
 async def update_product():
     return {"status": "success"}
 
-@router.post("/add", dependencies=[Depends(access_token_validation)], response_model=SBaseStatus, summary="Добавить продукт (не работает добавление нескольких характеристик через бэк, надо тестить на фронте)", status_code=status.HTTP_201_CREATED)
-async def upload_product(name: Annotated[str, Form()],
-                         description: Annotated[str, Form()],
-                         price: Annotated[int, Form()],
-                         first_image: UploadFile,
-                         second_image: UploadFile,
-                         third_image: UploadFile,
-                         desk_colors: Annotated[list[int], Form()],
-                         frame_colors: Annotated[list[int], Form()],
-                         lengths: Annotated[list[int], Form()],
-                         depths: Annotated[list[int], Form()]):
-    return await ProductsDAO.add_product(name, description, price, first_image, second_image, third_image, desk_colors, frame_colors, lengths, depths, s3client)
+@router.post("/add",
+             dependencies=[Depends(access_token_validation)],
+             responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND},
+             response_model=SStatusOut,
+             summary="Добавить продукт (добавление нескольких характеристик через /test-form)",
+             status_code=status.HTTP_201_CREATED)
+async def upload_product(product_data: SProductIn = Depends(SProductIn.as_form)):
+    return await ProductsDAO.add_product(name=product_data.name,
+                                         description=product_data.description,
+                                         price=product_data.price,
+                                         first_image=product_data.first_image,
+                                         second_image=product_data.second_image,
+                                         third_image=product_data.third_image,
+                                         desk_colors=product_data.desk_colors,
+                                         frame_colors=product_data.frame_colors,
+                                         lengths=product_data.lengths,
+                                         depths=product_data.depths)
