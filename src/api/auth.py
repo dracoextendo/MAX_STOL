@@ -5,7 +5,8 @@ from src.api.dependencies import get_user_for_refresh
 from src.api.responses import UNAUTHORIZED, FORBIDDEN
 from src.dao.dao import UsersDAO
 import src.security as security
-from src.schemas.base import SStatusOut, SUserIn
+from src.schemas.base import SStatusOut
+from src.schemas.users import SUserIn
 
 router = APIRouter(tags=['Auth'])
 
