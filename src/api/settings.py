@@ -5,7 +5,8 @@ from src.api.responses import UNAUTHORIZED, FORBIDDEN, NOT_FOUND
 from src.dao.dao import FrameColorDAO, DeskColorDAO, LengthDAO, DepthDAO
 from src.models.products import FrameColors, DeskColors, Length, Depth
 from src.schemas.base import SStatusOut
-from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
+from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut, SDeskColorIn, SFrameColorIn, \
+    SLengthIn, SDepthIn
 
 router = APIRouter(prefix="/settings",
                    dependencies=[Depends(access_token_validation)],
@@ -34,9 +35,10 @@ async def get_desk_color_by_id(id: int):
              tags=['Цвет столешницы'],
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_desk_color(color: Annotated[str, Form()]):
+async def add_desk_color(color: SDeskColorIn = Depends(SDeskColorIn.as_form)):
     desk_color = DeskColors(
-        name=color
+        name=color.name,
+        sort=color.sort,
     )
     return await DeskColorDAO.add_desk_color(desk_color)
 
@@ -45,9 +47,10 @@ async def add_desk_color(color: Annotated[str, Form()]):
             tags=['Цвет столешницы'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_desk_color_by_id(id: int, color: Annotated[str, Form()]):
+async def update_desk_color_by_id(id: int, color: SDeskColorIn = Depends(SDeskColorIn.as_form)):
     desk_color = DeskColors(
-        name=color
+        name=color.name,
+        sort=color.sort,
     )
     return await DeskColorDAO.update_desk_color(id, desk_color)
 
@@ -83,9 +86,10 @@ async def get_frame_color_by_id(id: int):
              responses ={**NOT_FOUND},
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_frame_color(color: Annotated[str, Form()]):
+async def add_frame_color(color: SFrameColorIn = Depends(SFrameColorIn.as_form)):
     frame_color = FrameColors(
-        name=color
+        name=color.name,
+        sort=color.sort,
     )
     return await FrameColorDAO.add_frame_color(frame_color)
 
@@ -94,9 +98,10 @@ async def add_frame_color(color: Annotated[str, Form()]):
             tags=['Цвет металлокаркаса'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_frame_color_by_id(id: int, color: Annotated[str, Form()]):
+async def update_frame_color_by_id(id: int, color: SFrameColorIn = Depends(SFrameColorIn.as_form)):
     frame_color = FrameColors(
-        name=color
+        name=color.name,
+        sort=color.sort,
     )
     return await FrameColorDAO.update_frame_color(id, frame_color)
 
@@ -131,9 +136,10 @@ async def get_length_by_id(id: int):
              tags=['Длина стола'],
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_length_by_id(length: Annotated[int, Form()]):
+async def add_length_by_id(length: SLengthIn = Depends(SLengthIn.as_form)):
     length = Length(
-        value=length
+        value=length.value,
+        sort=length.sort,
     )
     return await LengthDAO.add_length(length)
 
@@ -142,9 +148,10 @@ async def add_length_by_id(length: Annotated[int, Form()]):
             tags=['Длина стола'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_length_by_id(id: int, length: Annotated[int, Form()]):
+async def update_length_by_id(id: int, length: SLengthIn = Depends(SLengthIn.as_form)):
     length = Length(
-        value=length
+        value=length.value,
+        sort=length.sort,
     )
     return await LengthDAO.update_length(id, length)
 
@@ -179,9 +186,10 @@ async def get_depth_by_id(id: int):
              tags=['Глубина стола'],
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_depth_by_id(depth: Annotated[int, Form()]):
+async def add_depth_by_id(depth: SDepthIn = Depends(SDepthIn.as_form)):
     depth = Depth(
-        value=depth
+        value=depth.value,
+        sort=depth.sort,
     )
     return await DepthDAO.add_depth(depth)
 
@@ -191,9 +199,10 @@ async def add_depth_by_id(depth: Annotated[int, Form()]):
             tags=['Глубина стола'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_depth_by_id(id: int, depth: Annotated[int, Form()]):
+async def update_depth_by_id(id: int, depth: SDepthIn = Depends(SDepthIn.as_form)):
     depth = Depth(
-        value=depth
+        value=depth.value,
+        sort=depth.sort,
     )
     return await DepthDAO.update_depth(id, depth)
 

@@ -31,8 +31,8 @@ class SOrderIn(BaseModel):
     @classmethod
     def as_form(cls,
                 username: str = Form(min_length=2, max_length=255),
-                phone: str = Form(),
-                email: EmailStr | None  = Form(None),
+                phone: str = Form(examples=["+79999999999"]),
+                email: EmailStr | None  = Form(default=None),
                 telegram: str | None = Form(default=None, max_length=64),
                 product_name: str = Form(),
                 desk_color: str = Form(),

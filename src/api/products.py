@@ -41,15 +41,26 @@ async def delete_product(id: int):
             dependencies=[Depends(access_token_validation)],
             responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND},
             response_model=SStatusOut,
-            summary="Обновить продукт (в разработке)")
-async def update_product():
-    return {"status": "success"}
+            summary="Обновить продукт (в Swagger можно добавить только по одной характеристике)")
+async def update_product(id: int, product_data: SProductIn = Depends(SProductIn.as_form)):
+    return await ProductsDAO.update_product(product_id=id,
+                                            name=product_data.name,
+                                            description=product_data.description,
+                                            price=product_data.price,
+                                            first_image=product_data.first_image,
+                                            second_image=product_data.second_image,
+                                            third_image=product_data.third_image,
+                                            desk_colors=product_data.desk_colors,
+                                            frame_colors=product_data.frame_colors,
+                                            lengths=product_data.lengths,
+                                            depths=product_data.depths,
+                                            sort = product_data.sort)
 
 @router.post("/add",
              dependencies=[Depends(access_token_validation)],
              responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND},
              response_model=SStatusOut,
-             summary="Добавить продукт (добавление нескольких характеристик через /test-form)",
+             summary="Добавить продукт (в Swagger можно добавить только по одной характеристике, добавление нескольких характеристик через /test-form)",
              status_code=status.HTTP_201_CREATED)
 async def upload_product(product_data: SProductIn = Depends(SProductIn.as_form)):
     return await ProductsDAO.add_product(name=product_data.name,
@@ -61,4 +72,5 @@ async def upload_product(product_data: SProductIn = Depends(SProductIn.as_form))
                                          desk_colors=product_data.desk_colors,
                                          frame_colors=product_data.frame_colors,
                                          lengths=product_data.lengths,
-                                         depths=product_data.depths)
+                                         depths=product_data.depths,
+                                         sort=product_data.sort)

@@ -5,7 +5,7 @@ from src.dao.base import BaseDAO
 from src.models.orders import OrdersModel
 from src.models.products import ProductsModel, DeskColors, FrameColors, Length, Depth, ProductDeskColor, ProductFrameColor, ProductLength, ProductDepth
 from sqlalchemy.orm import selectinload
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from src.database import async_session_maker
 from src.models.users import UsersModel
 from src.s3 import s3client
@@ -59,23 +59,28 @@ class ProductsDAO(BaseDAO):
                                                        third_image=product.third_image,
                                                        created_at=product.created_at,
                                                        updated_at=product.updated_at,
+                                                       sort=product.sort,
                                                        ),
                                    desk_colors=[SDeskColorOut(id=d_color.id,
-                                                           name=d_color.name,
-                                                           created_at=d_color.created_at,
-                                                           updated_at=d_color.updated_at) for d_color in product.desk_colors],
+                                                              name=d_color.name,
+                                                              created_at=d_color.created_at,
+                                                              updated_at=d_color.updated_at,
+                                                              sort=d_color.sort) for d_color in product.desk_colors],
                                    frame_colors=[SFrameColorOut(id=f_color.id,
                                                              name=f_color.name,
                                                              created_at=f_color.created_at,
-                                                             updated_at=f_color.updated_at) for f_color in product.frame_colors],
+                                                             updated_at=f_color.updated_at,
+                                                                sort=f_color.sort) for f_color in product.frame_colors],
                                    length=[SLengthOut(id=length.id,
                                                    value=length.value,
                                                    created_at=length.created_at,
-                                                   updated_at=length.updated_at) for length in product.length],
+                                                   updated_at=length.updated_at,
+                                                      sort=length.sort) for length in product.length],
                                    depth=[SDepthOut(id=depth.id,
                                                  value=depth.value,
                                                  created_at=depth.created_at,
-                                                 updated_at=depth.updated_at) for depth in product.depth], )
+                                                 updated_at=depth.updated_at,
+                                                    sort=depth.sort) for depth in product.depth], )
 
     @classmethod
     async def add_product(cls,
@@ -88,7 +93,8 @@ class ProductsDAO(BaseDAO):
                           desk_colors: list[int],
                           frame_colors: list[int],
                           lengths: list[int],
-                          depths: list[int],):
+                          depths: list[int],
+                          sort: int | None):
         async with async_session_maker() as session:
             async with session.begin():
                 if desk_colors:
@@ -111,6 +117,7 @@ class ProductsDAO(BaseDAO):
                     first_image=images_url[0],
                     second_image=images_url[1],
                     third_image=images_url[2],
+                    sort=sort,
                 )
                 session.add(product)
                 await session.flush()
@@ -137,6 +144,75 @@ class ProductsDAO(BaseDAO):
                 return {"detail": f"Product id = {product.id} added"}
 
     @classmethod
+    async def update_product(cls,
+                             product_id: int,
+                             name: str,
+                             description: str,
+                             price: int,
+                             first_image: UploadFile,
+                             second_image: UploadFile,
+                             third_image: UploadFile,
+                             desk_colors: list[int],
+                             frame_colors: list[int],
+                             lengths: list[int],
+                             depths: list[int],
+                             sort: int | None):
+        async with async_session_maker() as validation_session:
+            await cls.validate_parameters(desk_colors, 'Desk color', DeskColors, validation_session)
+            await cls.validate_parameters(frame_colors, 'Frame color', FrameColors, validation_session)
+            await cls.validate_parameters(lengths, 'Length', Length, validation_session)
+            await cls.validate_parameters(depths, 'Depth', Depth, validation_session)
+
+        async with async_session_maker() as session:
+            async with session.begin():
+                product = await session.get(ProductsModel, product_id)
+                if not product:
+                    raise HTTPException(status_code=404, detail=f"Product id = {product_id} not found")
+
+                product.name = name
+                product.description = description
+                product.price = price
+                product.sort = sort
+
+                await session.execute(delete(ProductDeskColor).where(ProductDeskColor.product_id == product_id))
+                await session.execute(delete(ProductFrameColor).where(ProductFrameColor.product_id == product_id))
+                await session.execute(delete(ProductLength).where(ProductLength.product_id == product_id))
+                await session.execute(delete(ProductDepth).where(ProductDepth.product_id == product_id))
+
+                for desk_color_id in desk_colors:
+                    session.add(ProductDeskColor(
+                        product_id=product_id,
+                        desk_color_id=desk_color_id
+                    ))
+                for frame_color_id in frame_colors:
+                    session.add(ProductFrameColor(
+                        product_id=product_id,
+                        frame_color_id=frame_color_id
+                    ))
+                for length_id in lengths:
+                    session.add(ProductLength(
+                        product_id=product_id,
+                        length_id=length_id
+                    ))
+                for depth_id in depths:
+                    session.add(ProductDepth(
+                        product_id=product_id,
+                        depth_id=depth_id
+                    ))
+
+                old_images = [product.first_image, product.second_image, product.third_image]
+                new_images = [first_image, second_image, third_image]
+
+                await asyncio.gather(*[s3client.delete_from_s3(img) for img in old_images])
+                images_url = await asyncio.gather(*[s3client.upload_to_s3(img) for img in new_images])
+
+                product.first_image = images_url[0]
+                product.second_image = images_url[1]
+                product.third_image = images_url[2]
+
+                return {"detail": f"Product id = {product_id} updated"}
+
+    @classmethod
     async def delete_product(cls, product_id: int):
         async with async_session_maker() as session:
             async with session.begin():
@@ -149,18 +225,7 @@ class ProductsDAO(BaseDAO):
                     product.third_image
                 ]
                 await session.delete(product)
-            async with s3client.get_client() as s3_client:
-                delete_tasks = []
-                for file_url in files_to_delete:
-                    if file_url:
-                        file_name = file_url.split('/')[-1]
-                        delete_tasks.append(
-                            s3_client.delete_object(
-                                Bucket=s3client.bucket_name,
-                                Key=file_name
-                            )
-                        )
-                if delete_tasks: await asyncio.gather(*delete_tasks)
+                await asyncio.gather(*[s3client.delete_from_s3(img) for img in files_to_delete])
         return {"detail": f"Product id = {product_id} deleted"}
 
 class OrdersDAO(BaseDAO):
