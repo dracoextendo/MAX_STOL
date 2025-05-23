@@ -1,7 +1,6 @@
 from typing import Annotated
 from fastapi import APIRouter, Form, HTTPException, Response
 from fastapi.params import Depends
-from src.api.dependencies import get_user_for_refresh
 from src.api.responses import UNAUTHORIZED, FORBIDDEN
 from src.dao.dao import UsersDAO
 import src.security as security
@@ -35,22 +34,6 @@ async def auth(response: Response, user_data: SUserIn = Depends(SUserIn.as_form)
         )
         return SStatusOut(detail="Authenticated successfully")
     raise HTTPException(status_code=401, detail="Incorrect username or password")
-
-@router.post('/refresh',
-             summary="Обновление токена",
-             responses ={**UNAUTHORIZED, **FORBIDDEN},
-             response_model=SStatusOut)
-def refresh_token(response: Response, user = Depends(get_user_for_refresh)):
-    access_token = security.create_access_token(user)
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        httponly=True,
-        secure=False,  # Только HTTPS
-        samesite='lax'  # Защита от CSRF
-    )
-    return SStatusOut(detail="Token refreshed successfully")
-
 
 @router.post('/logout', summary="Выход", response_model=SStatusOut)
 async def logout(response: Response):
