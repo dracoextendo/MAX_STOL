@@ -18,6 +18,7 @@ class SProductIn(BaseModel):
     frame_colors: list[int]
     lengths: list[int]
     depths: list[int]
+    sort: int | None
 
     @classmethod
     def as_form(cls,
@@ -30,7 +31,8 @@ class SProductIn(BaseModel):
                 desk_colors: list[int] = Form(),
                 frame_colors: list[int] = Form(),
                 lengths: list[int] = Form(),
-                depths: list[int] = Form(),):
+                depths: list[int] = Form(),
+                sort: int | None = Form(default=500),):
         return cls(
             name=name,
             description=description,
@@ -41,7 +43,8 @@ class SProductIn(BaseModel):
             desk_colors=desk_colors,
             frame_colors=frame_colors,
             lengths=lengths,
-            depths=depths
+            depths=depths,
+            sort=sort,
         )
 
 class SProductOut(BaseModel):
@@ -54,6 +57,7 @@ class SProductOut(BaseModel):
     third_image: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
+    sort: int
 
 class SProductInfoOut(BaseModel):
     product: SProductOut

@@ -53,7 +53,8 @@ async def update_product(id: int, product_data: SProductIn = Depends(SProductIn.
                                             desk_colors=product_data.desk_colors,
                                             frame_colors=product_data.frame_colors,
                                             lengths=product_data.lengths,
-                                            depths=product_data.depths,)
+                                            depths=product_data.depths,
+                                            sort = product_data.sort)
 
 @router.post("/add",
              dependencies=[Depends(access_token_validation)],
@@ -71,4 +72,5 @@ async def upload_product(product_data: SProductIn = Depends(SProductIn.as_form))
                                          desk_colors=product_data.desk_colors,
                                          frame_colors=product_data.frame_colors,
                                          lengths=product_data.lengths,
-                                         depths=product_data.depths)
+                                         depths=product_data.depths,
+                                         sort=product_data.sort)

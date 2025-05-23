@@ -8,6 +8,6 @@ class BaseDAO:
     @classmethod
     async def find_all(cls):
         async with async_session_maker() as session:
-            query = select(cls.model)
+            query = select(cls.model).order_by(cls.model.sort, cls.model.id)
             result = await session.execute(query)
             return result.scalars().all()

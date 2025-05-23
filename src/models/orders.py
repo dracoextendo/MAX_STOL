@@ -15,3 +15,4 @@ class OrdersModel(Base):
     frame_color: Mapped[str]
     depth: Mapped[str]
     length: Mapped[str]
+    sort: Mapped[int | None] = mapped_column(default=500)

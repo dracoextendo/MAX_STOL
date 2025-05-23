@@ -59,23 +59,28 @@ class ProductsDAO(BaseDAO):
                                                        third_image=product.third_image,
                                                        created_at=product.created_at,
                                                        updated_at=product.updated_at,
+                                                       sort=product.sort,
                                                        ),
                                    desk_colors=[SDeskColorOut(id=d_color.id,
-                                                           name=d_color.name,
-                                                           created_at=d_color.created_at,
-                                                           updated_at=d_color.updated_at) for d_color in product.desk_colors],
+                                                              name=d_color.name,
+                                                              created_at=d_color.created_at,
+                                                              updated_at=d_color.updated_at,
+                                                              sort=d_color.sort) for d_color in product.desk_colors],
                                    frame_colors=[SFrameColorOut(id=f_color.id,
                                                              name=f_color.name,
                                                              created_at=f_color.created_at,
-                                                             updated_at=f_color.updated_at) for f_color in product.frame_colors],
+                                                             updated_at=f_color.updated_at,
+                                                                sort=f_color.sort) for f_color in product.frame_colors],
                                    length=[SLengthOut(id=length.id,
                                                    value=length.value,
                                                    created_at=length.created_at,
-                                                   updated_at=length.updated_at) for length in product.length],
+                                                   updated_at=length.updated_at,
+                                                      sort=length.sort) for length in product.length],
                                    depth=[SDepthOut(id=depth.id,
                                                  value=depth.value,
                                                  created_at=depth.created_at,
-                                                 updated_at=depth.updated_at) for depth in product.depth], )
+                                                 updated_at=depth.updated_at,
+                                                    sort=depth.sort) for depth in product.depth], )
 
     @classmethod
     async def add_product(cls,
@@ -88,7 +93,8 @@ class ProductsDAO(BaseDAO):
                           desk_colors: list[int],
                           frame_colors: list[int],
                           lengths: list[int],
-                          depths: list[int],):
+                          depths: list[int],
+                          sort: int | None):
         async with async_session_maker() as session:
             async with session.begin():
                 if desk_colors:
@@ -111,6 +117,7 @@ class ProductsDAO(BaseDAO):
                     first_image=images_url[0],
                     second_image=images_url[1],
                     third_image=images_url[2],
+                    sort=sort,
                 )
                 session.add(product)
                 await session.flush()
@@ -148,7 +155,8 @@ class ProductsDAO(BaseDAO):
                              desk_colors: list[int],
                              frame_colors: list[int],
                              lengths: list[int],
-                             depths: list[int]):
+                             depths: list[int],
+                             sort: int | None):
         async with async_session_maker() as validation_session:
             await cls.validate_parameters(desk_colors, 'Desk color', DeskColors, validation_session)
             await cls.validate_parameters(frame_colors, 'Frame color', FrameColors, validation_session)
@@ -164,6 +172,7 @@ class ProductsDAO(BaseDAO):
                 product.name = name
                 product.description = description
                 product.price = price
+                product.sort = sort
 
                 await session.execute(delete(ProductDeskColor).where(ProductDeskColor.product_id == product_id))
                 await session.execute(delete(ProductFrameColor).where(ProductFrameColor.product_id == product_id))
