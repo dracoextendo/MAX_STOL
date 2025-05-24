@@ -1130,12 +1130,21 @@ input{
     width: 100%;
     }  
 }
+@media (max-width:768px){
+    .dialog-inner{
+        display: flex;
+    }
+    .oder-user-fieldset{
+    display: block;
+    gap: 60px;
+    width: 100%;
+    }  
+}
 @media (max-width:480px){
-     .dialog-inner{
-        max-width: 395px;
+     .dialog-wrapper{
+        max-width: 380px;
      }
      .order-user{
-        max-width: 390px;
-        align-items: start;
+        min-width: 276px;
      }
 }
