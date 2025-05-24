@@ -29,6 +29,7 @@ class ProductsModel(Base):
         back_populates="products"
     )
     sort: Mapped[int | None] = mapped_column(default=500)
+    is_active: Mapped[bool| None] = mapped_column(default=True)
 
 class ProductDeskColor(Base):
     __tablename__ = 'product_desk_color'
