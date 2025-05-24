@@ -19,6 +19,7 @@ class SProductIn(BaseModel):
     lengths: list[int]
     depths: list[int]
     sort: int | None
+    is_active: bool | None
 
     @classmethod
     def as_form(cls,
@@ -32,7 +33,8 @@ class SProductIn(BaseModel):
                 frame_colors: list[int] = Form(),
                 lengths: list[int] = Form(),
                 depths: list[int] = Form(),
-                sort: int | None = Form(default=500),):
+                sort: int | None = Form(default=500),
+                is_active: bool | None = Form(default=True),):
         return cls(
             name=name,
             description=description,
@@ -45,6 +47,7 @@ class SProductIn(BaseModel):
             lengths=lengths,
             depths=depths,
             sort=sort,
+            is_active=is_active
         )
 
 class SProductOut(BaseModel):
@@ -58,6 +61,7 @@ class SProductOut(BaseModel):
     created_at: datetime.datetime
     updated_at: datetime.datetime
     sort: int
+    is_active: bool
 
 class SProductInfoOut(BaseModel):
     product: SProductOut

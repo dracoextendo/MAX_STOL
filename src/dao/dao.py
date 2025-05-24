@@ -34,7 +34,7 @@ class ProductsDAO(BaseDAO):
                 raise HTTPException(status_code=404, detail=f"{param_name} id = {param_id} not found")
 
     @classmethod
-    async def get_product(cls, product_id: int):
+    async def get_product(cls, product_id: int, active: bool):
         async with async_session_maker() as session:
             query = (
                 select(ProductsModel)
@@ -50,6 +50,9 @@ class ProductsDAO(BaseDAO):
             product = result.scalar_one_or_none()
             if not product:
                 return None
+            if not product.is_active:
+                if active:
+                    return None
             return SProductInfoOut(product=SProductOut(id = product.id,
                                                        name=product.name,
                                                        description = product.description,
@@ -60,6 +63,7 @@ class ProductsDAO(BaseDAO):
                                                        created_at=product.created_at,
                                                        updated_at=product.updated_at,
                                                        sort=product.sort,
+                                                       is_active=product.is_active,
                                                        ),
                                    desk_colors=[SDeskColorOut(id=d_color.id,
                                                               name=d_color.name,
@@ -94,17 +98,16 @@ class ProductsDAO(BaseDAO):
                           frame_colors: list[int],
                           lengths: list[int],
                           depths: list[int],
-                          sort: int | None):
+                          sort: int | None,
+                          is_active: bool | None,):
+        async with async_session_maker() as validation_session:
+            await cls.validate_parameters(desk_colors, 'Desk color', DeskColors, validation_session)
+            await cls.validate_parameters(frame_colors, 'Frame color', FrameColors, validation_session)
+            await cls.validate_parameters(lengths, 'Length', Length, validation_session)
+            await cls.validate_parameters(depths, 'Depth', Depth, validation_session)
+
         async with async_session_maker() as session:
             async with session.begin():
-                if desk_colors:
-                    await cls.validate_parameters(desk_colors, 'Desk color', DeskColors, session)
-                if frame_colors:
-                    await cls.validate_parameters(frame_colors, 'Frame color', FrameColors, session)
-                if lengths:
-                    await cls.validate_parameters(lengths, 'Length', Length, session)
-                if depths:
-                    await cls.validate_parameters(depths, 'Depth', Depth, session)
                 images_url = await asyncio.gather(
                     s3client.upload_to_s3(first_image),
                     s3client.upload_to_s3(second_image),
@@ -118,6 +121,7 @@ class ProductsDAO(BaseDAO):
                     second_image=images_url[1],
                     third_image=images_url[2],
                     sort=sort,
+                    is_active=is_active
                 )
                 session.add(product)
                 await session.flush()
@@ -156,7 +160,8 @@ class ProductsDAO(BaseDAO):
                              frame_colors: list[int],
                              lengths: list[int],
                              depths: list[int],
-                             sort: int | None):
+                             sort: int | None,
+                             is_active: bool | None,):
         async with async_session_maker() as validation_session:
             await cls.validate_parameters(desk_colors, 'Desk color', DeskColors, validation_session)
             await cls.validate_parameters(frame_colors, 'Frame color', FrameColors, validation_session)
@@ -173,6 +178,7 @@ class ProductsDAO(BaseDAO):
                 product.description = description
                 product.price = price
                 product.sort = sort
+                product.is_active = is_active
 
                 await session.execute(delete(ProductDeskColor).where(ProductDeskColor.product_id == product_id))
                 await session.execute(delete(ProductFrameColor).where(ProductFrameColor.product_id == product_id))

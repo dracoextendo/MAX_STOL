@@ -14,14 +14,14 @@ router = APIRouter(tags=['Продукты'], prefix='/products')
             response_model=list[SProductOut],
             summary="Получить все продукты")
 async def get_all_products():
-    return await ProductsDAO().find_all()
+    return await ProductsDAO().find_all_active()
 
 @router.get("/{id}",
             responses ={**NOT_FOUND},
             response_model=SProductInfoOut,
             summary="Получить информацию о продукте по id")
 async def get_product_by_id(id: int):
-    result = await ProductsDAO.get_product(id)
+    result = await ProductsDAO.get_product(id, True)
     if result is None:
         raise HTTPException(status_code=404, detail="Product not found")
     return result
@@ -54,7 +54,8 @@ async def update_product(id: int, product_data: SProductIn = Depends(SProductIn.
                                             frame_colors=product_data.frame_colors,
                                             lengths=product_data.lengths,
                                             depths=product_data.depths,
-                                            sort = product_data.sort)
+                                            sort = product_data.sort,
+                                            is_active=product_data.is_active)
 
 @router.post("/add",
              dependencies=[Depends(access_token_validation)],
@@ -73,4 +74,5 @@ async def upload_product(product_data: SProductIn = Depends(SProductIn.as_form))
                                          frame_colors=product_data.frame_colors,
                                          lengths=product_data.lengths,
                                          depths=product_data.depths,
-                                         sort=product_data.sort)
+                                         sort=product_data.sort,
+                                         is_active=product_data.is_active)
