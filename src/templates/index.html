@@ -14,6 +14,14 @@
 </head>
 
 <body>
+   <div id="modal" class="modal bounceIn">
+            <div class="modal_txt">
+              <p>Ваша заявка отправлена!&nbsp✔️</p>
+              <div class="close-button" id="close_modal"><svg class="success-close">
+                  <use xlink:href="../static/sprite.svg#close-btn"></use>
+                </svg></div>
+            </div>
+          </div>
   <dialog class="dialog" id="orderDialog">
     <div class="dialog-wrapper">
       <div class="close-button closeDialogBtn"><svg>
@@ -45,33 +53,26 @@
               </div>
             </div>
             <div class="order-user">
+                <input type="hidden" name="product-name">
                 <div class="order-user-field">
                   <h4>ФИО*</h4>
-                  <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" required>
+                  <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" autocomplete="off" required>
                 </div>
                 <div class="order-user-field">
                   <h4>Телефон*</h4>
-                  <input type="tel" value="+7" class="input-field">
+                  <input type="tel" value="+7" class="input-field" name="phone" autocomplete="off" required>
                 </div>
                 <div class="order-user-field">
                   <h4>E-mail</h4>
-                  <input type="email" class="input-field" placeholder="клиент@gmail.com*">
+                  <input type="email" class="input-field" placeholder="клиент@gmail.com*" name="email" autocomplete="off">
                 </div>
                 <div class="order-user-field">
                   <h4>Telegram</h4>
-                  <input type="email" class="input-field" placeholder="@никнейм">
+                  <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autocomplete="off">
                 </div>
-                <button type="submit" class="open_modal button">Заказать</button>
+                <button type="button" class="button" onclick="submitForm()">Заказать</button>
             </div>
         </form>
-          <div id="modal" class="modal bounceIn">
-            <div class="modal_txt">
-              <p>Ваша заявка отправлена!&nbsp✔️</p>
-              <div class="close-button" id="close_modal"><svg class="success-close">
-                  <use xlink:href="../static/sprite.svg#close-btn"></use>
-                </svg></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -321,6 +322,7 @@
   <script src="../static/js/slider.js"></script>
   <script src="../static/js/popup.js"></script>
   <script src="../static/js/softscroll.js"></script>
+    <script src="../static/js/submitOrder.js"></script>
 </body>
 
 </html>

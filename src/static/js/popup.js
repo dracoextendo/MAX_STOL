@@ -20,10 +20,13 @@ async function openModalAndLockScroll() {
   const frameColorInputs = dialog.querySelector(".frame-color > .radio-buttons")
   const depthInputs = dialog.querySelector(".depth > .radio-buttons")
   const lengthInputs = dialog.querySelector(".length > .radio-buttons")
+  const productInput = dialog.querySelector("input[type=hidden]")
+
   deskColorInputs.innerHTML = '';
   frameColorInputs.innerHTML = '';
   depthInputs.innerHTML = '';
   lengthInputs.innerHTML = '';
+  productInput.value = apiData.product.name
 
   apiData.desk_colors.forEach(deskColor=> {
     const radio = document.createElement("input");
