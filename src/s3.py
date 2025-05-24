@@ -4,6 +4,7 @@ from config import S3Config
 from aiobotocore.session import get_session
 from fastapi import UploadFile
 
+config = S3Config()
 
 class S3Client:
     def __init__(
@@ -40,7 +41,14 @@ class S3Client:
             )
         return f"{self.domain}/{file_name}"
 
-config = S3Config()
+    async def delete_from_s3(self, url: str) -> None:
+        key = url.replace(f"{self.domain}/", "")
+        async with self.get_client() as s3_client:
+            await s3_client.delete_object(
+                Bucket=self.bucket_name,
+                Key=key
+            )
+
 s3client = S3Client(
     access_key=config.access_key.get_secret_value(),
     secret_key=config.secret_key.get_secret_value(),

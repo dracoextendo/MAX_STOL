@@ -25,4 +25,3 @@ jobs:
           docker stop max-stol-container
           docker rm max-stol-container
           docker run -d --name max-stol-container --env-file .env -p 80:8000 max-stol:latest
-      

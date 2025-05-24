@@ -1,4 +1,3 @@
-from pydantic import ConfigDict
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database import Base
@@ -29,6 +28,8 @@ class ProductsModel(Base):
         secondary="product_depth",
         back_populates="products"
     )
+    sort: Mapped[int | None] = mapped_column(default=500)
+    is_active: Mapped[bool| None] = mapped_column(default=True)
 
 class ProductDeskColor(Base):
     __tablename__ = 'product_desk_color'
@@ -63,6 +64,7 @@ class DeskColors(Base):
         secondary="product_desk_color",
         back_populates="desk_colors"
     )
+    sort: Mapped[int | None] = mapped_column(default=500)
 
 class FrameColors(Base):
     __tablename__ = 'frame_colors'
@@ -73,6 +75,7 @@ class FrameColors(Base):
         secondary="product_frame_color",
         back_populates="frame_colors"
     )
+    sort: Mapped[int | None] = mapped_column(default=500)
 
 class Length(Base):
     __tablename__ = 'length'
@@ -83,6 +86,7 @@ class Length(Base):
         secondary="product_length",
         back_populates="length"
     )
+    sort: Mapped[int | None] = mapped_column(default=500)
 
 class Depth(Base):
     __tablename__ = 'depth'
@@ -93,3 +97,4 @@ class Depth(Base):
         secondary="product_depth",
         back_populates="depth"
     )
+    sort: Mapped[int | None] = mapped_column(default=500)

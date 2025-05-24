@@ -1,3 +1,4 @@
+
 /* CSS Document */
 *{
     padding: 0;
@@ -999,15 +1000,13 @@ dialog::backdrop {
 .order-user{
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     min-width: 400px;
-    align-items: flex-start;
 }
 
 .oder-user-fieldset{
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    gap: 60px;
     width: 100%;
 }
 
@@ -1037,6 +1036,21 @@ input{
     transition: all 0.3s ease;
 }
 
+
+
+.error-message {
+  color: #F97832;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+  height: 16px;
+}
+
+.order-user-field.has-error {
+  margin-bottom: 15px;
+}
+
+
 .input-field::placeholder {
     transition: all 0.3s ease;
     color: #aaa;
@@ -1063,26 +1077,74 @@ input{
     stroke-linejoin: round;
 }
 
-@media (max-width:768px){
-    .dialog{
-        max-width: 630px;
-    }
+.modal {
+    display: none;
+    background: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 99999;
+}
+.modal_vis {
+    display: block;
+}
+.body_block {
+    margin-right: 17px;
+}
+#close_modal {
+    box-sizing:content-box;
+}
+#close_modal:hover {
+    color: #FFF;
+}
+.modal_txt {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2), 0 16px 20px rgba(0,0,0,0.2);
+    background: #FFF;
+    padding: 30px 20px;
+    margin: 100px auto;
+    max-width: 350px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal_txt .close-button{
+    margin: 0;
+}
+
+.success-close{
+   width: 15px;
+   height: 15px;
+   margin: 0px; 
+}
+
+@media (max-width:900px){
     .dialog-inner{
         display: flex;
-        flex-wrap: wrap;
     }
+    .oder-user-fieldset{
+    display: block;
+    gap: 60px;
+    width: 100%;
+    }  
+}
+@media (max-width:768px){
+    .dialog-inner{
+        display: flex;
+    }
+    .oder-user-fieldset{
+    display: block;
+    gap: 60px;
+    width: 100%;
+    }  
 }
 @media (max-width:480px){
-     .dialog{
-        max-width: 480px;
+     .dialog-wrapper{
+        max-width: 380px;
      }
-     .input-field{
-        max-width: 300px;
-     }
-     .order-user-field{
-        max-width: 300px;
-     }
-     .order-user-fieldset{
-        max-width: 300px;
+     .order-user{
+        min-width: 276px;
      }
 }

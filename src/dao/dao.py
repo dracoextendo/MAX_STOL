@@ -1,20 +1,40 @@
 import asyncio
 from fastapi import UploadFile, HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
 from src.dao.base import BaseDAO
 from src.models.orders import OrdersModel
 from src.models.products import ProductsModel, DeskColors, FrameColors, Length, Depth, ProductDeskColor, ProductFrameColor, ProductLength, ProductDepth
 from sqlalchemy.orm import selectinload
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from src.database import async_session_maker
 from src.models.users import UsersModel
-from src.s3 import S3Client
+from src.s3 import s3client
+from src.schemas.products import SProductInfoOut, SProductOut
+from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
 
 
 class ProductsDAO(BaseDAO):
     model = ProductsModel
 
+    __mapper_args__ = {
+        'passive_deletes': True  # Для корректной работы каскадного удаления
+    }
+
+    @staticmethod
+    async def validate_parameters(params: list[int],
+                                  param_name: str,
+                                  model,
+                                  session: AsyncSession):
+        existing_params = await session.execute(
+            select(model.id).where(model.id.in_(params))
+        )
+        existing_params = existing_params.scalars().all()
+        for param_id in params:
+            if param_id not in existing_params:
+                raise HTTPException(status_code=404, detail=f"{param_name} id = {param_id} not found")
+
     @classmethod
-    async def get_product(cls, product_id: int):
+    async def get_product(cls, product_id: int, active: bool):
         async with async_session_maker() as session:
             query = (
                 select(ProductsModel)
@@ -30,34 +50,69 @@ class ProductsDAO(BaseDAO):
             product = result.scalar_one_or_none()
             if not product:
                 return None
-            return {
-                "product": {
-                    "id": product.id,
-                    "name": product.name,
-                    "description": product.description,
-                    "price": product.price,
-                    "first_image": product.first_image,
-                    "second_image": product.second_image,
-                    "third_image": product.third_image,
-                },
-                "desk_colors": [{"id": color.id,"color": color.name} for color in product.desk_colors],
-                "frame_colors": [{"id": color.id,"color": color.name} for color in product.frame_colors],
-                "length": [{"id": length.id, "value": length.value} for length in product.length],
-                "depth": [{"id": depth.id, "value": depth.value} for depth in product.depth]
-            }
+            if not product.is_active:
+                if active:
+                    return None
+            return SProductInfoOut(product=SProductOut(id = product.id,
+                                                       name=product.name,
+                                                       description = product.description,
+                                                       price = product.price,
+                                                       first_image=product.first_image,
+                                                       second_image=product.second_image,
+                                                       third_image=product.third_image,
+                                                       created_at=product.created_at,
+                                                       updated_at=product.updated_at,
+                                                       sort=product.sort,
+                                                       is_active=product.is_active,
+                                                       ),
+                                   desk_colors=[SDeskColorOut(id=d_color.id,
+                                                              name=d_color.name,
+                                                              created_at=d_color.created_at,
+                                                              updated_at=d_color.updated_at,
+                                                              sort=d_color.sort) for d_color in product.desk_colors],
+                                   frame_colors=[SFrameColorOut(id=f_color.id,
+                                                             name=f_color.name,
+                                                             created_at=f_color.created_at,
+                                                             updated_at=f_color.updated_at,
+                                                                sort=f_color.sort) for f_color in product.frame_colors],
+                                   length=[SLengthOut(id=length.id,
+                                                   value=length.value,
+                                                   created_at=length.created_at,
+                                                   updated_at=length.updated_at,
+                                                      sort=length.sort) for length in product.length],
+                                   depth=[SDepthOut(id=depth.id,
+                                                 value=depth.value,
+                                                 created_at=depth.created_at,
+                                                 updated_at=depth.updated_at,
+                                                    sort=depth.sort) for depth in product.depth], )
 
     @classmethod
-    async def add_product(cls, name: str, description: str, price: int, first_image: UploadFile,
-                          second_image: UploadFile, third_image: UploadFile, desk_colors: list[int], frame_colors: list[int], lengths: list[int], depths: list[int], s3client: S3Client):
-        images_url = await asyncio.gather(
-            s3client.upload_to_s3(first_image),
-            s3client.upload_to_s3(second_image),
-            s3client.upload_to_s3(third_image),
-        )
+    async def add_product(cls,
+                          name: str,
+                          description: str,
+                          price: int,
+                          first_image: UploadFile,
+                          second_image: UploadFile,
+                          third_image: UploadFile,
+                          desk_colors: list[int],
+                          frame_colors: list[int],
+                          lengths: list[int],
+                          depths: list[int],
+                          sort: int | None,
+                          is_active: bool | None,):
+        async with async_session_maker() as validation_session:
+            await cls.validate_parameters(desk_colors, 'Desk color', DeskColors, validation_session)
+            await cls.validate_parameters(frame_colors, 'Frame color', FrameColors, validation_session)
+            await cls.validate_parameters(lengths, 'Length', Length, validation_session)
+            await cls.validate_parameters(depths, 'Depth', Depth, validation_session)
 
         async with async_session_maker() as session:
             async with session.begin():
-                # 1. Создаём продукт
+                images_url = await asyncio.gather(
+                    s3client.upload_to_s3(first_image),
+                    s3client.upload_to_s3(second_image),
+                    s3client.upload_to_s3(third_image),
+                )
                 product = ProductsModel(
                     name=name,
                     description=description,
@@ -65,129 +120,106 @@ class ProductsDAO(BaseDAO):
                     first_image=images_url[0],
                     second_image=images_url[1],
                     third_image=images_url[2],
+                    sort=sort,
+                    is_active=is_active
                 )
                 session.add(product)
-                await session.flush()  # Получаем ID
-
-                # 2. Проверяем и добавляем связи
-                if desk_colors:
-                    # Проверяем существование цветов столешницы
-                    existing_desk_colors = await session.execute(
-                        select(DeskColors.id).where(DeskColors.id.in_(desk_colors))
-                    )
-                    existing_desk_colors = existing_desk_colors.scalars().all()
-
-                    for color_id in desk_colors:
-                        if color_id not in existing_desk_colors:
-                            async with s3client.get_client() as s3_client:
-                                delete_tasks = []
-                                for file_url in images_url:
-                                    if file_url:  # Проверяем, что URL существует
-                                        file_name = file_url.split('/')[-1]  # Извлекаем имя файла из URL
-                                        delete_tasks.append(
-                                            s3_client.delete_object(
-                                                Bucket=s3client.bucket_name,
-                                                Key=file_name
-                                            )
-                                        )
-                                if delete_tasks: await asyncio.gather(*delete_tasks)
-                            raise HTTPException(status_code=404, detail=f"Desk color id = {color_id} not found")
-                        session.add(ProductDeskColor(
-                            product_id=product.id,
-                            desk_color_id=color_id
-                        ))
-
-                if frame_colors:
-                    # Проверяем существование цветов каркаса
-                    existing_frame_colors = await session.execute(
-                        select(FrameColors.id).where(FrameColors.id.in_(frame_colors))
-                    )
-                    existing_frame_colors = existing_frame_colors.scalars().all()
-
-                    for color_id in frame_colors:
-                        if color_id not in existing_frame_colors:
-                            async with s3client.get_client() as s3_client:
-                                delete_tasks = []
-                                for file_url in images_url:
-                                    if file_url:  # Проверяем, что URL существует
-                                        file_name = file_url.split('/')[-1]  # Извлекаем имя файла из URL
-                                        delete_tasks.append(
-                                            s3_client.delete_object(
-                                                Bucket=s3client.bucket_name,
-                                                Key=file_name
-                                            )
-                                        )
-                                if delete_tasks: await asyncio.gather(*delete_tasks)
-                            raise HTTPException(status_code=404, detail=f"Frame color id = {color_id} not found")
-                        session.add(ProductFrameColor(
-                            product_id=product.id,
-                            frame_color_id=color_id
-                        ))
-
-                if lengths:
-                    # Проверяем существование длин
-                    existing_lengths = await session.execute(
-                        select(Length.id).where(Length.id.in_(lengths))
-                    )
-                    existing_lengths = existing_lengths.scalars().all()
-
-                    for length_id in lengths:
-                        if length_id not in existing_lengths:
-                            async with s3client.get_client() as s3_client:
-                                delete_tasks = []
-                                for file_url in images_url:
-                                    if file_url:  # Проверяем, что URL существует
-                                        file_name = file_url.split('/')[-1]  # Извлекаем имя файла из URL
-                                        delete_tasks.append(
-                                            s3_client.delete_object(
-                                                Bucket=s3client.bucket_name,
-                                                Key=file_name
-                                            )
-                                        )
-                                if delete_tasks: await asyncio.gather(*delete_tasks)
-                            raise HTTPException(status_code=404, detail=f"Length id = {length_id} not found")
-                        session.add(ProductLength(
-                            product_id=product.id,
-                            length_id=length_id
-                        ))
-
-                if depths:
-                    # Проверяем существование глубин
-                    existing_depths = await session.execute(
-                        select(Depth.id).where(Depth.id.in_(depths))
-                    )
-                    existing_depths = existing_depths.scalars().all()
-
-                    for depth_id in depths:
-                        if depth_id not in existing_depths:
-                            async with s3client.get_client() as s3_client:
-                                delete_tasks = []
-                                for file_url in images_url:
-                                    if file_url:  # Проверяем, что URL существует
-                                        file_name = file_url.split('/')[-1]  # Извлекаем имя файла из URL
-                                        delete_tasks.append(
-                                            s3_client.delete_object(
-                                                Bucket=s3client.bucket_name,
-                                                Key=file_name
-                                            )
-                                        )
-                                if delete_tasks: await asyncio.gather(*delete_tasks)
-                            raise HTTPException(status_code=404, detail=f"Depth id = {depth_id} not found")
-                        session.add(ProductDepth(
-                            product_id=product.id,
-                            depth_id=depth_id
-                        ))
-
-        return {"status": "Product added"}
-
-
-
-    __mapper_args__ = {
-        'passive_deletes': True  # Для корректной работы каскадного удаления
-    }
+                await session.flush()
+                for desk_color_id in desk_colors:
+                    session.add(ProductDeskColor(
+                        product_id=product.id,
+                        desk_color_id=desk_color_id
+                    ))
+                for frame_color_id in frame_colors:
+                    session.add(ProductFrameColor(
+                        product_id=product.id,
+                        frame_color_id=frame_color_id
+                    ))
+                for length_id in lengths:
+                    session.add(ProductLength(
+                        product_id=product.id,
+                        length_id=length_id
+                    ))
+                for depth_id in depths:
+                    session.add(ProductDepth(
+                        product_id=product.id,
+                        depth_id=depth_id
+                    ))
+                return {"detail": f"Product id = {product.id} added"}
 
     @classmethod
-    async def delete_product(cls, product_id: int, s3client: S3Client):
+    async def update_product(cls,
+                             product_id: int,
+                             name: str,
+                             description: str,
+                             price: int,
+                             first_image: UploadFile,
+                             second_image: UploadFile,
+                             third_image: UploadFile,
+                             desk_colors: list[int],
+                             frame_colors: list[int],
+                             lengths: list[int],
+                             depths: list[int],
+                             sort: int | None,
+                             is_active: bool | None,):
+        async with async_session_maker() as validation_session:
+            await cls.validate_parameters(desk_colors, 'Desk color', DeskColors, validation_session)
+            await cls.validate_parameters(frame_colors, 'Frame color', FrameColors, validation_session)
+            await cls.validate_parameters(lengths, 'Length', Length, validation_session)
+            await cls.validate_parameters(depths, 'Depth', Depth, validation_session)
+
+        async with async_session_maker() as session:
+            async with session.begin():
+                product = await session.get(ProductsModel, product_id)
+                if not product:
+                    raise HTTPException(status_code=404, detail=f"Product id = {product_id} not found")
+
+                product.name = name
+                product.description = description
+                product.price = price
+                product.sort = sort
+                product.is_active = is_active
+
+                await session.execute(delete(ProductDeskColor).where(ProductDeskColor.product_id == product_id))
+                await session.execute(delete(ProductFrameColor).where(ProductFrameColor.product_id == product_id))
+                await session.execute(delete(ProductLength).where(ProductLength.product_id == product_id))
+                await session.execute(delete(ProductDepth).where(ProductDepth.product_id == product_id))
+
+                for desk_color_id in desk_colors:
+                    session.add(ProductDeskColor(
+                        product_id=product_id,
+                        desk_color_id=desk_color_id
+                    ))
+                for frame_color_id in frame_colors:
+                    session.add(ProductFrameColor(
+                        product_id=product_id,
+                        frame_color_id=frame_color_id
+                    ))
+                for length_id in lengths:
+                    session.add(ProductLength(
+                        product_id=product_id,
+                        length_id=length_id
+                    ))
+                for depth_id in depths:
+                    session.add(ProductDepth(
+                        product_id=product_id,
+                        depth_id=depth_id
+                    ))
+
+                old_images = [product.first_image, product.second_image, product.third_image]
+                new_images = [first_image, second_image, third_image]
+
+                await asyncio.gather(*[s3client.delete_from_s3(img) for img in old_images])
+                images_url = await asyncio.gather(*[s3client.upload_to_s3(img) for img in new_images])
+
+                product.first_image = images_url[0]
+                product.second_image = images_url[1]
+                product.third_image = images_url[2]
+
+                return {"detail": f"Product id = {product_id} updated"}
+
+    @classmethod
+    async def delete_product(cls, product_id: int):
         async with async_session_maker() as session:
             async with session.begin():
                 product = await session.get(ProductsModel, product_id)
@@ -199,19 +231,8 @@ class ProductsDAO(BaseDAO):
                     product.third_image
                 ]
                 await session.delete(product)
-            async with s3client.get_client() as s3_client:
-                delete_tasks = []
-                for file_url in files_to_delete:
-                    if file_url:  # Проверяем, что URL существует
-                        file_name = file_url.split('/')[-1]  # Извлекаем имя файла из URL
-                        delete_tasks.append(
-                            s3_client.delete_object(
-                                Bucket=s3client.bucket_name,
-                                Key=file_name
-                            )
-                        )
-                if delete_tasks: await asyncio.gather(*delete_tasks)
-        return {"status": "Product deleted"}
+                await asyncio.gather(*[s3client.delete_from_s3(img) for img in files_to_delete])
+        return {"detail": f"Product id = {product_id} deleted"}
 
 class OrdersDAO(BaseDAO):
     model = OrdersModel
@@ -226,7 +247,7 @@ class OrdersDAO(BaseDAO):
         async with async_session_maker() as session:
             async with session.begin():
                 session.add(order)
-        return {"status": "Order added"}
+        return {"detail": "Order added"}
 
     @classmethod
     async def update_order(cls, order_id: int, order: OrdersModel):
@@ -237,7 +258,7 @@ class OrdersDAO(BaseDAO):
                     raise HTTPException(status_code=404, detail=f"Order id = {order_id} not found")
                 order.id = order_id
                 await session.merge(order)
-        return {"status": "Order updated"}
+        return {"detail": f"Order id = {order_id} updated"}
 
     @classmethod
     async def delete_order(cls, order_id: int):
@@ -247,7 +268,7 @@ class OrdersDAO(BaseDAO):
                 if not order:
                     raise HTTPException(status_code=404, detail=f"Order id = {order_id} not found")
                 await session.delete(order)
-        return {"status": "Order deleted"}
+        return {"detail": f"Order id = {order_id} deleted"}
 
 class DeskColorDAO(BaseDAO):
     model = DeskColors
@@ -262,7 +283,7 @@ class DeskColorDAO(BaseDAO):
         async with async_session_maker() as session:
             async with session.begin():
                 session.add(desk_color)
-        return {"status": "Desk color added"}
+        return {"detail": "Desk color added"}
 
     @classmethod
     async def update_desk_color(cls, desk_color_id: int, desk_color: DeskColors):
@@ -273,7 +294,7 @@ class DeskColorDAO(BaseDAO):
                     raise HTTPException(status_code=404, detail=f"Desk color id = {desk_color_id} not found")
                 desk_color.id = desk_color_id
                 await session.merge(desk_color)
-        return {"status": "Desk color updated"}
+        return {"detail": f"Desk color id = {desk_color_id} updated"}
 
     @classmethod
     async def delete_desk_color(cls, desk_color_id: int):
@@ -283,7 +304,7 @@ class DeskColorDAO(BaseDAO):
                 if not desk_color:
                     raise HTTPException(status_code=404, detail=f"Desk color id = {desk_color_id} not found")
                 await session.delete(desk_color)
-        return {"status": "Desk color deleted"}
+        return {"detail": f"Desk color id = {desk_color_id} deleted"}
 
 class FrameColorDAO(BaseDAO):
     model = FrameColors
@@ -298,7 +319,7 @@ class FrameColorDAO(BaseDAO):
         async with async_session_maker() as session:
             async with session.begin():
                 session.add(frame_color)
-        return {"status": "Frame color added"}
+        return {"detail": "Frame color added"}
 
     @classmethod
     async def update_frame_color(cls, frame_color_id: int, frame_color: FrameColors):
@@ -309,7 +330,7 @@ class FrameColorDAO(BaseDAO):
                     raise HTTPException(status_code=404, detail=f"Frame color id = {frame_color_id} not found")
                 frame_color.id = frame_color_id
                 await session.merge(frame_color)
-        return {"status": "Frame color updated"}
+        return {"detail": f"Frame color id = {frame_color_id} updated"}
 
     @classmethod
     async def delete_frame_color(cls, frame_color_id: int):
@@ -319,7 +340,7 @@ class FrameColorDAO(BaseDAO):
                 if not frame_color:
                     raise HTTPException(status_code=404, detail=f"Frame color id = {frame_color_id} not found")
                 await session.delete(frame_color)
-        return {"status": "Frame color deleted"}
+        return {"detail": f"Frame color id = {frame_color_id} deleted"}
 
 class DepthDAO(BaseDAO):
     model = Depth
@@ -334,7 +355,7 @@ class DepthDAO(BaseDAO):
         async with async_session_maker() as session:
             async with session.begin():
                 session.add(depth)
-        return {"status": "Depth added"}
+        return {"detail": "Depth added"}
 
     @classmethod
     async def update_depth(cls, depth_id: int, depth: Depth):
@@ -345,7 +366,7 @@ class DepthDAO(BaseDAO):
                     raise HTTPException(status_code=404, detail=f"Depth id = {depth_id} not found")
                 depth.id = depth_id
                 await session.merge(depth)
-        return {"status": "Depth updated"}
+        return {"detail": f"Depth id = {depth_id} updated"}
 
     @classmethod
     async def delete_depth(cls, depth_id: int):
@@ -355,7 +376,7 @@ class DepthDAO(BaseDAO):
                 if not depth:
                     raise HTTPException(status_code=404, detail=f"Depth id = {depth_id} not found")
                 await session.delete(depth)
-        return {"status": "Depth deleted"}
+        return {"detail": f"Depth id = {depth_id} deleted"}
 
 class LengthDAO(BaseDAO):
     model = Length
@@ -370,7 +391,7 @@ class LengthDAO(BaseDAO):
         async with async_session_maker() as session:
             async with session.begin():
                 session.add(length)
-        return {"status": "Length added"}
+        return {"detail": "Length added"}
 
     @classmethod
     async def update_length(cls, length_id: int, length: Length):
@@ -381,7 +402,7 @@ class LengthDAO(BaseDAO):
                     raise HTTPException(status_code=404, detail=f"Length id = {length_id} not found")
                 length.id = length_id
                 await session.merge(length)
-        return {"status": "Length updated"}
+        return {"detail": f"Length id = {length_id} updated"}
 
     @classmethod
     async def delete_length(cls, length_id: int):
@@ -391,16 +412,21 @@ class LengthDAO(BaseDAO):
                 if not length:
                     raise HTTPException(status_code=404, detail=f"Length id = {length_id} not found")
                 await session.delete(length)
-        return {"status": "Length deleted"}
+        return {"detail": f"Length id = {length_id} deleted"}
 
 class UsersDAO(BaseDAO):
     model = UsersModel
 
     @classmethod
-    async def get_user(cls, username: str):
+    async def get_user_by_username(cls, username: str):
         async with async_session_maker() as session:
             query = select(UsersModel).where(
                 UsersModel.username == username
             )
             result = await session.execute(query)
-        return result.scalars().first()
+        return result.scalar_one_or_none()
+
+    @classmethod
+    async def get_user_by_id(cls, user_id: int):
+        async with async_session_maker() as session:
+            return await session.get(UsersModel, user_id)

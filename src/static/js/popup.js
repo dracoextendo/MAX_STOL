@@ -1,9 +1,15 @@
+///////////////////////////////////////////////////////////////////ВСЕ ПЕРЕМЕНННЫЕ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const dialog = document.getElementById('orderDialog')
 const dialogOpener = document.querySelectorAll('.openDialogBtn')
 const dialogCloser = dialog.querySelector('.closeDialogBtn')
-const origin = window.location.origin 
-const success = document.getElementById("successDialog")
-const successOpener = document.querySelectorAll(".successOpener")
+const origin = window.location.origin
+let open_modal = document.querySelectorAll('.open_modal');
+let close_modal = document.getElementById('close_modal');
+let modal = document.getElementById('modal');
+let body = document.getElementsByTagName('body')[0]; 
+
+
+//////////////////////////////////////////////////////// ОСНОВНОЙ ПОПАП (КАРТОЧКА ТОВАРА + API + JSON)////////////////////////////////////////////////////////////////////////////////
 
 async function openModalAndLockScroll() {
   const apiData = await getData(this.id);
@@ -14,21 +20,24 @@ async function openModalAndLockScroll() {
   const frameColorInputs = dialog.querySelector(".frame-color > .radio-buttons")
   const depthInputs = dialog.querySelector(".depth > .radio-buttons")
   const lengthInputs = dialog.querySelector(".length > .radio-buttons")
+  const productInput = dialog.querySelector("input[type=hidden]")
+
   deskColorInputs.innerHTML = '';
   frameColorInputs.innerHTML = '';
   depthInputs.innerHTML = '';
   lengthInputs.innerHTML = '';
+  productInput.value = apiData.product.name
 
   apiData.desk_colors.forEach(deskColor=> {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "desk-color";
-    radio.value = deskColor.color;
+    radio.value = deskColor.name;
     radio.id = `desk-color-${deskColor.id}`;
 
     const label = document.createElement("label");
     label.htmlFor = `desk-color-${deskColor.id}`; // Связь с радио-кнопкой
-    label.textContent = deskColor.color;
+    label.textContent = deskColor.name;
     label.className = "checkbox-button"
     // Добавляем radio и label в контейнер (на одном уровне)
     deskColorInputs.appendChild(radio);
@@ -39,12 +48,12 @@ async function openModalAndLockScroll() {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "frame-color";
-    radio.value = frameColor.color;
+    radio.value = frameColor.name;
     radio.id = `frame-color-${frameColor.id}`;
 
     const label = document.createElement("label");
     label.htmlFor = `frame-color-${frameColor.id}`; // Связь с радио-кнопкой
-    label.textContent = frameColor.color;
+    label.textContent = frameColor.name;
     label.className = "checkbox-button"
     // Добавляем radio и label в контейнер (на одном уровне)
     frameColorInputs.appendChild(radio);
@@ -129,116 +138,109 @@ async function getData(productId) {
    // 4. Возвращаем полученные данные
    return data;
   }
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////ВСПЛЫВАШКА НА ОТПРАВКУ ФОРМЫ//////////////////////////////////////////////
+
+for (let i = 0; i < open_modal.length; i++) {
+  open_modal[i].onclick = function() { 
+    modal.classList.add('modal_vis', 'animate__animated', 'animate__fadeInUp'); 
+    modal.classList.remove('animate__bounceOutDown'); 
+    setTimeout(() => {
+      modal.classList.add('animate__animated', 'animate__bounceOutDown');
+      modal.classList.remove('animate__fadeInUp');
+      setTimeout(() => {
+        modal.classList.remove('modal_vis');
+      }, 1000); 
+    }, 3000);
+  };
+}
+close_modal.onclick = function() { 
+  modal.classList.add('animate__animated', 'animate__bounceOutDown'); 
+  modal.classList.remove('animate__fadeInUp');
+  setTimeout(() => {
+    modal.classList.remove('modal_vis');
+  }, 1000);
+};
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-  
-// слайдер - баннер 567-768
+
+////////////////////////// ВАЛИДАЦИЯ ФОРМ///////////////////////////////////////
+
 document.addEventListener('DOMContentLoaded', function() {
-  function isMobile() {
-    return window.innerWidth <= 768;
+  const form = document.getElementById('orderForm');
+  const submitBtn = document.querySelector('.open_modal.button');
+  
+  createErrorElements();
+  submitBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    let isValid = true;
+
+    const fullname = form.querySelector('[name="fullname"]');
+    if (!fullname.value.trim() || !/^[а-яА-ЯёЁ\s]{5,}$/.test(fullname.value.trim())) {
+      showError(fullname, 'Введите корректное ФИО (минимум 5 кириллических символов)');
+      isValid = false;
+    } else {
+      clearError(fullname);
+    }
+
+    const phone = form.querySelector('input[type="tel"]');
+    if (!/^\+7\d{10}$/.test(phone.value)) {
+      showError(phone, 'Введите корректный телефон (+7XXXXXXXXXX)');
+      isValid = false;
+    } else {
+      clearError(phone);
+    }
+
+    const email = form.querySelector('input[type="email"]:not([placeholder="@никнейм"])');
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      showError(email, 'Введите корректный email');
+      isValid = false;
+    } else {
+      clearError(email);
+    }
+
+    const telegram = form.querySelector('input[placeholder="@никнейм"]');
+    if (telegram.value && !/^@[a-zA-Z0-9_]{5,}$/.test(telegram.value)) {
+      showError(telegram, 'Введите корректный никнейм (@username)');
+      isValid = false;
+    } else {
+      clearError(telegram);
+    }
+
+    if (isValid) {
+      alert('Форма успешно отправлена!');
+      form.reset();
+    }
+  });
+
+  function createErrorElements() {
+    const fields = form.querySelectorAll('.order-user-field');
+    fields.forEach(field => {
+      if (!field.querySelector('.error-message')) {
+        const errorElement = document.createElement('span');
+        errorElement.className = 'error-message';
+        field.appendChild(errorElement);
+      }
+    });
   }
 
-  if (isMobile()) {
-    const banner = document.querySelector('.banner');
-    const slides = document.querySelectorAll('.banner-block');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.prev');
-    const nextBtn = document.querySelector('.next');
-    let currentSlide = 0;
-    let startX = 0;
-    let endX = 0;
-    const swipeThreshold = 50;
+  function showError(input, message) {
+    const field = input.closest('.order-user-field');
+    const errorElement = field.querySelector('.error-message');
+    errorElement.textContent = message;
+    input.classList.add('error');
+    field.classList.add('has-error');
+  }
 
-    // Инициализация слайдов
-    function initSlides() {
-      slides.forEach((slide, index) => {
-        slide.style.transition = 'opacity 0.3s ease';
-        if (index === 0) {
-          slide.style.display = 'flex';
-          slide.style.opacity = '1';
-          slide.style.zIndex = '1';
-        } else {
-          slide.style.display = 'none';
-          slide.style.opacity = '0';
-          slide.style.zIndex = '0';
-        }
-      });
-    }
-
-    // Показать конкретный слайд
-    function showSlide(index) {
-      if (index >= slides.length) index = 0;
-      if (index < 0) index = slides.length - 1;
-      
-      slides.forEach((slide, i) => {
-        if (i === index) {
-          slide.style.display = 'flex';
-          setTimeout(() => {
-            slide.style.opacity = '1';
-            slide.style.zIndex = '2'; // Активный слайд выше остальных
-          }, 10);
-        } else {
-          slide.style.opacity = '0';
-          slide.style.zIndex = '1';
-          setTimeout(() => {
-            slide.style.display = 'none';
-          }, 300);
-        }
-      });
-      
-      dots.forEach(dot => dot.classList.remove('active'));
-      dots[index].classList.add('active');
-      
-      currentSlide = index;
-    }
-
-    // Обработчики свайпа (улучшенные)
-    banner.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      endX = startX; // Инициализируем endX
-    }, { passive: true });
-
-    banner.addEventListener('touchmove', (e) => {
-      endX = e.touches[0].clientX;
-      // Блокируем скролл страницы при горизонтальном свайпе
-      if (Math.abs(startX - endX) > 10) {
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    banner.addEventListener('touchend', () => {
-      const diffX = startX - endX;
-      
-      if (diffX > swipeThreshold) {
-        showSlide(currentSlide + 1);
-      } else if (diffX < -swipeThreshold) {
-        showSlide(currentSlide - 1);
-      }
-    });
-
-    // Остальные обработчики...
-    dots.forEach(dot => {
-      dot.addEventListener('click', function() {
-        const slideIndex = parseInt(this.getAttribute('data-slide'));
-        showSlide(slideIndex);
-      });
-    });
-
-    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
-    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
-
-    // Инициализация
-    initSlides();
-
-    // Реакция на изменение размера окна
-    window.addEventListener('resize', function() {
-      if (!isMobile()) {
-        slides[0].style.display = 'flex';
-        slides[0].style.opacity = '1';
-        slides[1].style.display = 'none';
-      } else {
-        initSlides();
-      }
-    });
+  function clearError(input) {
+    const field = input.closest('.order-user-field');
+    const errorElement = field.querySelector('.error-message');
+    errorElement.textContent = '';
+    input.classList.remove('error');
+    field.classList.remove('has-error');
   }
 });
+
+//////////////////////////////////////////////////////////////////////////////////////

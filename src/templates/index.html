@@ -1,174 +1,217 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
-  <head>
-    <meta charset="utf-8">
-    <title>MAX_STOL deployed</title>
-    <link rel="stylesheet" href="../static/maxim.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <dialog class="dialog" id="orderDialog">
-      <div class="dialog-wrapper">
-        <div class="close-button closeDialogBtn"><svg><use xlink:href="../static/sprite.svg#close-btn"></use></svg></div>
-        <div class="dialog-inner">
-          <div class="order-config">
-            <div class="card-pics">
-              <img class="img1"  alt="den1">
-              <img class="img2"  alt="den2">
-              <img class="img3"  alt="den3">
-            </div>
-            <div class="order-parameter desk-color">
-              <h4>Цвет столешницы</h4>
-              <div class="radio-buttons"></div>
-            </div>
-            <div class="order-parameter frame-color">
-              <h4>Цвет металлокаркаса</h4>
-              <div class="radio-buttons"></div>
-            </div>
-            <div class="order-parameter depth">
-              <h4>Глубина</h4>
-              <div class="radio-buttons"></div>
-            </div>
-            <div class="order-parameter length">
-              <h4>Длина</h4>
-              <div class="radio-buttons"></div>
+<html xmlns="http://www.w3.org/1999/html" lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <title>MAX_STOL</title>
+  <link rel="stylesheet" href="../static/maxim.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body>
+   <div id="modal" class="modal bounceIn">
+            <div class="modal_txt">
+              <p>Ваша заявка отправлена!&nbsp✔️</p>
+              <div class="close-button" id="close_modal"><svg class="success-close">
+                  <use xlink:href="../static/sprite.svg#close-btn"></use>
+                </svg></div>
             </div>
           </div>
-          <div class="order-user">
-            <form class="oder-user-fieldset">
-              <div class="order-user-field">
-                <h4>ФИО*</h4>
-                <input type="text" class="input-field" placeholder="Пушкин Александр Сергеевич*">
+  <dialog class="dialog" id="orderDialog">
+    <div class="dialog-wrapper">
+      <div class="close-button closeDialogBtn"><svg>
+          <use xlink:href="../static/sprite.svg#close-btn"></use>
+        </svg></div>
+      <div class="dialog-inner">
+        <form class="oder-user-fieldset" id="orderForm">
+            <div class="order-config">
+              <div class="card-pics">
+                <img class="img1" alt="den1">
+                <img class="img2" alt="den2">
+                <img class="img3" alt="den3">
               </div>
-              <div class="order-user-field">
-                <h4>Телефон*</h4>
-                <input type="tel" value="+7" class="input-field">
+              <div class="order-parameter desk-color">
+                <h4>Цвет столешницы</h4>
+                <div class="radio-buttons"></div>
               </div>
-              <div class="order-user-field">
-                <h4>E-mail</h4>
-                <input type="email" class="input-field" placeholder="клиент@gmail.com*">
+              <div class="order-parameter frame-color">
+                <h4>Цвет металлокаркаса</h4>
+                <div class="radio-buttons"></div>
               </div>
-              <div class="order-user-field">
-                <h4>Telegram</h4>
-                <input type="email" class="input-field" placeholder="@никнейм">
+              <div class="order-parameter depth">
+                <h4>Глубина</h4>
+                <div class="radio-buttons"></div>
               </div>
-            </form>
-            <button class="button successOpener">Заказать</button>
-          </div>
-        </div>
-      </div>
-    </dialog>
-    <dialog class="success">
-      <div class="success-wraper" id="successDialog">
-        <h1>Ура!</h1>
-      </div>
-    </dialog>
-    <header>
-      <div class="container">
-        <div class="header-inner">
-          <div class="logo">
-            <h1>MAX_STOL</h1>
-          </div>
-          <nav class="header-links">
-            <div class="menu">
-              <ul class="menu-items">
-                <li><a href="#catalog">Каталог</a></li>
-                <li><a href="#individual-project">Индивидуальный проект</a></li>
-                <li><a href="#contacts">Контакты</a></li>
-              </ul>
+              <div class="order-parameter length">
+                <h4>Длина</h4>
+                <div class="radio-buttons"></div>
+              </div>
             </div>
-            <div class="contacts">
-              <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#telegram"></use></svg></a>
-              <a class="icon phone-icon" href="tel: +79999999999"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#phone"></use></svg></a>
-              <a class="phone-number" href="tel: +79999999999">+7 (999) 999-99-99</a>
+            <div class="order-user">
+                <input type="hidden" name="product-name">
+                <div class="order-user-field">
+                  <h4>ФИО*</h4>
+                  <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" autocomplete="off" required>
+                </div>
+                <div class="order-user-field">
+                  <h4>Телефон*</h4>
+                  <input type="tel" value="+7" class="input-field" name="phone" autocomplete="off" required>
+                </div>
+                <div class="order-user-field">
+                  <h4>E-mail</h4>
+                  <input type="email" class="input-field" placeholder="клиент@gmail.com*" name="email" autocomplete="off">
+                </div>
+                <div class="order-user-field">
+                  <h4>Telegram</h4>
+                  <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autocomplete="off">
+                </div>
+                <button type="button" class="button" onclick="submitForm()">Заказать</button>
             </div>
-          </nav>
+        </form>
         </div>
       </div>
-    </header>
-    <section class="banner">
-      <div class="banner-block banner-first slide-active">
-        <h2>Товары<br>в наличии</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button  class="button">В каталог</button>
-      </div>
-      <div class="banner-block banner-second slide">
-        <h2>Изготовление по<br>вашим размерам</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button  class="button">Оставить заявку</button>
-      </div>
-      <div class="slider-dots">
-    <span class="dot active" data-slide="0"></span>
-    <span class="dot" data-slide="1"></span>
-      </div>
-      <button class="slider-nav prev" aria-label="Previous slide"></button>
-      <button class="slider-nav next" aria-label="Next slide"></button>
-    </section>
-    <section id="catalog" class="catalog">
-      <div class="container">
-        <div class="section-title">
-          <h2>Каталог товаров</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </dialog>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <h1>MAX_STOL</h1>
         </div>
-        <div class="cards">
-          {% for product in products %}
-          <div class="card">
-            <div class="card-pics">
-              <img src="{{ product.first_image }}" alt="den1">
-              <img src="{{ product.second_image }}" alt="den2">
-              <img src="{{ product.third_image }}" alt="den3">
-            </div>
-            <div class="card-text"> 
-              <h3>{{ product.name }}</h3>
-              <p>{{ product.description }}</p>
-              <h4>{{ product.price }} руб.</h4>
-              <button id="{{ product.id }}" class="openDialogBtn button">Заказать</button>
-            </div>
+        <nav class="header-links">
+          <div class="menu">
+            <ul class="menu-items">
+              <li><a href="#catalog">Каталог</a></li>
+              <li><a href="#individual-project">Индивидуальный проект</a></li>
+              <li><a href="#contacts">Контакты</a></li>
+            </ul>
           </div>
-          {% endfor %}
+          <div class="contacts">
+            <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon">
+                <use xlink:href="../static/sprite.svg#telegram"></use>
+              </svg></a>
+            <a class="icon phone-icon" href="tel: +79999999999"><svg class="svg-icon">
+                <use xlink:href="../static/sprite.svg#phone"></use>
+              </svg></a>
+            <a class="phone-number" href="tel: +79999999999">+7 (999) 999-99-99</a>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+  <section class="banner">
+    <div class="banner-block banner-first slide-active">
+      <h2>Товары<br>в наличии</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat.</p>
+      <button class="button">В каталог</button>
+    </div>
+    <div class="banner-block banner-second slide">
+      <h2>Изготовление по<br>вашим размерам</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat.</p>
+      <button class="button">Оставить заявку</button>
+    </div>
+    <div class="slider-dots">
+      <span class="dot active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+    </div>
+    <button class="slider-nav prev" aria-label="Previous slide"></button>
+    <button class="slider-nav next" aria-label="Next slide"></button>
+  </section>
+  <section id="catalog" class="catalog">
+    <div class="container">
+      <div class="section-title">
+        <h2>Каталог товаров</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.</p>
+      </div>
+      <div class="cards">
+        {% for product in products %}
+        <div class="card">
+          <div class="card-pics">
+            <img src="{{ product.first_image }}" alt="den1">
+            <img src="{{ product.second_image }}" alt="den2">
+            <img src="{{ product.third_image }}" alt="den3">
+          </div>
+          <div class="card-text">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <h4>{{ product.price }} руб.</h4>
+            <button id="{{ product.id }}" class="openDialogBtn button">Заказать</button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="reasons">
+    <div class="container">
+      <div class="section-title">
+        <h2>Почему очень многие покупают у нас?</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat.</p>
+      </div>
+      <div class="reasons-flex">
+        <div class="reason">
+          <div><svg>
+              <use xlink:href="../static/sprite.svg#step-1"></use>
+            </svg></div>
+          <h3>Причина 1</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.</p>
+        </div>
+        <div class="reason">
+          <div><svg>
+              <use xlink:href="../static/sprite.svg#step-2"></use>
+            </svg></div>
+          <h3>Причина 2</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.</p>
+        </div>
+        <div class="reason">
+          <div><svg>
+              <use xlink:href="../static/sprite.svg#step-3"></use>
+            </svg></div>
+          <h3>Причина 3</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.</p>
+        </div>
+        <div class="reason">
+          <div><svg>
+              <use xlink:href="../static/sprite.svg#step-4"></use>
+            </svg></div>
+          <h3>Причина 4</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.</p>
         </div>
       </div>
-    </section>
-    <section class="reasons"> 
-      <div class="container">
-        <div class="section-title">
-          <h2>Почему очень многие покупают у нас?</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-        <div class="reasons-flex">
-          <div class="reason">
-            <div><svg><use xlink:href="../static/sprite.svg#step-1"></use></svg></div>
-            <h3>Причина 1</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          </div>
-          <div class="reason">
-            <div><svg><use xlink:href="../static/sprite.svg#step-2"></use></svg></div>
-            <h3>Причина 2</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          </div>
-          <div class="reason">
-            <div><svg><use xlink:href="../static/sprite.svg#step-3"></use></svg></div>
-            <h3>Причина 3</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          </div>
-          <div class="reason">
-            <div><svg><use xlink:href="../static/sprite.svg#step-4"></use></svg></div>
-            <h3>Причина 4</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="individual-project" class="individual-project">
-      <div class="project-container">
+    </div>
+  </section>
+  <section id="individual-project" class="individual-project">
+    <div class="project-container">
       <div class="project">
         <div class="project-text">
           <h4>Проектирование мебели по<br>индивидуальному требованию</h4>
           <h2>Необходим индивидуальный проект?</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+            ea commodo consequat.<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+            laboris nisi ut aliquip ex ea commodo consequat.</p>
           <button class="button">Связаться с нами</button>
         </div>
         <img src="../static/img/individual-order.png" alt="photo">
@@ -179,78 +222,107 @@
         </div>
         <div class="steps-flex">
           <div class="step">
-            <div><svg><use xlink:href="../static/sprite.svg#step-1"></use></svg></div>
+            <div><svg>
+                <use xlink:href="../static/sprite.svg#step-1"></use>
+              </svg></div>
             <div class="step-text">
-            <h3>Напишите нам</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <h3>Напишите нам</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <div><svg><use xlink:href="../static/sprite.svg#step-2"></use></svg></div>
+            <div><svg>
+                <use xlink:href="../static/sprite.svg#step-2"></use>
+              </svg></div>
             <div class="step-text">
-            <h3>Напишите нам</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <h3>Напишите нам</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <div><svg><use xlink:href="../static/sprite.svg#step-3"></use></svg></div>
+            <div><svg>
+                <use xlink:href="../static/sprite.svg#step-3"></use>
+              </svg></div>
             <div class="step-text">
-            <h3>Напишите нам</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <h3>Напишите нам</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat.</p>
             </div>
           </div>
           <div class="step">
-            <div><svg><use xlink:href="../static/sprite.svg#step-4"></use></svg></div>
+            <div><svg>
+                <use xlink:href="../static/sprite.svg#step-4"></use>
+              </svg></div>
             <div class="step-text">
-            <h3>Напишите нам</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <h3>Напишите нам</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                ex ea commodo consequat.</p>
             </div>
           </div>
         </div>
       </div>
-      </div>
-    </section>
-    <section id="contacts" class="contacts-wrap">
-      <div class="contacts-block">
-        <div class="contacts-text">
-          <h2>Свяжитесь с нами</h2>
-          <div class="contacts-info">
-            <a href="tel: +79999999999">+7 (999) 999-99-99</a>
-            <a href="mailto: qwerty@qwerty.ru">qwerty@qwerty.ru</a>
-            <p>улица Героя Юрия Смирнова, 13,<br>Нижний Новгород, 603016</p>
-            <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#telegram"></use></svg></a>
-          </div>
-        </div>
-        <div class="ya-map">
-          <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A90367418ed7d250273df6ee0a766e801178e15e103917c57d9176411415bb126&amp;source=constructor" width="100%"  frameborder="0"></iframe>
+    </div>
+  </section>
+  <section id="contacts" class="contacts-wrap">
+    <div class="contacts-block">
+      <div class="contacts-text">
+        <h2>Свяжитесь с нами</h2>
+        <div class="contacts-info">
+          <a href="tel: +79999999999">+7 (999) 999-99-99</a>
+          <a href="mailto: qwerty@qwerty.ru">qwerty@qwerty.ru</a>
+          <p>улица Героя Юрия Смирнова, 13,<br>Нижний Новгород, 603016</p>
+          <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon">
+              <use xlink:href="../static/sprite.svg#telegram"></use>
+            </svg></a>
         </div>
       </div>
-    </section>
-    <footer>
-      <div class="container">
-        <div class="footer-inner">
-          <div class="logo">
-            <h1>MAX_STOL</h1>
-          </div>
-          <div class="footer-menu">
-            <ul class="footer-menu-items">
-              <li><a href="#catalog">Каталог</a></li>
-              <li><a href="#individual-project">Индивидуальный проект</a></li>
-              <li><a href="#contacts">Контакты</a></li>
-            </ul>
-          </div>
-          <div class="footer-contacts">
-            <div class="footer-icon"><a class="icon" href="tel: +79999999999"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#phone"></use></svg></a></div>
-            <div class="footer-text"><a href="tel: +79999999999">+7 (999) 999-99-99</a></div>
-            <div class="footer-icon"><a class="icon" href="mailto: test@test.ru"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#email"></use></svg></a></div>
-            <div class="footer-text"><a href="mailto: test@test.ru">qwerty@qwerty.ru</a></div>
-            <div class="tg-footer"><a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon"><use xlink:href="../static/sprite.svg#telegram"></use></svg></a></div>
-          </div>
+      <div class="ya-map">
+        <iframe
+          src="https://yandex.ru/map-widget/v1/?um=constructor%3A90367418ed7d250273df6ee0a766e801178e15e103917c57d9176411415bb126&amp;source=constructor"
+          width="100%" frameborder="0"></iframe>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="logo">
+          <h1>MAX_STOL</h1>
+        </div>
+        <div class="footer-menu">
+          <ul class="footer-menu-items">
+            <li><a href="#catalog">Каталог</a></li>
+            <li><a href="#individual-project">Индивидуальный проект</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+          </ul>
+        </div>
+        <div class="footer-contacts">
+          <div class="footer-icon"><a class="icon" href="tel: +79999999999"><svg class="svg-icon">
+                <use xlink:href="../static/sprite.svg#phone"></use>
+              </svg></a></div>
+          <div class="footer-text"><a href="tel: +79999999999">+7 (999) 999-99-99</a></div>
+          <div class="footer-icon"><a class="icon" href="mailto: test@test.ru"><svg class="svg-icon">
+                <use xlink:href="../static/sprite.svg#email"></use>
+              </svg></a></div>
+          <div class="footer-text"><a href="mailto: test@test.ru">qwerty@qwerty.ru</a></div>
+          <div class="tg-footer"><a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon">
+                <use xlink:href="../static/sprite.svg#telegram"></use>
+              </svg></a></div>
         </div>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-    <script src="../static/js/popup.js"></script>
-    <script src="../static/js/softscroll.js"></script>
-  </body>
+  <script src="../static/js/slider.js"></script>
+  <script src="../static/js/popup.js"></script>
+  <script src="../static/js/softscroll.js"></script>
+    <script src="../static/js/submitOrder.js"></script>
+</body>
+
 </html>
