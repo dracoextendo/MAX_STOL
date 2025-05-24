@@ -1000,15 +1000,13 @@ dialog::backdrop {
 .order-user{
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     min-width: 400px;
-    align-items: flex-start;
 }
 
 .oder-user-fieldset{
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    gap: 60px;
     width: 100%;
 }
 
@@ -1122,26 +1120,22 @@ input{
    margin: 0px; 
 }
 
-@media (max-width:768px){
-    .dialog{
-        max-width: 630px;
-    }
+@media (max-width:900px){
     .dialog-inner{
         display: flex;
-        flex-wrap: wrap;
     }
+    .oder-user-fieldset{
+    display: block;
+    gap: 60px;
+    width: 100%;
+    }  
 }
 @media (max-width:480px){
-     .dialog{
-        max-width: 480px;
+     .dialog-inner{
+        max-width: 395px;
      }
-     .input-field{
-        max-width: 300px;
-     }
-     .order-user-field{
-        max-width: 300px;
-     }
-     .order-user-fieldset{
-        max-width: 300px;
+     .order-user{
+        max-width: 390px;
+        align-items: start;
      }
 }
