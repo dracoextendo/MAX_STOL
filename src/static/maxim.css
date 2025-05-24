@@ -1128,7 +1128,10 @@ input{
     display: block;
     gap: 60px;
     width: 100%;
-    }  
+    }
+    .order-user{
+        margin-top: 20px;
+    }
 }
 @media (max-width:768px){
     .dialog-inner{
