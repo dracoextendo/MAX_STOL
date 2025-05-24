@@ -11,7 +11,7 @@ async def access_token_validation(request: Request, response: Response):
         raise HTTPException(
             status_code=307,
             detail="Unauthorized",
-            headers={"Location": "/login"}
+            headers={"Location": "/admin/login"}
         )
     if access_token:
         try:
@@ -21,7 +21,7 @@ async def access_token_validation(request: Request, response: Response):
                 raise HTTPException(
                     status_code=307,
                     detail="Unauthorized",
-                    headers={"Location": "/login"}
+                    headers={"Location": "/admin/login"}
                 )
             return None
         except ExpiredSignatureError:
@@ -30,7 +30,7 @@ async def access_token_validation(request: Request, response: Response):
             raise HTTPException(
                 status_code=307,
                 detail="Unauthorized",
-                headers={"Location": "/login"}
+                headers={"Location": "/admin/login"}
             )
     try:
         payload = security.decode_jwt(refresh_token)
@@ -39,7 +39,7 @@ async def access_token_validation(request: Request, response: Response):
             raise HTTPException(
                 status_code=307,
                 detail="Unauthorized",
-                headers={"Location": "/login"}
+                headers={"Location": "/admin/login"}
             )
         user_id = int(payload.get("sub"))
         user = await UsersDAO.get_user_by_id(user_id)
@@ -56,5 +56,5 @@ async def access_token_validation(request: Request, response: Response):
         raise HTTPException(
             status_code=307,
             detail="Unauthorized",
-            headers={"Location": "/login"}
+            headers={"Location": "/admin/login"}
         )
