@@ -3,95 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAX_STOL - Orders</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            margin: 0;
-            background-color: #fff;
-            padding-top: 2em;
-        }
-        .orders-container {
-            text-align: center;
-        }
-        .orders-container h1 {
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 1em;
-        }
-        .orders-container h1 span {
-            font-size: 0.6em;
-            color: #666;
-            display: block;
-        }
-        .orders-table {
-            border: 1px solid #ccc;
-            padding: 2em;
-            border-radius: 5px;
-            text-align: left;
-        }
-        .orders-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .orders-table th, .orders-table td {
-            padding: 0.5em;
-            border-bottom: 1px solid #ccc;
-        }
-        .orders-table th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-        }
-        .no-orders {
-            color: #666;
-            font-style: italic;
-        }
-    </style>
+    <title>MAX_STOL - Заказы</title>
+    <link rel="stylesheet" href="../../static/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="orders-container">
-        <h1>MAX_STOL<span>Orders</span></h1>
-        <div class="orders-table">
-            {% if orders %}
-                <table>
+    <div class="container">
+        <div class="sidebar">
+            <div>
+                <div class="logo">MAX_STOL</div>
+                <ul class="menu">
+                    <li><a href="#" class="active">Заказы</a></li>
+                    <li><a href="#">Индивидуальный проект</a></li>
+                    <li><a href="#">Товары</a></li>
+                    <li><a href="#">Цвета столешниц</a></li>
+                    <li><a href="#">Цвета металлокаркаса</a></li>
+                    <li><a href="#">Длины столов</a></li>
+                    <li><a href="#">Глубины столов</a></li>
+                    <li><a href="#">Контент</a></li>
+                </ul>
+            </div>
+            <div class="logout">
+                <a href="/admin/login">Выход</a>
+            </div>
+        </div>
+        <div class="main-content">
+            <h1>Заказы</h1>
+            <table>
+                <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Username</th>
-                        <th>Phone</th>
-                        <th>Email</th>
+                        <th>ФИО</th>
+                        <th>Номер телефона</th>
+                        <th>Почта</th>
                         <th>Telegram</th>
-                        <th>Product</th>
-                        <th>Desk Color</th>
-                        <th>Frame Color</th>
-                        <th>Depth</th>
-                        <th>Length</th>
-                        <th>Created At</th>
-                        <th>Updated At</th>
+                        <th>Продукт</th>
+                        <th>Дата создания</th>
+                        <th></th>
                     </tr>
+                </thead>
+                <tbody>
                     {% for order in orders %}
-                        <tr>
-                            <td>{{ order.id }}</td>
-                            <td>{{ order.username }}</td>
-                            <td>{{ order.phone }}</td>
-                            <td>{{ order.email }}</td>
-                            <td>{{ order.telegram }}</td>
-                            <td>{{ order.product_name }}</td>
-                            <td>{{ order.desk_color }}</td>
-                            <td>{{ order.frame_color }}</td>
-                            <td>{{ order.depth }}</td>
-                            <td>{{ order.length }}</td>
-                            <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                            <td>{{ order.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                        </tr>
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.username }}</td>
+                        <td>+7 ({{order.phone[2:5]}}) {{order.phone[5:8]}}-{{order.phone[8:10]}}-{{order.phone[10:12]}}</td>
+                        <td>{{ order.email }}</td>
+                        <td>{{ order.telegram }}</td>
+                        <td>{{ order.product_name }}</td>
+                        <td>{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td class="actions">
+                            <button class="table-button"><svg class="svg-icon"><use xlink:href="../../static/sprite.svg#magnifier"></use></svg></button>
+                        </td>
+                    </tr>
                     {% endfor %}
-                </table>
-            {% else %}
-                <p class="no-orders">No orders available.</p>
-            {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
