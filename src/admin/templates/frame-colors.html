@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAX_STOL - Заказы</title>
+    <title>MAX_STOL - Цвета металлокаркаса</title>
     <link rel="stylesheet" href="../../static/admin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,11 +15,11 @@
             <div>
                 <div class="logo">MAX_STOL</div>
                 <ul class="menu">
-                    <li><a href="/admin" class="active">Заказы</a></li>
+                    <li><a href="/admin">Заказы</a></li>
                     <li><a href="/admin/individual-project">Индивидуальный проект</a></li>
                     <li><a href="/admin/desks">Товары</a></li>
                     <li><a href="/admin/desk-colors">Цвета столешниц</a></li>
-                    <li><a href="/admin/frame-colors">Цвета металлокаркаса</a></li>
+                    <li><a href="/admin/frame-colors" class="active">Цвета металлокаркаса</a></li>
                     <li><a href="/admin/lengths">Длины столов</a></li>
                     <li><a href="/admin/depths">Глубины столов</a></li>
                     <li><a href="/admin/content">Контент</a></li>
@@ -30,30 +30,24 @@
             </div>
         </div>
         <div class="main-content">
-            <h1>Заказы</h1>
+            <h1>Цвета металлокаркаса</h1>
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>ФИО</th>
-                        <th>Номер телефона</th>
-                        <th>Почта</th>
-                        <th>Telegram</th>
-                        <th>Продукт</th>
+                        <th>Сортировка</th>
+                        <th>Название</th>
                         <th>Дата создания</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for order in orders %}
+                    {% for color in frame_colors %}
                     <tr>
-                        <td>{{ order.id }}</td>
-                        <td>{{ order.username }}</td>
-                        <td>+7 ({{order.phone[2:5]}}) {{order.phone[5:8]}}-{{order.phone[8:10]}}-{{order.phone[10:12]}}</td>
-                        <td>{{ order.email | default('', true) }}</td>
-                        <td>{{ order.telegram | default('', true) }}</td>
-                        <td>{{ order.product_name }}</td>
-                        <td>{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>{{ color.id }}</td>
+                        <td>{{ color.sort }}</td>
+                        <td>{{ color.name }}</td>
+                        <td>{{ color.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
                         <td class="actions">
                             <button class="table-button"><svg class="svg-icon"><use xlink:href="../../static/sprite.svg#magnifier"></use></svg></button>
                         </td>
