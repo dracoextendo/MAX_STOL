@@ -13,6 +13,13 @@ class BaseDAO:
             return result.scalars().all()
 
     @classmethod
+    async def find_first(cls):
+        async with async_session_maker() as session:
+            query = select(cls.model)
+            result = await session.execute(query)
+            return result.scalars().first()
+
+    @classmethod
     async def find_all_active(cls):
         async with async_session_maker() as session:
             query = select(cls.model).order_by(cls.model.sort, cls.model.id).filter(cls.model.is_active.is_(True))
