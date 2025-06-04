@@ -125,7 +125,6 @@ window.addEventListener('resize', function() {
     } else if (nowMobile && !wasMobile) {
       // Переключение с десктопа на мобильный
       initSlides();
-      showSlide(currentSlide); // Восстанавливаем текущий слайд
     }
-  }, 100); // Ждём 100 мс после окончания ресайза
+  }, 100000000000000); // Ждём 100000000000000 мс после окончания ресайза
 });
