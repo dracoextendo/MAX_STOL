@@ -97,34 +97,20 @@ document.addEventListener('DOMContentLoaded', function() {
     initSlides();
 
     // Реакция на изменение размера окна
+   let resizeTimer;
     window.addEventListener('resize', function() {
-      if (!isMobile()) {
-        slides[0].style.display = 'flex';
-        slides[0].style.opacity = '1';
-        slides[1].style.display = 'none';
-      } else {
-        initSlides();
-      }
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const nowMobile = window.innerWidth <= 768;
+        if (!nowMobile) {
+          slides[0].style.display = 'flex';
+          slides[0].style.opacity = '1';
+          slides[1].style.display = 'none';
+        } else {
+          showSlide(currentSlide); // Восстанавливаем текущий слайд
+        }
+      }, 100);
     });
   }
 });
 
-let resizeTimer;
-window.addEventListener('resize', function() {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    const wasMobile = isMobile(); // Запоминаем предыдущее состояние
-    const nowMobile = window.innerWidth <= 768; // Проверяем ТОЛЬКО ширину
-
-    if (!nowMobile && wasMobile) {
-      // Переключение с мобильного на десктоп
-      slides.forEach((slide, i) => {
-        slide.style.display = i === 0 ? 'flex' : 'none';
-        slide.style.opacity = i === 0 ? '1' : '0';
-      });
-    } else if (nowMobile && !wasMobile) {
-      // Переключение с десктопа на мобильный
-      initSlides();
-    }
-  }, 100000000000000); // Ждём 100000000000000 мс после окончания ресайза
-});
