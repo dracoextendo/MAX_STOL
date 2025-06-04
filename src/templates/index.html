@@ -70,7 +70,7 @@
                   <h4>Telegram</h4>
                   <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autocomplete="off">
                 </div>
-                <button type="button" class="button" onclick="submitForm()">Заказать</button>
+                <button type="button" class="button" id="submitOrderBtn" onclick="submitForm(event)">Заказать</button>
             </div>
         </form>
         </div>
@@ -92,13 +92,13 @@
             </ul>
           </div>
           <div class="contacts">
-            <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon">
+            <a class="icon" href="{{content.contacts_telegram}}"><svg class="svg-icon">
                 <use xlink:href="../static/sprite.svg#telegram"></use>
               </svg></a>
-            <a class="icon phone-icon" href="tel: +79999999999"><svg class="svg-icon">
+            <a class="icon phone-icon" href="tel: {{content.contacts_phone}}"><svg class="svg-icon">
                 <use xlink:href="../static/sprite.svg#phone"></use>
               </svg></a>
-            <a class="phone-number" href="tel: +79999999999">+7 (999) 999-99-99</a>
+            <a class="phone-number" href="tel: {{content.contacts_phone}}">+7 ({{content.contacts_phone[2:5]}}) {{content.contacts_phone[5:8]}}-{{content.contacts_phone[8:10]}}-{{content.contacts_phone[10:12]}}</a>
           </div>
         </nav>
       </div>
@@ -106,18 +106,14 @@
   </header>
   <section class="banner">
     <div class="banner-block banner-first slide-active">
-      <h2>Товары<br>в наличии</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.</p>
-      <button class="button">В каталог</button>
+      <h2>{{ content.banner_first_frame_title | safe }}</h2>
+      <p>{{ content.banner_first_frame_description | safe }}</p>
+      <button class="button">{{ content.banner_first_frame_button | safe }}</button>
     </div>
     <div class="banner-block banner-second slide">
-      <h2>Изготовление по<br>вашим размерам</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.</p>
-      <button class="button">Оставить заявку</button>
+      <h2>{{ content.banner_second_frame_title | safe }}</h2>
+      <p>{{ content.banner_second_frame_description | safe }}</p>
+      <button class="button">{{ content.banner_second_frame_button | safe }}</button>
     </div>
     <div class="slider-dots">
       <span class="dot active" data-slide="0"></span>
@@ -129,10 +125,8 @@
   <section id="catalog" class="catalog">
     <div class="container">
       <div class="section-title">
-        <h2>Каталог товаров</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.</p>
+        <h2>{{ content.catalog_title | safe }}</h2>
+        <p>{{ content.catalog_description | safe }}</p>
       </div>
       <div class="cards">
         {% for product in products %}
@@ -156,47 +150,37 @@
   <section class="reasons">
     <div class="container">
       <div class="section-title">
-        <h2>Почему очень многие покупают у нас?</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.</p>
+        <h2>{{ content.reasons_title | safe }}</h2>
+        <p>{{ content.reasons_description | safe }}</p>
       </div>
       <div class="reasons-flex">
         <div class="reason">
           <div><svg>
               <use xlink:href="../static/sprite.svg#step-1"></use>
             </svg></div>
-          <h3>Причина 1</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
+          <h3>{{ content.reasons_first_title | safe }}</h3>
+          <p>{{ content.reasons_first_description | safe }}</p>
         </div>
         <div class="reason">
           <div><svg>
               <use xlink:href="../static/sprite.svg#step-2"></use>
             </svg></div>
-          <h3>Причина 2</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
+          <h3>{{ content.reasons_second_title | safe }}</h3>
+          <p>{{ content.reasons_second_description | safe }}</p>
         </div>
         <div class="reason">
           <div><svg>
               <use xlink:href="../static/sprite.svg#step-3"></use>
             </svg></div>
-          <h3>Причина 3</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
+          <h3>{{ content.reasons_third_title | safe }}</h3>
+          <p>{{ content.reasons_third_description | safe }}</p>
         </div>
         <div class="reason">
           <div><svg>
               <use xlink:href="../static/sprite.svg#step-4"></use>
             </svg></div>
-          <h3>Причина 4</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.</p>
+          <h3>{{ content.reasons_four_title | safe }}</h3>
+          <p>{{ content.reasons_four_description | safe }}</p>
         </div>
       </div>
     </div>
@@ -205,20 +189,16 @@
     <div class="project-container">
       <div class="project">
         <div class="project-text">
-          <h4>Проектирование мебели по<br>индивидуальному требованию</h4>
-          <h2>Необходим индивидуальный проект?</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-            laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <button class="button">Связаться с нами</button>
+          <h4>{{ content.individual_order_sub | safe }}</h4>
+          <h2>{{ content.individual_order_title | safe }}</h2>
+          <p>{{ content.individual_order_description | safe }}</p>
+          <button class="button">{{ content.individual_order_button | safe }}</button>
         </div>
         <img src="../static/img/individual-order.png" alt="photo">
       </div>
       <div class="container">
         <div class="section-title">
-          <h2>Этапы работ</h2>
+          <h2>{{ content.steps_title | safe }}</h2>
         </div>
         <div class="steps-flex">
           <div class="step">
@@ -226,10 +206,8 @@
                 <use xlink:href="../static/sprite.svg#step-1"></use>
               </svg></div>
             <div class="step-text">
-              <h3>Напишите нам</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat.</p>
+              <h3>{{ content.steps_first_title | safe }}</h3>
+              <p>{{ content.steps_first_description | safe }}</p>
             </div>
           </div>
           <div class="step">
@@ -237,10 +215,8 @@
                 <use xlink:href="../static/sprite.svg#step-2"></use>
               </svg></div>
             <div class="step-text">
-              <h3>Напишите нам</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat.</p>
+              <h3>{{ content.steps_second_title | safe }}</h3>
+              <p>{{ content.steps_second_description | safe }}</p>
             </div>
           </div>
           <div class="step">
@@ -248,10 +224,8 @@
                 <use xlink:href="../static/sprite.svg#step-3"></use>
               </svg></div>
             <div class="step-text">
-              <h3>Напишите нам</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat.</p>
+              <h3>{{ content.steps_third_title | safe }}</h3>
+              <p>{{ content.steps_third_description | safe }}</p>
             </div>
           </div>
           <div class="step">
@@ -259,10 +233,8 @@
                 <use xlink:href="../static/sprite.svg#step-4"></use>
               </svg></div>
             <div class="step-text">
-              <h3>Напишите нам</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat.</p>
+              <h3>{{ content.steps_four_title | safe }}</h3>
+              <p>{{ content.steps_four_description | safe }}</p>
             </div>
           </div>
         </div>
@@ -272,12 +244,12 @@
   <section id="contacts" class="contacts-wrap">
     <div class="contacts-block">
       <div class="contacts-text">
-        <h2>Свяжитесь с нами</h2>
+        <h2>{{ content.contacts_title | safe }}</h2>
         <div class="contacts-info">
-          <a href="tel: +79999999999">+7 (999) 999-99-99</a>
-          <a href="mailto: qwerty@qwerty.ru">qwerty@qwerty.ru</a>
-          <p>улица Героя Юрия Смирнова, 13,<br>Нижний Новгород, 603016</p>
-          <a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon">
+          <a href="tel: {{ content.contacts_phone}}">+7 ({{content.contacts_phone[2:5]}}) {{content.contacts_phone[5:8]}}-{{content.contacts_phone[8:10]}}-{{content.contacts_phone[10:12]}}</a>
+          <a href="mailto: {{ content.contacts_email }}">{{ content.contacts_email }}</a>
+          <p>{{ content.contacts_address | safe }}</p>
+          <a class="icon" href="{{ content.contacts_telegram }}"><svg class="svg-icon">
               <use xlink:href="../static/sprite.svg#telegram"></use>
             </svg></a>
         </div>
@@ -303,15 +275,15 @@
           </ul>
         </div>
         <div class="footer-contacts">
-          <div class="footer-icon"><a class="icon" href="tel: +79999999999"><svg class="svg-icon">
+          <div class="footer-icon"><a class="icon" href="tel: {{ content.contacts_phone}}"><svg class="svg-icon">
                 <use xlink:href="../static/sprite.svg#phone"></use>
               </svg></a></div>
-          <div class="footer-text"><a href="tel: +79999999999">+7 (999) 999-99-99</a></div>
-          <div class="footer-icon"><a class="icon" href="mailto: test@test.ru"><svg class="svg-icon">
+          <div class="footer-text"><a href="tel: {{ content.contacts_phone}}">+7 ({{content.contacts_phone[2:5]}}) {{content.contacts_phone[5:8]}}-{{content.contacts_phone[8:10]}}-{{content.contacts_phone[10:12]}}</a></div>
+          <div class="footer-icon"><a class="icon" href="mailto: {{ content.contacts_email }}"><svg class="svg-icon">
                 <use xlink:href="../static/sprite.svg#email"></use>
               </svg></a></div>
-          <div class="footer-text"><a href="mailto: test@test.ru">qwerty@qwerty.ru</a></div>
-          <div class="tg-footer"><a class="icon" href="https://t.me/python_piton_javascript"><svg class="svg-icon">
+          <div class="footer-text"><a href="mailto: {{ content.contacts_email }}">{{ content.contacts_email }}</a></div>
+          <div class="tg-footer"><a class="icon" href="{{ content.contacts_telegram }}"><svg class="svg-icon">
                 <use xlink:href="../static/sprite.svg#telegram"></use>
               </svg></a></div>
         </div>
@@ -322,7 +294,8 @@
   <script src="../static/js/slider.js"></script>
   <script src="../static/js/popup.js"></script>
   <script src="../static/js/softscroll.js"></script>
-    <script src="../static/js/submitOrder.js"></script>
+  <script src="../static/js/submitOrder.js"></script>
+  <script src="../static/js/validation.js"></script>
 </body>
 
 </html>

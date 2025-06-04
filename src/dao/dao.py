@@ -2,7 +2,8 @@ import asyncio
 from fastapi import UploadFile, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.dao.base import BaseDAO
-from src.models.orders import OrdersModel
+from src.models.content import ContentModel
+from src.models.orders import OrdersModel, IndividualOrdersModel
 from src.models.products import ProductsModel, DeskColors, FrameColors, Length, Depth, ProductDeskColor, ProductFrameColor, ProductLength, ProductDepth
 from sqlalchemy.orm import selectinload
 from sqlalchemy import select, delete
@@ -270,6 +271,9 @@ class OrdersDAO(BaseDAO):
                 await session.delete(order)
         return {"detail": f"Order id = {order_id} deleted"}
 
+class IndividualOrdersDAO(BaseDAO):
+    model = IndividualOrdersModel
+
 class DeskColorDAO(BaseDAO):
     model = DeskColors
 
@@ -430,3 +434,6 @@ class UsersDAO(BaseDAO):
     async def get_user_by_id(cls, user_id: int):
         async with async_session_maker() as session:
             return await session.get(UsersModel, user_id)
+
+class ContentDAO(BaseDAO):
+    model = ContentModel

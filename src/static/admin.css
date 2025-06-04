@@ -34,7 +34,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 .menu li a {
     text-decoration: none;
@@ -54,17 +54,19 @@ body {
 .logout {
     margin-top: auto;
 }
-.logout a {
+.logout button {
     text-decoration: none;
+    border: none;
     color: #fff;
     background-color: #333;
     padding: 10px;
     text-align: center;
-    display: block;
     border-radius: 5px;
     font-size: 16px;
+    width: 100%;
+    cursor: pointer;
 }
-.logout a:hover {
+.logout button:hover {
     background-color: #555;
 }
 .main-content {
@@ -109,4 +111,59 @@ td {
 .svg-icon{
     width: 32px;
     height: 32px;
+}
+
+.content-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 12px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.save-button {
+    position: fixed;
+    top: 110px;
+    right: 60px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #555;
 }

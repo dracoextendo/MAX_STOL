@@ -10,8 +10,9 @@ sys.path.insert(0, dirname(dirname(abspath(__file__))))
 from src.config import DBConfig
 from src.database import Base
 from src.models.products import ProductsModel, ProductDeskColor, ProductFrameColor, ProductDepth, ProductLength, DeskColors, FrameColors, Length, Depth
-from src.models.orders import OrdersModel
+from src.models.orders import OrdersModel, IndividualOrdersModel
 from src.models.users import UsersModel
+from src.models.content import ContentModel
 
 db_config = DBConfig()
 

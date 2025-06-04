@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAX_STOL - Контент</title>
+    <link rel="stylesheet" href="../../static/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">MAX_STOL</div>
+            <ul class="menu">
+                    <li><a href="/admin">Заказы</a></li>
+                    <li><a href="/admin/individual-project">Индивидуальный проект</a></li>
+                    <li><a href="/admin/desks">Товары</a></li>
+                    <li><a href="/admin/desk-colors">Цвета столешниц</a></li>
+                    <li><a href="/admin/frame-colors">Цвета металлокаркаса</a></li>
+                    <li><a href="/admin/lengths">Длины столов</a></li>
+                    <li><a href="/admin/depths">Глубины столов</a></li>
+                    <li><a href="/admin/content" class="active">Контент</a></li>
+                </ul>
+            <div class="logout">
+                <button id="logout-btn">Выход</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <h1>Контент</h1>
+            <form class="content-form">
+                <button type="submit" class="save-button">Сохранить</button>
+                <div class="form-section">
+                    <h2>Баннер - Первый фрейм</h2>
+                    <div class="form-group">
+                        <label for="banner_first_frame_title">Заголовок</label>
+                        <input type="text" id="banner_first_frame_title" name="banner_first_frame_title" value="{{content.banner_first_frame_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="banner_first_frame_description">Описание</label>
+                        <textarea id="banner_first_frame_description" name="banner_first_frame_description">{{content.banner_first_frame_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="banner_first_frame_button">Текст кнопки</label>
+                        <input type="text" id="banner_first_frame_button" name="banner_first_frame_button" value="{{content.banner_first_frame_button}}">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Баннер - Второй фрейм</h2>
+                    <div class="form-group">
+                        <label for="banner_second_frame_title">Заголовок</label>
+                        <input type="text" id="banner_second_frame_title" name="banner_second_frame_title" value="{{content.banner_second_frame_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="banner_second_frame_description">Описание</label>
+                        <textarea id="banner_second_frame_description" name="banner_second_frame_description">{{content.banner_second_frame_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="banner_second_frame_button">Текст кнопки</label>
+                        <input type="text" id="banner_second_frame_button" name="banner_second_frame_button" value="{{content.banner_second_frame_button}}">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Каталог</h2>
+                    <div class="form-group">
+                        <label for="catalog_title">Заголовок</label>
+                        <input type="text" id="catalog_title" name="catalog_title" value="{{content.catalog_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="catalog_description">Описание</label>
+                        <textarea id="catalog_description" name="catalog_description">{{content.catalog_description}}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Причины</h2>
+                    <div class="form-group">
+                        <label for="reasons_title">Заголовок</label>
+                        <input type="text" id="reasons_title" name="reasons_title" value="{{content.reasons_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_description">Описание</label>
+                        <textarea id="reasons_description" name="reasons_description">{{content.reasons_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_first_title">Причина 1 - Заголовок</label>
+                        <input type="text" id="reasons_first_title" name="reasons_first_title" value="{{content.reasons_first_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_first_description">Причина 1 - Описание</label>
+                        <textarea id="reasons_first_description" name="reasons_first_description">{{content.reasons_first_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_second_title">Причина 2 - Заголовок</label>
+                        <input type="text" id="reasons_second_title" name="reasons_second_title" value="{{content.reasons_second_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_second_description">Причина 2 - Описание</label>
+                        <textarea id="reasons_second_description" name="reasons_second_description">{{content.reasons_second_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_third_title">Причина 3 - Заголовок</label>
+                        <input type="text" id="reasons_third_title" name="reasons_third_title" value="{{content.reasons_third_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_third_description">Причина 3 - Описание</label>
+                        <textarea id="reasons_third_description" name="reasons_third_description">{{content.reasons_third_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_four_title">Причина 4 - Заголовок</label>
+                        <input type="text" id="reasons_four_title" name="reasons_four_title" value="{{content.reasons_four_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="reasons_four_description">Причина 4 - Описание</label>
+                        <textarea id="reasons_four_description" name="reasons_four_description">{{content.reasons_four_description}}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Индивидуальный заказ</h2>
+                    <div class="form-group">
+                        <label for="individual_order_sub">Подзаголовок</label>
+                        <input type="text" id="individual_order_sub" name="individual_order_sub" value="{{content.individual_order_sub}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="individual_order_title">Заголовок</label>
+                        <input type="text" id="individual_order_title" name="individual_order_title" value="{{content.individual_order_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="individual_order_description">Описание</label>
+                        <textarea id="individual_order_description" name="individual_order_description">{{content.individual_order_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="individual_order_button">Текст кнопки</label>
+                        <input type="text" id="individual_order_button" name="individual_order_button" value="{{content.individual_order_button}}">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Шаги</h2>
+                    <div class="form-group">
+                        <label for="steps_title">Заголовок</label>
+                        <input type="text" id="steps_title" name="steps_title" value="{{content.steps_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_first_title">Шаг 1 - Заголовок</label>
+                        <input type="text" id="steps_first_title" name="steps_first_title" value="{{content.steps_first_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_first_description">Шаг 1 - Описание</label>
+                        <textarea id="steps_first_description" name="steps_first_description">{{content.steps_first_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_second_title">Шаг 2 - Заголовок</label>
+                        <input type="text" id="steps_second_title" name="steps_second_title" value="{{content.steps_second_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_second_description">Шаг 2 - Описание</label>
+                        <textarea id="steps_second_description" name="steps_second_description">{{content.steps_second_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_third_title">Шаг 3 - Заголовок</label>
+                        <input type="text" id="steps_third_title" name="steps_third_title" value="{{content.steps_third_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_third_description">Шаг 3 - Описание</label>
+                        <textarea id="steps_third_description" name="steps_third_description">{{content.steps_third_description}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_four_title">Шаг 4 - Заголовок</label>
+                        <input type="text" id="steps_four_title" name="steps_four_title" value="{{content.steps_four_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="steps_four_description">Шаг 4 - Описание</label>
+                        <textarea id="steps_four_description" name="steps_four_description">{{content.steps_four_description}}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Контакты</h2>
+                    <div class="form-group">
+                        <label for="contacts_title">Заголовок</label>
+                        <input type="text" id="contacts_title" name="contacts_title" value="{{content.contacts_title}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="contacts_phone">Телефон</label>
+                        <input type="text" id="contacts_phone" name="contacts_phone" value="{{content.contacts_phone}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="contacts_email">Email</label>
+                        <input type="email" id="contacts_email" name="contacts_email" value="{{content.contacts_email}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="contacts_address">Адрес</label>
+                        <input type="text" id="contacts_address" name="contacts_address" value="{{content.contacts_address}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="contacts_telegram">Telegram</label>
+                        <input type="text" id="contacts_telegram" name="contacts_telegram" value="{{content.contacts_telegram}}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../../static/js/admin/logout.js"></script>
+</body>
+</html>

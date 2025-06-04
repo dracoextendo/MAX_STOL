@@ -108,3 +108,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+let resizeTimer;
+window.addEventListener('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const wasMobile = isMobile(); // Запоминаем предыдущее состояние
+    const nowMobile = window.innerWidth <= 768; // Проверяем ТОЛЬКО ширину
+
+    if (!nowMobile && wasMobile) {
+      // Переключение с мобильного на десктоп
+      slides.forEach((slide, i) => {
+        slide.style.display = i === 0 ? 'flex' : 'none';
+        slide.style.opacity = i === 0 ? '1' : '0';
+      });
+    } else if (nowMobile && !wasMobile) {
+      // Переключение с десктопа на мобильный
+      initSlides();
+      showSlide(currentSlide); // Восстанавливаем текущий слайд
+    }
+  }, 100); // Ждём 100 мс после окончания ресайза
+});

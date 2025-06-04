@@ -16,3 +16,13 @@ class OrdersModel(Base):
     depth: Mapped[str]
     length: Mapped[str]
     sort: Mapped[int | None] = mapped_column(default=500)
+
+class IndividualOrdersModel(Base):
+    __tablename__ = 'individual_orders'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str]
+    phone: Mapped[str]
+    email: Mapped[str | None]
+    telegram: Mapped[str | None]
+    sort: Mapped[int | None] = mapped_column(default=500)
