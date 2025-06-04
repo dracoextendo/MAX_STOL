@@ -1,7 +1,7 @@
 import datetime
 import bcrypt
 import jwt
-from src.config import jwt_config
+from src.utils.config import jwt_config
 
 def encode_jwt(payload: dict,
                private_key: str = jwt_config.PRIVATE_KEY_PATH.read_text(),
