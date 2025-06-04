@@ -1,8 +1,28 @@
 from fastapi import Request, HTTPException, Response
 from jwt import ExpiredSignatureError
 
-from src import security
+from src.utils import security
 from src.dao.dao import UsersDAO
+from src.repositories.orders import OrdersRepository
+from src.repositories.settings import DeskColorsRepository, FrameColorsRepository, LengthRepository, DepthRepository
+from src.services.orders import OrdersService
+from src.services.settings import SettingsService
+
+
+def order_service():
+    return OrdersService(OrdersRepository)
+
+def desk_color_service():
+    return SettingsService(DeskColorsRepository)
+
+def frame_color_service():
+    return SettingsService(FrameColorsRepository)
+
+def length_service():
+    return SettingsService(LengthRepository)
+
+def depth_service():
+    return SettingsService(DepthRepository)
 
 async def access_token_validation(request: Request, response: Response):
     access_token = request.cookies.get("access_token")

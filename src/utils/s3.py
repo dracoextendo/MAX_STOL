@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from uuid import uuid4
-from config import S3Config
+from src.utils.config import S3Config
 from aiobotocore.session import get_session
 from fastapi import UploadFile
 

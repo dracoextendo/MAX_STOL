@@ -1,9 +1,8 @@
-from typing import Annotated
-from fastapi import APIRouter, Form, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response
 from fastapi.params import Depends
-from src.api.responses import UNAUTHORIZED, FORBIDDEN
+from src.api.responses import UNAUTHORIZED
 from src.dao.dao import UsersDAO
-import src.security as security
+import src.utils.security as security
 from src.schemas.base import SStatusOut
 from src.schemas.users import SUserIn
 

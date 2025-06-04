@@ -3,13 +3,13 @@ from fastapi import UploadFile, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.dao.base import BaseDAO
 from src.models.content import ContentModel
-from src.models.orders import OrdersModel, IndividualOrdersModel
+from src.models.orders import IndividualOrdersModel
 from src.models.products import ProductsModel, DeskColors, FrameColors, Length, Depth, ProductDeskColor, ProductFrameColor, ProductLength, ProductDepth
 from sqlalchemy.orm import selectinload
 from sqlalchemy import select, delete
-from src.database import async_session_maker
+from src.utils.database import async_session_maker
 from src.models.users import UsersModel
-from src.s3 import s3client
+from src.utils.s3 import s3client
 from src.schemas.products import SProductInfoOut, SProductOut
 from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
 
@@ -235,188 +235,8 @@ class ProductsDAO(BaseDAO):
                 await asyncio.gather(*[s3client.delete_from_s3(img) for img in files_to_delete])
         return {"detail": f"Product id = {product_id} deleted"}
 
-class OrdersDAO(BaseDAO):
-    model = OrdersModel
-
-    @classmethod
-    async def get_order(cls, order_id: int):
-        async with async_session_maker() as session:
-            return await session.get(OrdersModel, order_id)
-
-    @classmethod
-    async def add_order(cls, order: OrdersModel):
-        async with async_session_maker() as session:
-            async with session.begin():
-                session.add(order)
-        return {"detail": "Order added"}
-
-    @classmethod
-    async def update_order(cls, order_id: int, order: OrdersModel):
-        async with async_session_maker() as session:
-            async with session.begin():
-                current_order = await session.get(OrdersModel, order_id)
-                if not current_order:
-                    raise HTTPException(status_code=404, detail=f"Order id = {order_id} not found")
-                order.id = order_id
-                await session.merge(order)
-        return {"detail": f"Order id = {order_id} updated"}
-
-    @classmethod
-    async def delete_order(cls, order_id: int):
-        async with async_session_maker() as session:
-            async with session.begin():
-                order = await session.get(OrdersModel, order_id)
-                if not order:
-                    raise HTTPException(status_code=404, detail=f"Order id = {order_id} not found")
-                await session.delete(order)
-        return {"detail": f"Order id = {order_id} deleted"}
-
 class IndividualOrdersDAO(BaseDAO):
     model = IndividualOrdersModel
-
-class DeskColorDAO(BaseDAO):
-    model = DeskColors
-
-    @classmethod
-    async def get_desk_color(cls, desk_color_id: int):
-        async with async_session_maker() as session:
-            return await session.get(DeskColors, desk_color_id)
-
-    @classmethod
-    async def add_desk_color(cls, desk_color: DeskColors):
-        async with async_session_maker() as session:
-            async with session.begin():
-                session.add(desk_color)
-        return {"detail": "Desk color added"}
-
-    @classmethod
-    async def update_desk_color(cls, desk_color_id: int, desk_color: DeskColors):
-        async with async_session_maker() as session:
-            async with session.begin():
-                current_desk_color = await session.get(DeskColors, desk_color_id)
-                if not current_desk_color:
-                    raise HTTPException(status_code=404, detail=f"Desk color id = {desk_color_id} not found")
-                desk_color.id = desk_color_id
-                await session.merge(desk_color)
-        return {"detail": f"Desk color id = {desk_color_id} updated"}
-
-    @classmethod
-    async def delete_desk_color(cls, desk_color_id: int):
-        async with async_session_maker() as session:
-            async with session.begin():
-                desk_color = await session.get(DeskColors, desk_color_id)
-                if not desk_color:
-                    raise HTTPException(status_code=404, detail=f"Desk color id = {desk_color_id} not found")
-                await session.delete(desk_color)
-        return {"detail": f"Desk color id = {desk_color_id} deleted"}
-
-class FrameColorDAO(BaseDAO):
-    model = FrameColors
-
-    @classmethod
-    async def get_frame_color(cls, frame_color_id: int):
-        async with async_session_maker() as session:
-            return await session.get(FrameColors, frame_color_id)
-
-    @classmethod
-    async def add_frame_color(cls, frame_color: FrameColors):
-        async with async_session_maker() as session:
-            async with session.begin():
-                session.add(frame_color)
-        return {"detail": "Frame color added"}
-
-    @classmethod
-    async def update_frame_color(cls, frame_color_id: int, frame_color: FrameColors):
-        async with async_session_maker() as session:
-            async with session.begin():
-                current_frame_color = await session.get(FrameColors, frame_color_id)
-                if not current_frame_color:
-                    raise HTTPException(status_code=404, detail=f"Frame color id = {frame_color_id} not found")
-                frame_color.id = frame_color_id
-                await session.merge(frame_color)
-        return {"detail": f"Frame color id = {frame_color_id} updated"}
-
-    @classmethod
-    async def delete_frame_color(cls, frame_color_id: int):
-        async with async_session_maker() as session:
-            async with session.begin():
-                frame_color = await session.get(FrameColors, frame_color_id)
-                if not frame_color:
-                    raise HTTPException(status_code=404, detail=f"Frame color id = {frame_color_id} not found")
-                await session.delete(frame_color)
-        return {"detail": f"Frame color id = {frame_color_id} deleted"}
-
-class DepthDAO(BaseDAO):
-    model = Depth
-
-    @classmethod
-    async def get_depth(cls, depth_id: int):
-        async with async_session_maker() as session:
-            return await session.get(Depth, depth_id)
-
-    @classmethod
-    async def add_depth(cls, depth: Depth):
-        async with async_session_maker() as session:
-            async with session.begin():
-                session.add(depth)
-        return {"detail": "Depth added"}
-
-    @classmethod
-    async def update_depth(cls, depth_id: int, depth: Depth):
-        async with async_session_maker() as session:
-            async with session.begin():
-                current_depth = await session.get(Depth, depth_id)
-                if not current_depth:
-                    raise HTTPException(status_code=404, detail=f"Depth id = {depth_id} not found")
-                depth.id = depth_id
-                await session.merge(depth)
-        return {"detail": f"Depth id = {depth_id} updated"}
-
-    @classmethod
-    async def delete_depth(cls, depth_id: int):
-        async with async_session_maker() as session:
-            async with session.begin():
-                depth = await session.get(Depth, depth_id)
-                if not depth:
-                    raise HTTPException(status_code=404, detail=f"Depth id = {depth_id} not found")
-                await session.delete(depth)
-        return {"detail": f"Depth id = {depth_id} deleted"}
-
-class LengthDAO(BaseDAO):
-    model = Length
-
-    @classmethod
-    async def get_length(cls, length_id: int):
-        async with async_session_maker() as session:
-            return await session.get(Length, length_id)
-
-    @classmethod
-    async def add_length(cls, length: Length):
-        async with async_session_maker() as session:
-            async with session.begin():
-                session.add(length)
-        return {"detail": "Length added"}
-
-    @classmethod
-    async def update_length(cls, length_id: int, length: Length):
-        async with async_session_maker() as session:
-            async with session.begin():
-                current_length = await session.get(Length, length_id)
-                if not current_length:
-                    raise HTTPException(status_code=404, detail=f"Length id = {length_id} not found")
-                length.id = length_id
-                await session.merge(length)
-        return {"detail": f"Length id = {length_id} updated"}
-
-    @classmethod
-    async def delete_length(cls, length_id: int):
-        async with async_session_maker() as session:
-            async with session.begin():
-                length = await session.get(Length, length_id)
-                if not length:
-                    raise HTTPException(status_code=404, detail=f"Length id = {length_id} not found")
-                await session.delete(length)
-        return {"detail": f"Length id = {length_id} deleted"}
 
 class UsersDAO(BaseDAO):
     model = UsersModel
