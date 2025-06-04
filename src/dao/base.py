@@ -1,5 +1,5 @@
 from sqlalchemy.future import select
-from src.database import async_session_maker
+from src.utils.database import async_session_maker
 
 
 class BaseDAO:

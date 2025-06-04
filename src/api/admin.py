@@ -10,7 +10,7 @@ from src.dao.dao import ProductsDAO, ContentDAO, IndividualOrdersDAO
 from src.schemas.products import SProductOut, SProductInfoOut
 
 router = APIRouter(prefix="/admin")
-templates = Jinja2Templates(directory='./admin/templates')
+templates = Jinja2Templates(directory='./templates/admin')
 
 @router.get("/products",
             dependencies=[Depends(access_token_validation)],

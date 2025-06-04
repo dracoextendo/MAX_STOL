@@ -1,6 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from src.database import Base
+from src.utils.database import Base
+from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
 
 
 class ProductsModel(Base):
@@ -66,6 +67,15 @@ class DeskColors(Base):
     )
     sort: Mapped[int | None] = mapped_column(default=500)
 
+    def to_read_model(self) -> SDeskColorOut:
+        return SDeskColorOut(
+            id=self.id,
+            name=self.name,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+            sort=self.sort,
+        )
+
 class FrameColors(Base):
     __tablename__ = 'frame_colors'
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -76,6 +86,15 @@ class FrameColors(Base):
         back_populates="frame_colors"
     )
     sort: Mapped[int | None] = mapped_column(default=500)
+
+    def to_read_model(self) -> SFrameColorOut:
+        return SFrameColorOut(
+            id=self.id,
+            name=self.name,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+            sort=self.sort,
+        )
 
 class Length(Base):
     __tablename__ = 'length'
@@ -88,6 +107,15 @@ class Length(Base):
     )
     sort: Mapped[int | None] = mapped_column(default=500)
 
+    def to_read_model(self) -> SLengthOut:
+        return SLengthOut(
+            id=self.id,
+            value=self.value,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+            sort=self.sort,
+        )
+
 class Depth(Base):
     __tablename__ = 'depth'
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -98,3 +126,12 @@ class Depth(Base):
         back_populates="depth"
     )
     sort: Mapped[int | None] = mapped_column(default=500)
+
+    def to_read_model(self) -> SDepthOut:
+        return SDepthOut(
+            id=self.id,
+            value=self.value,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+            sort=self.sort,
+        )

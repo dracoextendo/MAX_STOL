@@ -61,29 +61,29 @@ class SDepthIn(BaseModel):
 
 class SDeskColorOut(BaseModel):
     id: int
+    sort: int
     name: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    sort: int
 
 class SFrameColorOut(BaseModel):
     id: int
+    sort: int
     name: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    sort: int
 
 class SLengthOut(BaseModel):
     id: int
+    sort: int
     value: int
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    sort: int
 
 class SDepthOut(BaseModel):
     id: int
+    sort: int
     value: int
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    sort: int
 
