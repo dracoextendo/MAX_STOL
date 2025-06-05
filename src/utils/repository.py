@@ -29,6 +29,14 @@ class AbstractRepository(ABC):
     async def get_first(self):
         raise NotImplementedError()
 
+    @abstractmethod
+    async def get_info(self):
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def get_one_by_username(self):
+        raise NotImplementedError()
+
 
 class SQLAlchemyRepository(AbstractRepository):
     model = None
@@ -63,7 +71,7 @@ class SQLAlchemyRepository(AbstractRepository):
             await session.commit()
             return res.scalar_one_or_none()
 
-    async def get_all(self, filter_by: dict | None = None, order_by: str | list[str] | None = None): #  добавить filter_by
+    async def get_all(self, filter_by: dict | None = None, order_by: str | list[str] | None = None):
         async with async_session_maker() as session:
             stmt = select(self.model)
             if filter_by:
@@ -94,4 +102,10 @@ class SQLAlchemyRepository(AbstractRepository):
         async with async_session_maker() as session:
             stmt = select(self.model)
             res = await session.execute(stmt)
-            return res.scalars.first()
+            return res.scalars().first()
+
+    async def get_info(self):
+        raise NotImplementedError()
+
+    async def get_one_by_username(self):
+        raise NotImplementedError()

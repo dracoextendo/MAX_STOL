@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
+from src.schemas.individual_orders import SIndividualOrderOut
 from src.utils.database import Base
 from src.schemas.orders import SOrderOut
 
@@ -44,3 +45,14 @@ class IndividualOrdersModel(Base):
     email: Mapped[str | None]
     telegram: Mapped[str | None]
     sort: Mapped[int | None] = mapped_column(default=500)
+
+    def to_read_model(self) -> SIndividualOrderOut:
+        return SIndividualOrderOut(
+            id=self.id,
+            username=self.username,
+            phone=self.phone,
+            email=self.email,
+            telegram=self.telegram,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+        )

@@ -30,9 +30,7 @@ class S3Client:
         async with self.session.create_client("s3", **self.config) as client:
             yield client
 
-    async def upload_to_s3(self, file: UploadFile) -> str:
-        file_extension = file.filename.split('.')[-1]
-        file_name = f"{uuid4()}.{file_extension}"
+    async def upload_to_s3(self, file: UploadFile, file_name: str) -> str:
         async with self.get_client() as s3_client:
             await s3_client.put_object(
                 Bucket=self.bucket_name,
@@ -41,8 +39,7 @@ class S3Client:
             )
         return f"{self.domain}/{file_name}"
 
-    async def delete_from_s3(self, url: str) -> None:
-        key = url.replace(f"{self.domain}/", "")
+    async def delete_from_s3(self, key: str) -> None:
         async with self.get_client() as s3_client:
             await s3_client.delete_object(
                 Bucket=self.bucket_name,

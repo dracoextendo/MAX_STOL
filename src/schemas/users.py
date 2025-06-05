@@ -15,3 +15,8 @@ class SUserIn(BaseModel):
             username=username,
             password=password,
         )
+
+class SUserOut(BaseModel):
+    id: int
+    username: str
+    email: str
