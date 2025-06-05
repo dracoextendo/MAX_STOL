@@ -1,4 +1,3 @@
-from fastapi import Depends
 from src.schemas.orders import SOrderIn
 from src.utils.repository import AbstractRepository
 

@@ -52,6 +52,8 @@ class SProductIn(BaseModel):
 
 class SProductOut(BaseModel):
     id: int
+    sort: int
+    is_active: bool
     name: str
     description: str
     price: int
@@ -60,8 +62,6 @@ class SProductOut(BaseModel):
     third_image: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    sort: int
-    is_active: bool
 
 class SProductInfoOut(BaseModel):
     product: SProductOut

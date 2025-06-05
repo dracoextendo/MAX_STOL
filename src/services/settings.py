@@ -6,6 +6,14 @@ class SettingsService:
     def __init__(self, settings_repository: type[AbstractRepository]):
         self.settings_repository: AbstractRepository = settings_repository()
 
+    async def validate_parameters(self, params: list[int]):
+        existing_params = await self.settings_repository.get_all()
+        ids = [param.id for param in existing_params]
+        for param_id in params:
+            if param_id not in ids:
+                return False
+        return True
+
     async def get_parameter(self, id: int):
         param = await self.settings_repository.get_one(id)
         return param

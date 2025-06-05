@@ -1,36 +1,18 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 from starlette.templating import Jinja2Templates
-
-from src.api.dependencies import access_token_validation
-from src.api.orders import get_all_orders
-from src.api.responses import HTML_RESPONSE, NOT_FOUND
-from src.api.settings import get_all_desk_colors, get_all_frame_colors, get_all_lengths, get_all_depths
-from src.dao.dao import ProductsDAO, ContentDAO, IndividualOrdersDAO
-from src.schemas.products import SProductOut, SProductInfoOut
+from src.api.dependencies import access_token_validation, order_service, desk_color_service, frame_color_service, \
+    length_service, depth_service, content_service, individual_order_service
+from src.api.responses import HTML_RESPONSE
+from src.services.content import ContentService
+from src.services.individual_orders import IndividualOrdersService
+from src.services.orders import OrdersService
+from src.services.products import ProductsService
+from src.api.dependencies import product_service
+from src.services.settings import SettingsService
 
 router = APIRouter(prefix="/admin")
 templates = Jinja2Templates(directory='./templates/admin')
-
-@router.get("/products",
-            dependencies=[Depends(access_token_validation)],
-            response_model=list[SProductOut],
-            summary="Получить все продукты (активные и неактивные)",
-            tags=['Admin'])
-async def get_all_products_admin():
-    return await ProductsDAO().find_all()
-
-@router.get("/products/{id}",
-            responses ={**NOT_FOUND},
-            dependencies=[Depends(access_token_validation)],
-            response_model=SProductInfoOut,
-            summary="Получить информацию о продукте по id",
-            tags=['Admin'])
-async def get_product_by_id(id: int):
-    result = await ProductsDAO.get_product(id, False)
-    if result is None:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return result
 
 @router.get("/login",
             summary="Страница авторизации",
@@ -46,7 +28,8 @@ async def get_login_html(request: Request):
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, orders=Depends(get_all_orders)):
+async def get_admin_html(request: Request, orders_service: OrdersService = Depends(order_service)):
+    orders = await orders_service.get_all_orders()
     return templates.TemplateResponse("orders.html", context={'request': request, 'orders': orders})
 
 @router.get("/desks",
@@ -55,7 +38,8 @@ async def get_admin_html(request: Request, orders=Depends(get_all_orders)):
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, products=Depends(get_all_products_admin)):
+async def get_admin_html(request: Request, product_service: ProductsService = Depends(product_service)):
+    products = await product_service.get_all_products(order_by=["sort", "id"])
     return templates.TemplateResponse("products.html", context={'request': request, 'products': products})
 
 @router.get("/desk-colors",
@@ -64,7 +48,8 @@ async def get_admin_html(request: Request, products=Depends(get_all_products_adm
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, desk_colors=Depends(get_all_desk_colors)):
+async def get_admin_html(request: Request, desk_color_service: SettingsService = Depends(desk_color_service)):
+    desk_colors = await desk_color_service.get_all_parameters()
     return templates.TemplateResponse("desk-colors.html", context={'request': request, 'desk_colors': desk_colors})
 
 @router.get("/frame-colors",
@@ -73,7 +58,8 @@ async def get_admin_html(request: Request, desk_colors=Depends(get_all_desk_colo
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, frame_colors=Depends(get_all_frame_colors)):
+async def get_admin_html(request: Request, frame_color_service: SettingsService = Depends(frame_color_service)):
+    frame_colors = await frame_color_service.get_all_parameters()
     return templates.TemplateResponse("frame-colors.html", context={'request': request, 'frame_colors': frame_colors})
 
 @router.get("/lengths",
@@ -82,7 +68,8 @@ async def get_admin_html(request: Request, frame_colors=Depends(get_all_frame_co
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, lengths=Depends(get_all_lengths)):
+async def get_admin_html(request: Request, length_service: SettingsService = Depends(length_service)):
+    lengths = await length_service.get_all_parameters()
     return templates.TemplateResponse("lengths.html", context={'request': request, 'lengths': lengths})
 
 @router.get("/depths",
@@ -91,7 +78,8 @@ async def get_admin_html(request: Request, lengths=Depends(get_all_lengths)):
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, depths=Depends(get_all_depths)):
+async def get_admin_html(request: Request, depth_service: SettingsService = Depends(depth_service)):
+    depths = await depth_service.get_all_parameters()
     return templates.TemplateResponse("depths.html", context={'request': request, 'depths': depths})
 
 @router.get("/content",
@@ -100,7 +88,8 @@ async def get_admin_html(request: Request, depths=Depends(get_all_depths)):
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, content=Depends(ContentDAO.find_first)):
+async def get_admin_html(request: Request, content_service: ContentService = Depends(content_service)):
+    content = await content_service.get_content()
     return templates.TemplateResponse("content.html", context={'request': request, 'content': content})
 
 @router.get("/individual-project",
@@ -109,6 +98,7 @@ async def get_admin_html(request: Request, content=Depends(ContentDAO.find_first
             response_class=HTMLResponse,
             responses={**HTML_RESPONSE},
             tags=['HTML', 'Admin'])
-async def get_admin_html(request: Request, orders=Depends(IndividualOrdersDAO.find_all)):
+async def get_admin_html(request: Request, individual_order_service: IndividualOrdersService = Depends(individual_order_service)):
+    orders = await individual_order_service.get_all_orders()
     return templates.TemplateResponse("individual-project.html", context={'request': request, 'orders': orders})
 

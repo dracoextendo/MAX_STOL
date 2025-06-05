@@ -1,5 +1,6 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from src.schemas.products import SProductOut
 from src.utils.database import Base
 from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
 
@@ -21,16 +22,31 @@ class ProductsModel(Base):
         secondary="product_frame_color",
         back_populates="products"
     )
-    length: Mapped[list["Length"]] = relationship(
+    lengths: Mapped[list["Length"]] = relationship(
         secondary="product_length",
         back_populates="products"
     )
-    depth: Mapped[list["Depth"]] = relationship(
+    depths: Mapped[list["Depth"]] = relationship(
         secondary="product_depth",
         back_populates="products"
     )
     sort: Mapped[int | None] = mapped_column(default=500)
     is_active: Mapped[bool| None] = mapped_column(default=True)
+
+    def to_read_model(self) -> SProductOut:
+        return SProductOut(
+                id=self.id,
+                sort=self.sort,
+                is_active=self.is_active,
+                name=self.name,
+                description=self.description,
+                price=self.price,
+                first_image=self.first_image,
+                second_image=self.second_image,
+                third_image=self.third_image,
+                created_at=self.created_at,
+                updated_at=self.updated_at,
+            )
 
 class ProductDeskColor(Base):
     __tablename__ = 'product_desk_color'
@@ -103,7 +119,7 @@ class Length(Base):
 
     products: Mapped[list["ProductsModel"]] = relationship(
         secondary="product_length",
-        back_populates="length"
+        back_populates="lengths"
     )
     sort: Mapped[int | None] = mapped_column(default=500)
 
@@ -123,7 +139,7 @@ class Depth(Base):
 
     products: Mapped[list["ProductsModel"]] = relationship(
         secondary="product_depth",
-        back_populates="depth"
+        back_populates="depths"
     )
     sort: Mapped[int | None] = mapped_column(default=500)
 

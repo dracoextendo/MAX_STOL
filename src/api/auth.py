@@ -1,10 +1,12 @@
 from fastapi import APIRouter, HTTPException, Response
 from fastapi.params import Depends
+
+from src.api.dependencies import user_service
 from src.api.responses import UNAUTHORIZED
-from src.dao.dao import UsersDAO
 import src.utils.security as security
 from src.schemas.base import SStatusOut
 from src.schemas.users import SUserIn
+from src.services.users import UsersService
 
 router = APIRouter(tags=['Auth'])
 
@@ -12,8 +14,10 @@ router = APIRouter(tags=['Auth'])
              summary="Авторизация",
              responses ={**UNAUTHORIZED},
              response_model=SStatusOut)
-async def auth(response: Response, user_data: SUserIn = Depends(SUserIn.as_form)):
-    user = await UsersDAO.get_user_by_username(user_data.username)
+async def auth(response: Response,
+               user_data: SUserIn = Depends(SUserIn.as_form),
+               user_service: UsersService = Depends(user_service)):
+    user = await user_service.get_user_by_username(user_data.username)
     if user and security.validate_password(user_data.password, user.hashed_password):
         access_token = security.create_access_token(user)
         refresh_token = security.create_refresh_token(user)

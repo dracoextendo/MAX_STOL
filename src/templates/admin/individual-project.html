@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="main-content">
-            <h1>Заявки на ндивидуальный проект</h1>
+            <h1>Заявки на индивидуальный проект</h1>
             <table>
                 <thead>
                     <tr>
@@ -50,7 +50,7 @@
                         <td>{{ order.username }}</td>
                         <td>+7 ({{order.phone[2:5]}}) {{order.phone[5:8]}}-{{order.phone[8:10]}}-{{order.phone[10:12]}}</td>
                         <td>{{ order.email | default('', true) }}</td>
-                        <td>{{ order.email | default('', true) }}</td>
+                        <td>{{ order.telegram | default('', true) }}</td>
                         <td>{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
                         <td class="actions">
                             <button class="table-button"><svg class="svg-icon"><use xlink:href="../../static/sprite.svg#magnifier"></use></svg></button>
