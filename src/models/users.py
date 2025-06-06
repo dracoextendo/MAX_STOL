@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Mapped, mapped_column
-
 from src.schemas.users import SUserOut
 from src.utils.database import Base
 

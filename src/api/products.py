@@ -1,16 +1,16 @@
 import asyncio
-from typing import Annotated
-from fastapi import APIRouter, Form, UploadFile, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Request, Response
 from fastapi.params import Depends
-
-from src.api.responses import NOT_FOUND, UNAUTHORIZED, FORBIDDEN
+from src.utils.responses import NOT_FOUND, UNAUTHORIZED
 from src.schemas.base import SStatusOut
 from src.schemas.products import SProductInfoOut, SProductOut, SProductIn
-from src.api.dependencies import access_token_validation, s3_service, product_service, desk_color_service, \
-    frame_color_service, length_service, depth_service
+from src.api.dependencies import s3_service, product_service, desk_color_service, \
+    frame_color_service, length_service, depth_service, auth_service
+from src.services.auth import AuthService
 from src.services.products import ProductsService
 from src.services.s3 import S3Service
 from src.services.settings import SettingsService
+from src.utils.config import SECURE_COOKIE
 
 router = APIRouter(tags=['Продукты'], prefix='/products')
 
@@ -28,8 +28,28 @@ async def get_product_info(id: int, product_service: ProductsService = Depends(p
         raise HTTPException(status_code=404, detail="Product not found")
     return product
 
-@router.delete("/{id}", dependencies=[Depends(access_token_validation)], responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND}, response_model=SStatusOut, summary="Удалить продукт")
-async def delete_product(id: int, product_service: ProductsService = Depends(product_service), image_service: S3Service = Depends(s3_service)):
+@router.delete("/{id}",
+               responses ={**UNAUTHORIZED, **NOT_FOUND},
+               response_model=SStatusOut,
+               summary="Удалить продукт")
+async def delete_product(request: Request,
+                         response: Response,
+                         id: int,
+                         product_service: ProductsService = Depends(product_service),
+                         image_service: S3Service = Depends(s3_service),
+                         auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     files_to_delete = await product_service.delete_product(id)
     if not files_to_delete:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -37,18 +57,32 @@ async def delete_product(id: int, product_service: ProductsService = Depends(pro
     return SStatusOut(detail=f"product id = {id} deleted")
 
 @router.put("/{id}",
-            dependencies=[Depends(access_token_validation)],
-            responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND},
+            responses ={**UNAUTHORIZED, **NOT_FOUND},
             response_model=SStatusOut,
             summary="Обновить продукт (в Swagger можно добавить только по одной характеристике)")
-async def update_product(id: int,
+async def update_product(request: Request,
+                         response: Response,
+                         id: int,
                          product_data: SProductIn = Depends(SProductIn.as_form),
                          product_service: ProductsService = Depends(product_service),
                          image_service: S3Service = Depends(s3_service),
                          desk_color_service: SettingsService = Depends(desk_color_service),
                          frame_color_service: SettingsService = Depends(frame_color_service),
                          length_service: SettingsService = Depends(length_service),
-                         depth_service: SettingsService = Depends(depth_service)):
+                         depth_service: SettingsService = Depends(depth_service),
+                         auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     product = await product_service.get_product(id)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -74,18 +108,32 @@ async def update_product(id: int,
 
 
 @router.post("/add",
-             dependencies=[Depends(access_token_validation)],
-             responses ={**UNAUTHORIZED, **FORBIDDEN, **NOT_FOUND},
+             responses ={**UNAUTHORIZED, **NOT_FOUND},
              response_model=SStatusOut,
              summary="Добавить продукт (в Swagger можно добавить только по одной характеристике, добавление нескольких характеристик через /test-form)",
              status_code=status.HTTP_201_CREATED)
-async def upload_product(product_data: SProductIn = Depends(SProductIn.as_form),
+async def upload_product(request: Request,
+                         response: Response,
+                         product_data: SProductIn = Depends(SProductIn.as_form),
                          product_service: ProductsService = Depends(product_service),
                          image_service: S3Service = Depends(s3_service),
                          desk_color_service: SettingsService = Depends(desk_color_service),
                          frame_color_service: SettingsService = Depends(frame_color_service),
                          length_service: SettingsService = Depends(length_service),
-                         depth_service: SettingsService = Depends(depth_service)):
+                         depth_service: SettingsService = Depends(depth_service),
+                         auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     if not await desk_color_service.validate_parameters(product_data.desk_colors):
         raise HTTPException(status_code=400, detail="Invalid desk colors")
     if not await frame_color_service.validate_parameters(product_data.frame_colors):

@@ -1,10 +1,7 @@
 from contextlib import asynccontextmanager
-from uuid import uuid4
-from src.utils.config import S3Config
+from src.utils.config import s3_config
 from aiobotocore.session import get_session
 from fastapi import UploadFile
-
-config = S3Config()
 
 class S3Client:
     def __init__(
@@ -47,9 +44,9 @@ class S3Client:
             )
 
 s3client = S3Client(
-    access_key=config.access_key.get_secret_value(),
-    secret_key=config.secret_key.get_secret_value(),
-    endpoint_url=config.endpoint_url.get_secret_value(),
-    bucket_name=config.bucket_name.get_secret_value(),
-    domain=config.domain.get_secret_value(),
+    access_key=s3_config.access_key.get_secret_value(),
+    secret_key=s3_config.secret_key.get_secret_value(),
+    endpoint_url=s3_config.endpoint_url.get_secret_value(),
+    bucket_name=s3_config.bucket_name.get_secret_value(),
+    domain=s3_config.domain.get_secret_value(),
 )

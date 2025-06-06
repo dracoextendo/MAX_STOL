@@ -1,21 +1,37 @@
-from fastapi import APIRouter, HTTPException, Depends, status
-from src.api.dependencies import access_token_validation, desk_color_service, frame_color_service, length_service, \
-    depth_service
-from src.api.responses import UNAUTHORIZED, FORBIDDEN, NOT_FOUND
+from fastapi import APIRouter, HTTPException, Depends, status, Response, Request
+from src.api.dependencies import desk_color_service, frame_color_service, length_service, \
+    depth_service, auth_service
+from src.utils.responses import UNAUTHORIZED, NOT_FOUND
 from src.schemas.base import SStatusOut
 from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut, SDeskColorIn, SFrameColorIn, \
     SLengthIn, SDepthIn
+from src.services.auth import AuthService
 from src.services.settings import SettingsService
+from src.utils.config import SECURE_COOKIE
 
 router = APIRouter(prefix="/settings",
-                   dependencies=[Depends(access_token_validation)],
-                   responses ={**UNAUTHORIZED, **FORBIDDEN},)
+                   responses ={**UNAUTHORIZED},)
 
 @router.get('/desk-colors',
             summary="Получить все цвета столешниц",
             tags=['Цвет столешницы'],
             response_model=list[SDeskColorOut])
-async def get_all_desk_colors(service: SettingsService = Depends(desk_color_service)):
+async def get_all_desk_colors(request: Request,
+                              response: Response,
+                              service: SettingsService = Depends(desk_color_service),
+                              auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     desk_colors = await service.get_all_parameters()
     if not desk_colors:
         raise HTTPException(status_code=404, detail="Desk colors not found")
@@ -26,7 +42,23 @@ async def get_all_desk_colors(service: SettingsService = Depends(desk_color_serv
             tags=['Цвет столешницы'],
             responses ={**NOT_FOUND},
             response_model=SDeskColorOut)
-async def get_desk_color_by_id(id: int, service: SettingsService = Depends(desk_color_service)):
+async def get_desk_color_by_id(request: Request,
+                               response: Response,
+                               id: int,
+                               service: SettingsService = Depends(desk_color_service),
+                               auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     desk_color = await service.get_parameter(id)
     if not desk_color:
         raise HTTPException(status_code=404, detail="Desk color not found")
@@ -37,7 +69,23 @@ async def get_desk_color_by_id(id: int, service: SettingsService = Depends(desk_
              tags=['Цвет столешницы'],
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_desk_color(color: SDeskColorIn = Depends(SDeskColorIn.as_form), service: SettingsService = Depends(desk_color_service)):
+async def add_desk_color(request: Request,
+                         response: Response,
+                         color: SDeskColorIn = Depends(SDeskColorIn.as_form),
+                         service: SettingsService = Depends(desk_color_service),
+                         auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     desk_color_id = await service.add_parameter(color)
     return SStatusOut(detail=f"desk color id = {desk_color_id} added")
 
@@ -46,7 +94,23 @@ async def add_desk_color(color: SDeskColorIn = Depends(SDeskColorIn.as_form), se
             tags=['Цвет столешницы'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_desk_color_by_id(id: int, color: SDeskColorIn = Depends(SDeskColorIn.as_form), service: SettingsService = Depends(desk_color_service)):
+async def update_desk_color_by_id(request: Request,
+                                  response: Response,
+                                  id: int, color: SDeskColorIn = Depends(SDeskColorIn.as_form),
+                                  service: SettingsService = Depends(desk_color_service),
+                                  auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     desk_color_id = await service.update_parameter(id, color)
     if not desk_color_id:
         raise HTTPException(status_code=404, detail="Desk color not found")
@@ -57,7 +121,22 @@ async def update_desk_color_by_id(id: int, color: SDeskColorIn = Depends(SDeskCo
                tags=['Цвет столешницы'],
                responses ={**NOT_FOUND},
                response_model=SStatusOut)
-async def delete_desk_color_by_id(id: int, service: SettingsService = Depends(desk_color_service)):
+async def delete_desk_color_by_id(request: Request,
+                                  response: Response,
+                                  id: int, service: SettingsService = Depends(desk_color_service),
+                                  auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     desk_color_id = await service.delete_parameter(id)
     if not desk_color_id:
         raise HTTPException(status_code=404, detail="Desk color not found")
@@ -67,7 +146,22 @@ async def delete_desk_color_by_id(id: int, service: SettingsService = Depends(de
             summary="Получить все цвета металлокаркаса",
             tags=['Цвет металлокаркаса'],
             response_model=list[SFrameColorOut])
-async def get_all_frame_colors(service: SettingsService = Depends(frame_color_service)):
+async def get_all_frame_colors(request: Request,
+                               response: Response,
+                               service: SettingsService = Depends(frame_color_service),
+                               auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     frame_colors = await service.get_all_parameters()
     if not frame_colors:
         raise HTTPException(status_code=404, detail="Frame colors not found")
@@ -78,7 +172,22 @@ async def get_all_frame_colors(service: SettingsService = Depends(frame_color_se
             tags=['Цвет металлокаркаса'],
             responses ={**NOT_FOUND},
             response_model=SFrameColorOut)
-async def get_frame_color_by_id(id: int, service: SettingsService = Depends(frame_color_service)):
+async def get_frame_color_by_id(request: Request,
+                                response: Response,
+                                id: int, service: SettingsService = Depends(frame_color_service),
+                                auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     frame_color = await service.get_parameter(id)
     if not frame_color:
         raise HTTPException(status_code=404, detail="Frame color not found")
@@ -90,7 +199,23 @@ async def get_frame_color_by_id(id: int, service: SettingsService = Depends(fram
              responses ={**NOT_FOUND},
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_frame_color(color: SFrameColorIn = Depends(SFrameColorIn.as_form), service: SettingsService = Depends(frame_color_service)):
+async def add_frame_color(request: Request,
+                          response: Response,
+                          color: SFrameColorIn = Depends(SFrameColorIn.as_form),
+                          service: SettingsService = Depends(frame_color_service),
+                          auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     frame_color_id = await service.add_parameter(color)
     return SStatusOut(detail=f"frame color id = {frame_color_id} added")
 
@@ -99,7 +224,24 @@ async def add_frame_color(color: SFrameColorIn = Depends(SFrameColorIn.as_form),
             tags=['Цвет металлокаркаса'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_frame_color_by_id(id: int, color: SFrameColorIn = Depends(SFrameColorIn.as_form), service: SettingsService = Depends(frame_color_service)):
+async def update_frame_color_by_id(request: Request,
+                                   response: Response,
+                                   id: int,
+                                   color: SFrameColorIn = Depends(SFrameColorIn.as_form),
+                                   service: SettingsService = Depends(frame_color_service),
+                                   auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     frame_color_id = await service.update_parameter(id, color)
     if not frame_color_id:
         raise HTTPException(status_code=404, detail="Frame color not found")
@@ -110,7 +252,23 @@ async def update_frame_color_by_id(id: int, color: SFrameColorIn = Depends(SFram
                tags=['Цвет металлокаркаса'],
                responses ={**NOT_FOUND},
                response_model=SStatusOut)
-async def delete_frame_color_by_id(id: int, service: SettingsService = Depends(frame_color_service)):
+async def delete_frame_color_by_id(request: Request,
+                                   response: Response,
+                                   id: int,
+                                   service: SettingsService = Depends(frame_color_service),
+                                   auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     frame_color_id = await service.delete_parameter(id)
     if not frame_color_id:
         raise HTTPException(status_code=404, detail="Frame color not found")
@@ -120,7 +278,22 @@ async def delete_frame_color_by_id(id: int, service: SettingsService = Depends(f
             summary="Получить все длины столов",
             tags=['Длина стола'],
             response_model=list[SLengthOut])
-async def get_all_lengths(service: SettingsService = Depends(length_service)):
+async def get_all_lengths(request: Request,
+                          response: Response,
+                          auth_service: AuthService = Depends(auth_service),
+                          service: SettingsService = Depends(length_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     lengths = await service.get_all_parameters()
     if not lengths:
         raise HTTPException(status_code=404, detail="Lengths not found")
@@ -131,7 +304,23 @@ async def get_all_lengths(service: SettingsService = Depends(length_service)):
             tags=['Длина стола'],
             responses ={**NOT_FOUND},
             response_model=SLengthOut)
-async def get_length_by_id(id: int, service: SettingsService = Depends(length_service)):
+async def get_length_by_id(request: Request,
+                           response: Response,
+                           id: int,
+                           service: SettingsService = Depends(length_service),
+                           auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     length = await service.get_parameter(id)
     if not length:
         raise HTTPException(status_code=404, detail="Length not found")
@@ -142,7 +331,23 @@ async def get_length_by_id(id: int, service: SettingsService = Depends(length_se
              tags=['Длина стола'],
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_length(length: SLengthIn = Depends(SLengthIn.as_form), service: SettingsService = Depends(length_service)):
+async def add_length(request: Request,
+                     response: Response,
+                     length: SLengthIn = Depends(SLengthIn.as_form),
+                     service: SettingsService = Depends(length_service),
+                     auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     length_id = await service.add_parameter(length)
     return SStatusOut(detail=f"length id = {length_id} added")
 
@@ -151,7 +356,24 @@ async def add_length(length: SLengthIn = Depends(SLengthIn.as_form), service: Se
             tags=['Длина стола'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_length_by_id(id: int, length: SLengthIn = Depends(SLengthIn.as_form), service: SettingsService = Depends(length_service)):
+async def update_length_by_id(request: Request,
+                              response: Response,
+                              id: int,
+                              length: SLengthIn = Depends(SLengthIn.as_form),
+                              service: SettingsService = Depends(length_service),
+                              auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     length_id = await service.update_parameter(id, length)
     if not length_id:
         raise HTTPException(status_code=404, detail="Length not found")
@@ -162,7 +384,23 @@ async def update_length_by_id(id: int, length: SLengthIn = Depends(SLengthIn.as_
                tags=['Длина стола'],
                responses ={**NOT_FOUND},
                response_model=SStatusOut)
-async def delete_length_by_id(id: int, service: SettingsService = Depends(length_service)):
+async def delete_length_by_id(request: Request,
+                              response: Response,
+                              id: int,
+                              service: SettingsService = Depends(length_service),
+                              auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     length_id = await service.delete_parameter(id)
     if not length_id:
         raise HTTPException(status_code=404, detail="Length not found")
@@ -172,7 +410,22 @@ async def delete_length_by_id(id: int, service: SettingsService = Depends(length
             summary="Получить все глубины столов",
             tags=['Глубина стола'],
             response_model=list[SDepthOut])
-async def get_all_depths(service: SettingsService = Depends(depth_service)):
+async def get_all_depths(request: Request,
+                         response: Response,
+                         service: SettingsService = Depends(depth_service),
+                         auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     depths = await service.get_all_parameters()
     if not depths:
         raise HTTPException(status_code=404, detail="Depths not found")
@@ -183,7 +436,23 @@ async def get_all_depths(service: SettingsService = Depends(depth_service)):
             tags=['Глубина стола'],
             responses ={**NOT_FOUND},
             response_model=SDepthOut)
-async def get_depth_by_id(id: int, service: SettingsService = Depends(depth_service)):
+async def get_depth_by_id(request: Request,
+                          response: Response,
+                          id: int,
+                          service: SettingsService = Depends(depth_service),
+                          auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     depth = await service.get_parameter(id)
     if not depth:
         raise HTTPException(status_code=404, detail="Depth not found")
@@ -194,7 +463,23 @@ async def get_depth_by_id(id: int, service: SettingsService = Depends(depth_serv
              tags=['Глубина стола'],
              response_model=SStatusOut,
              status_code=status.HTTP_201_CREATED)
-async def add_depth(depth: SDepthIn = Depends(SDepthIn.as_form), service: SettingsService = Depends(depth_service)):
+async def add_depth(request: Request,
+                    response: Response,
+                    depth: SDepthIn = Depends(SDepthIn.as_form),
+                    service: SettingsService = Depends(depth_service),
+                    auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     depth_id = await service.add_parameter(depth)
     return SStatusOut(detail=f"depth id = {depth_id} added")
 
@@ -204,7 +489,24 @@ async def add_depth(depth: SDepthIn = Depends(SDepthIn.as_form), service: Settin
             tags=['Глубина стола'],
             responses ={**NOT_FOUND},
             response_model=SStatusOut)
-async def update_depth_by_id(id: int, depth: SDepthIn = Depends(SDepthIn.as_form), service: SettingsService = Depends(depth_service)):
+async def update_depth_by_id(request: Request,
+                             response: Response,
+                             id: int,
+                             depth: SDepthIn = Depends(SDepthIn.as_form),
+                             service: SettingsService = Depends(depth_service),
+                             auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     depth_id = await service.update_parameter(id, depth)
     if not depth_id:
         raise HTTPException(status_code=404, detail="Depth not found")
@@ -215,7 +517,23 @@ async def update_depth_by_id(id: int, depth: SDepthIn = Depends(SDepthIn.as_form
                tags=['Глубина стола'],
                responses ={**NOT_FOUND},
                response_model=SStatusOut)
-async def delete_depth_by_id(id: int, service: SettingsService = Depends(depth_service)):
+async def delete_depth_by_id(request: Request,
+                             response: Response,
+                             id: int,
+                             service: SettingsService = Depends(depth_service),
+                             auth_service: AuthService = Depends(auth_service)):
+    access_token = request.cookies.get("access_token")
+    refresh_token = request.cookies.get("refresh_token")
+    refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
+    if not refreshed_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, )
+    response.set_cookie(
+        key="access_token",
+        value=refreshed_token,
+        httponly=True,
+        secure=SECURE_COOKIE,
+        samesite='lax'
+    )
     depth_id = await service.delete_parameter(id)
     if not depth_id:
         raise HTTPException(status_code=404, detail="Depth not found")
