@@ -1030,6 +1030,7 @@ input{
     padding: 12px 16px;
     color: #2E363E;
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
 }
 
 .input-field {
