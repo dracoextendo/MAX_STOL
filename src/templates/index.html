@@ -131,9 +131,9 @@
         {% for product in products %}
         <div class="card">
           <div class="card-pics">
-            <img src="{{ product.first_image }}" alt="den1">
-            <img src="{{ product.second_image }}" alt="den2">
-            <img src="{{ product.third_image }}" alt="den3">
+            <img class="cardImg" src="{{ product.first_image }}" alt="den1">
+            <img class="cardImg" src="{{ product.second_image }}" alt="den2">
+            <img class="cardImg" src="{{ product.third_image }}" alt="den3">
           </div>
           <div class="card-text">
             <h3>{{ product.name }}</h3>
@@ -295,6 +295,7 @@
   <script src="../static/js/softscroll.js"></script>
   <script src="../static/js/submitOrder.js"></script>
   <script src="../static/js/sendForm.js"></script>
+  <script src="../static/js/cardSlider.js"></script>
 </body>
 
 </html>
