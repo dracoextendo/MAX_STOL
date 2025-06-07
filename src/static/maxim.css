@@ -3,6 +3,7 @@
 *{
     padding: 0;
     margin: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 *, *::before, *::after {
@@ -1028,6 +1029,7 @@ input{
     border: 1px solid #D9D9D9;
     padding: 12px 16px;
     color: #2E363E;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .input-field {
