@@ -28,7 +28,7 @@
           <use xlink:href="../static/sprite.svg#close-btn"></use>
         </svg></div>
       <div class="dialog-inner">
-        <form class="oder-user-fieldset" id="orderForm">
+        <form class="oder-user-fieldset" id="orderForm" autofocus="false" tabindex="0">
             <div class="order-config">
               <div class="card-pics">
                 <img class="img1" alt="den1">
@@ -64,16 +64,15 @@
                 </div>
                 <div class="order-user-field">
                   <h4>E-mail</h4>
-                  <input type="email" class="input-field" placeholder="клиент@gmail.com*" name="email" autocomplete="off">
+                  <input type="email" class="input-field" placeholder="клиент@gmail.com*" name="email"  autocomplete="off">
                 </div>
                 <div class="order-user-field">
                   <h4>Telegram</h4>
-                  <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autocomplete="off">
+                  <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autofocus="false" autocomplete="off">
                 </div>
                 <button type="button" class="button" id="submitOrderBtn" onclick="submitForm(event)">Заказать</button>
             </div>
         </form>
-        </div>
       </div>
     </div>
   </dialog>
@@ -132,9 +131,9 @@
         {% for product in products %}
         <div class="card">
           <div class="card-pics">
-            <img src="{{ product.first_image }}" alt="den1">
-            <img src="{{ product.second_image }}" alt="den2">
-            <img src="{{ product.third_image }}" alt="den3">
+            <img class="cardImg" src="{{ product.first_image }}" alt="den1">
+            <img class="cardImg" src="{{ product.second_image }}" alt="den2">
+            <img class="cardImg" src="{{ product.third_image }}" alt="den3">
           </div>
           <div class="card-text">
             <h3>{{ product.name }}</h3>
@@ -295,7 +294,8 @@
   <script src="../static/js/popup.js"></script>
   <script src="../static/js/softscroll.js"></script>
   <script src="../static/js/submitOrder.js"></script>
-  <script src="../static/js/validation.js"></script>
+  <script src="../static/js/sendForm.js"></script>
+  <script src="../static/js/cardSlider.js"></script>
 </body>
 
 </html>

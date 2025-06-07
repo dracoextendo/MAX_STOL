@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Mapped, mapped_column
-
 from src.schemas.individual_orders import SIndividualOrderOut
 from src.utils.database import Base
 from src.schemas.orders import SOrderOut

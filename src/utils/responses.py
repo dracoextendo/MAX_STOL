@@ -18,17 +18,6 @@ UNAUTHORIZED = {
     }
 }
 
-FORBIDDEN = {
-    403: {
-        "description": "Error: Forbidden",
-        "content": {
-            "application/json": {
-                "example": {"detail": "Invalid or expired token"}
-            }
-        }
-    }
-}
-
 NOT_FOUND = {
     404: {
         "description": "Error: Not Found",

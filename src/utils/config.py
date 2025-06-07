@@ -3,7 +3,6 @@ from pathlib import Path
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
 class ConfigBase(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "../..", ".env"),
@@ -47,4 +46,8 @@ class JWTConfig(ConfigBase):
     def PUBLIC_KEY_PATH(self):
         return Path(self.public_key_path.get_secret_value())
 
+SECURE_COOKIE = False #  изменить на True после настройки HTTPS
+s3_config = S3Config()
+db_config = DBConfig()
 jwt_config = JWTConfig()
+
