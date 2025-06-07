@@ -54,8 +54,8 @@ class SOrderOut(BaseModel):
     id: int
     username: str
     phone: str
-    email: str
-    telegram: str
+    email: EmailStr | None
+    telegram: str | None
     product_name: str
     desk_color: str
     frame_color: str
@@ -63,3 +63,4 @@ class SOrderOut(BaseModel):
     length: str
     created_at: datetime.datetime
     updated_at: datetime.datetime
+    sort: int
