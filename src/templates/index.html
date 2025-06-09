@@ -53,7 +53,10 @@
               </div>
             </div>
             <div class="order-user">
-                <input type="hidden" name="product-name">
+                <div class="order-user-field">
+                  <h4>Продукт</h4>
+                  <input type="text" class="input-field" name="product-name" disabled>
+                </div>
                 <div class="order-user-field">
                   <h4>ФИО*</h4>
                   <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" autocomplete="off" required>
@@ -64,7 +67,7 @@
                 </div>
                 <div class="order-user-field">
                   <h4>E-mail</h4>
-                  <input type="email" class="input-field" placeholder="клиент@gmail.com*" name="email"  autocomplete="off">
+                  <input type="email" class="input-field" placeholder="клиент@gmail.com" name="email"  autocomplete="off">
                 </div>
                 <div class="order-user-field">
                   <h4>Telegram</h4>
