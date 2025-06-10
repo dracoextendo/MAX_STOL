@@ -9,7 +9,7 @@ from src.api.dependencies import s3_service, product_service, desk_color_service
 from src.services.auth import AuthService
 from src.services.products import ProductsService
 from src.services.s3 import S3Service
-from src.services.settings import SettingsService
+from src.services.desk_settings import SettingsService
 from src.utils.config import SECURE_COOKIE
 
 router = APIRouter(tags=['Продукты'], prefix='/products')

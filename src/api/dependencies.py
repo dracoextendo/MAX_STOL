@@ -10,9 +10,9 @@ from src.services.products import ProductsService
 from src.services.s3 import S3Service
 from src.services.users import UsersService
 from src.repositories.orders import OrdersRepository
-from src.repositories.settings import DeskColorsRepository, FrameColorsRepository, LengthRepository, DepthRepository
+from src.repositories.desk_settings import DeskColorsRepository, FrameColorsRepository, LengthRepository, DepthRepository
 from src.services.orders import OrdersService
-from src.services.settings import SettingsService
+from src.services.desk_settings import SettingsService
 from src.utils.config import jwt_config
 
 

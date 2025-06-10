@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from sqlalchemy import insert, select, update, delete
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
 
 from src.utils.database import async_session_maker
@@ -47,7 +48,6 @@ class SQLAlchemyRepository(AbstractRepository):
         self.session_factory = session_factory
 
     async def get_one(self, id: int):
-        print(self.session_factory)
         async with self.session_factory() as session:
             stmt = select(self.model).where(self.model.id == id)
             res = await session.execute(stmt)
@@ -99,16 +99,15 @@ class SQLAlchemyRepository(AbstractRepository):
                         order_clauses.append(
                             field.desc() if direction == "desc" else field.asc()
                         )
+                    else:
+                        raise InvalidRequestError(f'Entity namespace for "{self.model.__tablename__}" has no property "{field_name}"')
                 if order_clauses:
                     stmt = stmt.order_by(*order_clauses)
             res = await session.execute(stmt)
             return [row[0].to_read_model() for row in res.all()]
 
     async def get_first(self):
-        async with self.session_factory() as session:
-            stmt = select(self.model)
-            res = await session.execute(stmt)
-            return res.scalars().first()
+        raise NotImplementedError()
 
     async def get_info(self):
         raise NotImplementedError()

@@ -11,7 +11,7 @@ from src.services.individual_orders import IndividualOrdersService
 from src.services.orders import OrdersService
 from src.services.products import ProductsService
 from src.api.dependencies import product_service
-from src.services.settings import SettingsService
+from src.services.desk_settings import SettingsService
 from src.utils.config import SECURE_COOKIE
 
 router = APIRouter(prefix="/admin")

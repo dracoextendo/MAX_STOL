@@ -2,7 +2,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.schemas.products import SProductOut
 from src.utils.database import Base
-from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
+from src.schemas.desk_settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
 
 
 class ProductsModel(Base):
