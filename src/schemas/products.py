@@ -2,7 +2,7 @@ import datetime
 from fastapi import UploadFile
 from fastapi.params import Form, File
 from pydantic import BaseModel
-from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
+from src.schemas.desk_settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
 
 
 class SProductIn(BaseModel):
