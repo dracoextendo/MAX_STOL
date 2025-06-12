@@ -24,6 +24,6 @@ class OrdersService:
         order_id = await self.orders_repository.delete_one(id)
         return order_id
 
-    async def get_all_orders(self):
-        orders = await self.orders_repository.get_all(order_by = "-id")
+    async def get_all_orders(self, filter_by: dict | None = None, order_by: str | list[str] | None = None):
+        orders = await self.orders_repository.get_all(filter_by, order_by)
         return orders

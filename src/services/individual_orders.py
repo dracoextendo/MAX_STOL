@@ -24,6 +24,6 @@ class IndividualOrdersService:
         order_id = await self.individual_orders_repository.delete_one(id)
         return order_id
 
-    async def get_all_orders(self):
-        orders = await self.individual_orders_repository.get_all(order_by = "-id")
+    async def get_all_orders(self, filter_by: dict | None = None, order_by: str | list[str] | None = None):
+        orders = await self.individual_orders_repository.get_all(filter_by, order_by)
         return orders

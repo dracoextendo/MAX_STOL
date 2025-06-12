@@ -29,7 +29,7 @@ async def get_all_orders(request: Request,
         secure=SECURE_COOKIE,
         samesite='lax'
     )
-    orders = await order_service.get_all_orders()
+    orders = await order_service.get_all_orders(order_by="id")
     if not orders:
         raise HTTPException(status_code=404, detail="Orders not found")
     return orders

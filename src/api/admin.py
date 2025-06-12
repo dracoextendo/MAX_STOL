@@ -11,7 +11,7 @@ from src.services.individual_orders import IndividualOrdersService
 from src.services.orders import OrdersService
 from src.services.products import ProductsService
 from src.api.dependencies import product_service
-from src.services.settings import SettingsService
+from src.services.desk_settings import SettingsService
 from src.utils.config import SECURE_COOKIE
 
 router = APIRouter(prefix="/admin")
@@ -44,7 +44,7 @@ async def get_orders_html(request: Request,
     refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
     if not refreshed_token:
         return RedirectResponse(url="/admin/login")
-    orders = await order_service.get_all_orders()
+    orders = await order_service.get_all_orders(order_by="-created_at")
     response = templates.TemplateResponse("orders.html", context={'request': request, 'orders': orders})
     response.set_cookie(
         key="access_token",
@@ -212,7 +212,7 @@ async def get_individual_order_html(request: Request,
     refreshed_token = await auth_service.validate_access_token(access_token, refresh_token)
     if not refreshed_token:
         return RedirectResponse(url="/admin/login")
-    individual_orders = await individual_order_service.get_all_orders()
+    individual_orders = await individual_order_service.get_all_orders(order_by="-created_at")
     response = templates.TemplateResponse("individual-project.html", context={'request': request, 'orders': individual_orders})
     response.set_cookie(
         key="access_token",

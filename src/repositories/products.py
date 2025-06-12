@@ -3,8 +3,7 @@ from sqlalchemy import insert, select, delete, update
 from sqlalchemy.orm import selectinload
 from src.models.products import ProductsModel, ProductDeskColor, ProductFrameColor, ProductLength, ProductDepth
 from src.schemas.products import SProductInfoOut, SProductOut
-from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
-from src.utils.database import async_session_maker
+from src.schemas.desk_settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut
 from src.utils.repository import SQLAlchemyRepository
 
 
@@ -22,7 +21,7 @@ class ProductsRepository(SQLAlchemyRepository):
         lengths = data.pop('lengths', [])
         depths = data.pop('depths', [])
 
-        async with async_session_maker() as session:
+        async with self.session_factory() as session:
             stmt = insert(self.model).values(**data).returning(self.model.id)
             res = await session.execute(stmt)
             product_id = res.scalar_one()
@@ -37,7 +36,7 @@ class ProductsRepository(SQLAlchemyRepository):
 
     @override
     async def delete_one(self, id: int) -> list[str] | None:
-        async with async_session_maker() as session:
+        async with self.session_factory() as session:
             stmt = select(self.model).where(self.model.id == id)
             res = await session.execute(stmt)
             product = res.scalar_one_or_none()
@@ -55,7 +54,7 @@ class ProductsRepository(SQLAlchemyRepository):
         lengths = data.pop('lengths', [])
         depths = data.pop('depths', [])
 
-        async with async_session_maker() as session:
+        async with self.session_factory() as session:
             stmt = select(self.model).where(self.model.id == id)
             res = await session.execute(stmt)
             product = res.scalar_one_or_none()
@@ -78,7 +77,7 @@ class ProductsRepository(SQLAlchemyRepository):
 
     @override
     async def get_info(self, id: int) -> SProductInfoOut | None:
-        async with async_session_maker() as session:
+        async with self.session_factory() as session:
             stmt = select(self.model).options(
                     selectinload(self.model.desk_colors),
                     selectinload(self.model.frame_colors),
