@@ -970,6 +970,7 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    max-width: 600px;
 }
 
 .radio-buttons {
@@ -1004,7 +1005,7 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    min-width: 400px;
+    width: 100%;
 }
 
 .oder-user-fieldset{
@@ -1126,34 +1127,39 @@ input{
    margin: 0px; 
 }
 
-@media (max-width:900px){
+@media (max-width:1280px){
+    .dialog-wrapper{
+        max-width: 751px;
+    }
+    .order-config{
+        max-width: 377px;
+    }
     .dialog-inner{
-        display: flex;
+        padding: 20px;
     }
     .oder-user-fieldset{
-    display: block;
-    gap: 60px;
-    width: 100%;
-    }
-    .order-user{
-        margin-top: 20px;
+        gap: 40px;
     }
 }
 @media (max-width:768px){
+    .dialog{
+        padding: 0;
+    }
     .dialog-inner{
-        display: flex;
+        padding: 20px 20px 40px 40px;
     }
     .oder-user-fieldset{
-    display: block;
-    gap: 60px;
-    width: 100%;
-    }  
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .order-config{
+        max-width: none;
+    }
 }
-@media (max-width:480px){
-     .dialog-wrapper{
-        max-width: 380px;
-     }
-     .order-user{
-        min-width: 276px;
-     }
+@media (max-width:576px){
+    .dialog-inner{
+        padding: 20px 10px 20px 20px;
+    }
+
 }
