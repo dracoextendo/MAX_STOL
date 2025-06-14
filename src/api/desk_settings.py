@@ -3,10 +3,10 @@ from src.api.dependencies import desk_color_service, frame_color_service, length
     depth_service, auth_service
 from src.utils.responses import UNAUTHORIZED, NOT_FOUND
 from src.schemas.base import SStatusOut
-from src.schemas.settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut, SDeskColorIn, SFrameColorIn, \
+from src.schemas.desk_settings import SDeskColorOut, SFrameColorOut, SLengthOut, SDepthOut, SDeskColorIn, SFrameColorIn, \
     SLengthIn, SDepthIn
 from src.services.auth import AuthService
-from src.services.settings import SettingsService
+from src.services.desk_settings import SettingsService
 from src.utils.config import SECURE_COOKIE
 
 router = APIRouter(prefix="/settings",

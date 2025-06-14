@@ -20,3 +20,6 @@ class SUserOut(BaseModel):
     id: int
     username: str
     email: str
+
+class SUserPasswordOut(SUserOut):
+    hashed_password: str

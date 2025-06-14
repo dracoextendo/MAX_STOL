@@ -33,6 +33,7 @@ class OrdersModel(Base):
             length=self.length,
             created_at=self.created_at,
             updated_at=self.updated_at,
+            sort=self.sort,
         )
 
 class IndividualOrdersModel(Base):

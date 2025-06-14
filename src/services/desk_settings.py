@@ -1,4 +1,4 @@
-from src.schemas.settings import SDeskColorIn, SFrameColorIn, SDepthIn, SLengthIn
+from src.schemas.desk_settings import SDeskColorIn, SFrameColorIn, SDepthIn, SLengthIn
 from src.utils.repository import AbstractRepository
 
 

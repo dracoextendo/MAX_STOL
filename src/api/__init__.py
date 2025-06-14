@@ -4,7 +4,7 @@ from src.api.orders import router as orders_router
 from src.api.root import router as root_router
 from src.api.auth import router as auth_router
 from src.api.admin import router as admin_router
-from src.api.settings import router as settings_router
+from src.api.desk_settings import router as settings_router
 from src.api.individual_orders import router as individual_orders_router
 
 main_router = APIRouter()
