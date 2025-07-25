@@ -1176,9 +1176,9 @@ html {
   position: fixed;
   right: 20px;
   bottom: 20px;
-  width: 48px;
-  height: 48px;
-  background: #000;
+  width: 55px;
+  height: 55px;
+  background: #F97832;
   border: none;
   border-radius: 50%;
   display: flex;
