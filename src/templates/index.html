@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="../static/simple-adaptive-slider.css">
 </head>
 
 <body>
@@ -107,22 +108,43 @@
     </div>
   </header>
   <section class="banner">
-    <div class="banner-block banner-first slide-active">
-      <h2>{{ content.banner_first_frame_title | safe }}</h2>
-      <p>{{ content.banner_first_frame_description | safe }}</p>
-      <button class="button">{{ content.banner_first_frame_button | safe }}</button>
+    <div class="banner-container">
+    <!-- Разметка слайдера (html код) -->
+    <div class="itcss" id="slider-1">
+      <div class="itcss__wrapper">
+        <div class="itcss__items">
+          <div class="itcss__item">
+              <div class="banner-block">
+                <h2>{{ content.banner_first_frame_title | safe }}</h2>
+                <p>{{ content.banner_first_frame_description | safe }}</p>
+                <button class="button">{{ content.banner_first_frame_button | safe }}</button>
+              </div>
+          </div>
+          <div class="itcss__item">
+            <div class="banner-block">
+              <h2>{{ content.banner_second_frame_title | safe }}</h2>
+              <p>{{ content.banner_second_frame_description | safe }}</p>
+              <button class="button">{{ content.banner_second_frame_button | safe }}</button>
+            </div>
+          </div>
+          <div class="itcss__item">
+            <div class="banner-block">
+              <h2>{{ content.banner_first_frame_title | safe }}</h2>
+              <p>{{ content.banner_first_frame_description | safe }}</p>
+              <button class="button">{{ content.banner_first_frame_button | safe }}</button>
+            </div>
+          </div>
+          <div class="itcss__item">
+            <div class="banner-block">
+              <h2>{{ content.banner_second_frame_title | safe }}</h2>
+              <p>{{ content.banner_second_frame_description | safe }}</p>
+              <button class="button">{{ content.banner_second_frame_button | safe }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="banner-block banner-second slide">
-      <h2>{{ content.banner_second_frame_title | safe }}</h2>
-      <p>{{ content.banner_second_frame_description | safe }}</p>
-      <button class="button">{{ content.banner_second_frame_button | safe }}</button>
     </div>
-    <div class="slider-dots">
-      <span class="dot active" data-slide="0"></span>
-      <span class="dot" data-slide="1"></span>
-    </div>
-    <button class="slider-nav prev" aria-label="Previous slide"></button>
-    <button class="slider-nav next" aria-label="Next slide"></button>
   </section>
   <section id="catalog" class="catalog">
     <div class="container">
@@ -134,9 +156,27 @@
         {% for product in products %}
         <div class="card">
           <div class="card-pics">
-            <img class="cardImg" src="{{ product.first_image }}" alt="den1">
-            <img class="cardImg" src="{{ product.second_image }}" alt="den2">
-            <img class="cardImg" src="{{ product.third_image }}" alt="den3">
+            <img src="{{ product.first_image }}" alt="den1">
+            <img src="{{ product.second_image }}" alt="den2">
+            <img src="{{ product.third_image }}" alt="den3">
+          </div>
+          <div class="card-pics-slider">
+             <!-- Разметка слайдера (html код) -->
+            <div class="itcss" id="card-slider-{{ product.id }}">
+              <div class="itcss__wrapper">
+                <div class="itcss__items">
+                  <div class="itcss__item">
+                    <img class="card-img" src="{{ product.first_image }}" alt="den1">
+                  </div>
+                  <div class="itcss__item">
+                    <img class="card-img" src="{{ product.second_image }}" alt="den2">
+                  </div>
+                  <div class="itcss__item">
+                    <img class="card-img" src="{{ product.third_image }}" alt="den3">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="card-text">
             <h3>{{ product.name }}</h3>
@@ -297,14 +337,36 @@
       </svg>
     </a>
   </footer>
-
-  <script src="../static/js/slider.js"></script>
   <script src="../static/js/popup.js"></script>
   <script src="../static/js/softscroll.js"></script>
   <script src="../static/js/submitOrder.js"></script>
   <script src="../static/js/sendForm.js"></script>
-  <script src="../static/js/cardSlider.js"></script>
   <script src="../static/js/scrollButton.js"></script>
+  <script  src="../static/js/simple-adaptive-slider.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // инициализация 1 слайдера с нужными настройками
+      new ItcSimpleSlider('#slider-1', {
+        loop: true,
+        autoplay: true,
+        interval: 5000,
+        swipe: true,
+      });
+    });
+  </script>
+  {% for product in products %}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // инициализация 2 слайдера с нужными настройками
+      new ItcSimpleSlider('#card-slider-{{ product.id }}', {
+        loop: true,
+        autoplay: false,
+        interval: 5000,
+        swipe: true,
+      });
+    });
+  </script>
+  {% endfor %}
 </body>
 
 </html>
