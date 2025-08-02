@@ -23,7 +23,7 @@ async function submitForm(event) {
         if (!response.ok) {
             throw new Error(`Ошибка HTTP: ${response.status}`);
         }
-
+        
         const result = await response.json();
         
         const modal = document.getElementById('modal');
@@ -34,6 +34,10 @@ async function submitForm(event) {
         }, 3000);
 
         form.reset();
+        formValidation.email = true;
+        formValidation.fullname = false;
+        formValidation.phone = false;
+        checkFormValidity();
         close();
     
         
