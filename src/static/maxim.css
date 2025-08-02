@@ -1195,8 +1195,10 @@ input{
     box-shadow: 0 4px 12px rgba(0,0,0,0.2), 0 16px 20px rgba(0,0,0,0.2);
     background: #FFF;
     padding: 30px 20px;
-    margin: 100px auto;
-    max-width: 350px;
+    position: absolute;
+    top: 150px;
+    right: 0px;
+    width: 400px;
     display: flex;
     justify-content: space-between;
     align-items: center;
