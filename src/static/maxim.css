@@ -1,4 +1,35 @@
 /* CSS Document */
+
+:root {
+  --main-padding: 60px;
+  --secondary-padding: 40px;
+  --tertiary-padding: 20px;
+}
+
+@media (max-width: 1280px) {
+  :root {
+    --main-padding: 40px;
+    --secondary-padding: 40px;
+    --tertiary-padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --main-padding: 40px;
+    --secondary-padding: 20px;
+    --tertiary-padding: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --main-padding: 40px;
+    --secondary-padding: 20px;
+    --tertiary-padding: 12px;
+  }
+}
+
 *{
     padding: 0;
     margin: 0;
@@ -212,7 +243,7 @@ p{
 .button{
     background-color: #F97832;
     border: none;
-    padding: 20px 60px;
+    padding: 12px 40px;
 }
 
 .button:hover{
@@ -899,7 +930,6 @@ footer .svg-icon{
     width: auto;
     max-width: none;
     max-height: 100dvh;
-    height: 100dvh;
     margin: auto;
     padding: 20px;
     overflow-y: auto;
@@ -909,24 +939,70 @@ footer .svg-icon{
 }
 
 dialog::backdrop {
-    background-color: rgb(0 0 0 / 0.9);
+    background-color: rgb(0 0 0 / 0.6);
   }
 
 .dialog-wrapper{
     background-color: #fff;
-    max-width: 1280px;
+    max-width: 975px;
     margin: 0 auto;
 }
 
 .dialog-inner{
+    padding: var(--secondary-padding);
+}
+
+.dialog-inner button{
+    margin-top: var(--secondary-padding);
+}
+
+.heading{
     display: flex;
-    gap: 60px;
-    padding: 40px 20px 40px 40px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--tertiary-padding);
+}
+
+.product-info{
+    background-color: #F4F4F4;
+    padding: var(--tertiary-padding);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--tertiary-padding);
+}
+.product-image{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.product-image img{
+    display: block;
+    width: 200px;
+    aspect-ratio: 1/1;
+}
+
+.product-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 469px;
+    min-width: 469px;
+    margin-left: var(--secondary-padding);
+}
+
+.product-description p{
+    margin-top: var(--tertiary-padding);
 }
 
 .dialog-inner h4{
     color: #2E363E;
 }
+
+.product-price h4{
+    color: #F97832;
+}
+
 .scroll-lock{
     overflow: hidden;
 }
@@ -935,7 +1011,6 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-width: 600px;
 }
 
 .radio-buttons {
@@ -949,10 +1024,11 @@ dialog::backdrop {
 }
 
 .checkbox-button{
-    padding: 8px 20px;
+    padding: 4px 8px;
     background-color: #F6F6F6;
     cursor: pointer;
     color: #2E363E;
+    line-height: 20px;
 }
 
 .radio-buttons input[type="radio"]:checked + .checkbox-button {
@@ -970,13 +1046,45 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 100%;
+    width: 350px;
 }
 
 .oder-user-fieldset{
     display: flex;
     gap: 60px;
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .oder-user-fieldset{
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+
+    .dialog{
+        padding: 0;
+    }
+
+    .order-user{
+        width: 100%;
+    }
+
+    .product-image{
+        justify-content: flex-start;
+    }
+
+    .product-text{
+        min-width: auto;
+        max-width: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    
+    .product-image img{
+        width: 150px;
+    }
 }
 
 .order-user-field{
@@ -1002,13 +1110,11 @@ input{
 .input-field {
     border: none;
     border-bottom: 1px solid #D9D9D9;
-    padding: 12px 0;
+    padding: 4px 2px;
     background: transparent;
     transition: all 0.3s ease;
     
 }
-
-
 
 .error-message {
   color: #F97832;
@@ -1034,9 +1140,6 @@ input{
 }
 
 .close-button{
-    float: right;
-    margin-top: 20px;
-    margin-right: 20px;
     display: flex;
 }
 
@@ -1090,43 +1193,6 @@ input{
    width: 15px;
    height: 15px;
    margin: 0px; 
-}
-
-@media (max-width:1280px){
-    .dialog-wrapper{
-        max-width: 751px;
-    }
-    .order-config{
-        max-width: 377px;
-    }
-    .dialog-inner{
-        padding: 20px;
-    }
-    .oder-user-fieldset{
-        gap: 40px;
-    }
-}
-@media (max-width:768px){
-    .dialog{
-        padding: 0;
-    }
-    .dialog-inner{
-        padding: 20px 20px 40px 40px;
-    }
-    .oder-user-fieldset{
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .order-config{
-        max-width: none;
-    }
-}
-@media (max-width:576px){
-    .dialog-inner{
-        padding: 20px 10px 20px 20px;
-    }
-
 }
 
 html {
