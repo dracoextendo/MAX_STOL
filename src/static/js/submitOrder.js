@@ -8,7 +8,7 @@ async function submitForm(event) {
   formData.append('phone', form.querySelector('input[name="phone"]').value);
   formData.append('email', form.querySelector('input[name="email"]').value || null);
   formData.append('telegram', form.querySelector('input[name="telegram"]').value || null);
-  formData.append('product_name', form.querySelector('input[name="product-name"]').value);
+  formData.append('product_name', document.querySelector('.product-description > h4').textContent);
   formData.append('desk_color', form.querySelector('input[name="desk-color"]:checked').value);
   formData.append('frame_color', form.querySelector('input[name="frame-color"]:checked').value);
   formData.append('depth', form.querySelector('input[name="depth"]:checked').value);

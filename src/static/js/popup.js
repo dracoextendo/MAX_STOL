@@ -14,19 +14,21 @@ let body = document.getElementsByTagName('body')[0];
 async function openModalAndLockScroll() {
   const apiData = await getData(this.id);
   const img1 = dialog.querySelector(".img1")
-  const img2 = dialog.querySelector(".img2")
-  const img3 = dialog.querySelector(".img3")
   const deskColorInputs = dialog.querySelector(".desk-color > .radio-buttons")
   const frameColorInputs = dialog.querySelector(".frame-color > .radio-buttons")
   const depthInputs = dialog.querySelector(".depth > .radio-buttons")
   const lengthInputs = dialog.querySelector(".length > .radio-buttons")
-  const productInput = dialog.querySelector("input[type=text]")
+  const productName = dialog.querySelector(".product-description > h4")
+  const productDescription = dialog.querySelector(".product-description > p")
+  const productPrice = dialog.querySelector(".product-price > h4")
 
   deskColorInputs.innerHTML = '';
   frameColorInputs.innerHTML = '';
   depthInputs.innerHTML = '';
   lengthInputs.innerHTML = '';
-  productInput.value = apiData.product.name
+  productName.textContent = apiData.product.name 
+  productDescription.textContent = apiData.product.description 
+  productPrice.textContent = apiData.product.price + " руб."
 
   apiData.desk_colors.forEach(deskColor=> {
     const radio = document.createElement("input");
@@ -94,8 +96,6 @@ async function openModalAndLockScroll() {
 
   console.log(apiData); // Теперь данные будут здесь
   img1.setAttribute("src", apiData.product.first_image)
-  img2.setAttribute("src", apiData.product.second_image)
-  img3.setAttribute("src", apiData.product.third_image)
   dialog.showModal();
   document.body.classList.add('scroll-lock');
 }
