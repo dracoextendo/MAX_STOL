@@ -25,17 +25,49 @@
           </div>
   <dialog class="dialog" id="orderDialog" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"  autofocus="false" tabindex="0">
     <div class="dialog-wrapper">
-      <div class="close-button closeDialogBtn"><svg>
-          <use xlink:href="../static/sprite.svg#close-btn"></use>
-        </svg></div>
       <div class="dialog-inner" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"  autofocus="false" tabindex="0">
+        <div class="heading">
+          <h3>Оформление заказа</h3>
+          <div class="close-button closeDialogBtn">
+            <svg>
+              <use xlink:href="../static/sprite.svg#close-btn"></use>
+            </svg>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-image">
+              <img class="img1" alt="den1">
+          </div>
+          <div class="product-text">
+            <div class="product-description">
+              <h4 ></h4>
+              <p></p>
+            </div>
+            <div class="product-price">
+              <h4></h4>
+            </div>
+          </div>
+        </div>
         <form class="oder-user-fieldset" id="orderForm" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"  autofocus="false" tabindex="0">
+          <div class="order-user">
+                <div class="order-user-field">
+                  <h4>ФИО*</h4>
+                  <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" autocomplete="off" required>
+                </div>
+                <div class="order-user-field">
+                  <h4>Телефон*</h4>
+                  <input type="tel" value="+7" class="input-field" name="phone" autocomplete="off" required>
+                </div>
+                <div class="order-user-field">
+                  <h4>E-mail</h4>
+                  <input type="email" class="input-field" placeholder="клиент@gmail.com" name="email"  autocomplete="off">
+                </div>
+                <div class="order-user-field">
+                  <h4>Telegram</h4>
+                  <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autofocus="false" autocomplete="off">
+                </div>
+            </div>
             <div class="order-config">
-              <div class="card-pics">
-                <img class="img1" alt="den1">
-                <img class="img2" alt="den2">
-                <img class="img3" alt="den3">
-              </div>
               <div class="order-parameter desk-color">
                 <h4>Цвет столешницы</h4>
                 <div class="radio-buttons"></div>
@@ -53,30 +85,8 @@
                 <div class="radio-buttons"></div>
               </div>
             </div>
-            <div class="order-user">
-                <div class="order-user-field">
-                  <h4>Продукт</h4>
-                  <input type="text" class="input-field" name="product-name" disabled>
-                </div>
-                <div class="order-user-field">
-                  <h4>ФИО*</h4>
-                  <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" autocomplete="off" required>
-                </div>
-                <div class="order-user-field">
-                  <h4>Телефон*</h4>
-                  <input type="tel" value="+7" class="input-field" name="phone" autocomplete="off" required>
-                </div>
-                <div class="order-user-field">
-                  <h4>E-mail</h4>
-                  <input type="email" class="input-field" placeholder="клиент@gmail.com" name="email"  autocomplete="off">
-                </div>
-                <div class="order-user-field">
-                  <h4>Telegram</h4>
-                  <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autofocus="false" autocomplete="off">
-                </div>
-                <button type="button" class="button" id="submitOrderBtn" onclick="submitForm(event)">Заказать</button>
-            </div>
         </form>
+        <button type="button" class="button" id="submitOrderBtn" onclick="submitForm(event)">Заказать</button>
       </div>
     </div>
   </dialog>
