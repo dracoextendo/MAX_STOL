@@ -51,20 +51,20 @@
         <form class="oder-user-fieldset" id="orderForm" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"  autofocus="false" tabindex="0">
           <div class="order-user">
                 <div class="order-user-field">
-                  <h4>ФИО*</h4>
-                  <input type="text" class="input-field" name="fullname" placeholder="Пушкин Александр Сергеевич*" autocomplete="off" required>
+                  <h4 class="field-title">ФИО*</h4>
+                  <input type="text" class="input-field" name="fullname" placeholder="Введите ваше ФИО" autocomplete="off" required oninput="validateFullName(this)" maxlength="255">
                 </div>
                 <div class="order-user-field">
-                  <h4>Телефон*</h4>
-                  <input type="tel" value="+7" class="input-field" name="phone" autocomplete="off" required>
+                  <h4 class="field-title">Телефон*</h4>
+                  <input placeholder="+7 (___) ___-__-__" type="tel" class="input-field" name="phone" autocomplete="off" required oninput="validatePhone(this)">
                 </div>
                 <div class="order-user-field">
-                  <h4>E-mail</h4>
-                  <input type="email" class="input-field" placeholder="клиент@gmail.com" name="email"  autocomplete="off">
+                  <h4 class="field-title">E-mail</h4>
+                  <input type="email" class="input-field" placeholder="Введите ваш E-mail" name="email"  autocomplete="off"  oninput="validateEmail(this)">
                 </div>
                 <div class="order-user-field">
                   <h4>Telegram</h4>
-                  <input type="email" class="input-field" placeholder="@никнейм" name="telegram" autofocus="false" autocomplete="off">
+                  <input type="email" class="input-field" placeholder="Введите ваш логин" name="telegram" autofocus="false" autocomplete="off">
                 </div>
             </div>
             <div class="order-config">
@@ -86,7 +86,7 @@
               </div>
             </div>
         </form>
-        <button type="button" class="button openModal" id="submitOrderBtn" onclick="submitForm(event)">Заказать</button>
+        <button type="button" class="button openModal" id="submitOrderBtn" onclick="submitForm(event) disabled">Заказать</button>
       </div>
     </div>
   </dialog>
@@ -377,6 +377,10 @@
     });
   </script>
   {% endfor %}
-</body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <!-- Подключение Inputmask -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+  <script  src="../static/js/validation.js"></script>
+</body>
 </html>
