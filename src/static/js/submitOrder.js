@@ -34,7 +34,7 @@ async function submitForm(event) {
         }, 3000);
 
         form.reset();
-        formValidation.email = false;
+        formValidation.email = true;
         formValidation.fullname = false;
         formValidation.phone = false;
         checkFormValidity();
