@@ -10,7 +10,6 @@ let body = document.getElementsByTagName('body')[0];
 
 
 //////////////////////////////////////////////////////// ОСНОВНОЙ ПОПАП (КАРТОЧКА ТОВАРА + API + JSON)////////////////////////////////////////////////////////////////////////////////
-
 async function openModalAndLockScroll() {
   const apiData = await getData(this.id);
   const img1 = dialog.querySelector(".img1")
@@ -30,12 +29,16 @@ async function openModalAndLockScroll() {
   productDescription.textContent = apiData.product.description 
   productPrice.textContent = apiData.product.price + " руб."
 
-  apiData.desk_colors.forEach(deskColor=> {
+  apiData.desk_colors.forEach((deskColor, index)=> {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "desk-color";
     radio.value = deskColor.name;
     radio.id = `desk-color-${deskColor.id}`;
+
+    if (index === 0) {
+        radio.checked = true;
+    }
 
     const label = document.createElement("label");
     label.htmlFor = `desk-color-${deskColor.id}`; // Связь с радио-кнопкой
@@ -46,12 +49,16 @@ async function openModalAndLockScroll() {
     deskColorInputs.appendChild(label);
   });
 
-  apiData.frame_colors.forEach(frameColor=> {
+  apiData.frame_colors.forEach((frameColor, index)=> {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "frame-color";
     radio.value = frameColor.name;
     radio.id = `frame-color-${frameColor.id}`;
+
+    if (index === 0) {
+        radio.checked = true;
+    }
 
     const label = document.createElement("label");
     label.htmlFor = `frame-color-${frameColor.id}`; // Связь с радио-кнопкой
@@ -62,12 +69,16 @@ async function openModalAndLockScroll() {
     frameColorInputs.appendChild(label);
   });
 
-  apiData.depth.forEach(depth=> {
+  apiData.depth.forEach((depth, index)=> {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "depth";
     radio.value = depth.value;
     radio.id = `depth-${depth.id}`;
+
+    if (index === 0) {
+        radio.checked = true;
+    }
 
     const label = document.createElement("label");
     label.htmlFor = `depth-${depth.id}`; // Связь с радио-кнопкой
@@ -78,12 +89,16 @@ async function openModalAndLockScroll() {
     depthInputs.appendChild(label);
   });
 
-  apiData.length.forEach(length=> {
+  apiData.length.forEach((length, index)=> {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "length";
     radio.value = length.value;
     radio.id = `length-${length.id}`;
+
+    if (index === 0) {
+        radio.checked = true;
+    }
 
     const label = document.createElement("label");
     label.htmlFor = `length-${length.id}`; // Связь с радио-кнопкой
@@ -94,7 +109,6 @@ async function openModalAndLockScroll() {
     lengthInputs.appendChild(label);
   });
 
-  console.log(apiData); // Теперь данные будут здесь
   img1.setAttribute("src", apiData.product.first_image)
   dialog.showModal();
   document.body.classList.add('scroll-lock');
