@@ -69,6 +69,7 @@ section{
 .svg-icon{
     height: 36px;
     width: 36px;
+    transition: all 0.3s ease;
 }
 
 @media (max-width: 1280px) {
@@ -154,6 +155,7 @@ a{
     line-height: 28px;
     color: #2E363E;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 p{
@@ -237,6 +239,7 @@ p{
     background-color: #F97832;
     border: none;
     padding: 12px 40px;
+    transition: all 0.3s ease;
 }
 
 .button{
@@ -273,6 +276,10 @@ p{
     display: flex;
     justify-content: space-between;
     padding: 20px 0px;
+}
+
+.header-inner a:hover{
+    color: #F97832;
 }
 
 .header-links{
@@ -775,6 +782,10 @@ header .svg-icon{
     line-height: 24px;
 }
 
+.contacts-wrap a:hover{
+    color: #2E363E;
+}
+
 .contacts-info{
     display: flex;
     flex-direction: column;
@@ -863,6 +874,10 @@ footer{
 
 .footer-inner h1, .footer-inner a{
     color: #F6F6F6;
+}
+
+.footer-inner a:hover{
+    color: #F97832;
 }
 
 .footer-menu{
@@ -1038,7 +1053,6 @@ dialog::backdrop {
     cursor: pointer;
     color: #2E363E;
     line-height: 20px;
-    border: 2px solid #F6F6F6;
 }
 
 .radio-buttons input[type="radio"]:checked + .checkbox-button {
@@ -1128,15 +1142,18 @@ input{
     color: #2E363E;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
+    -webkit-appearance: none; /* Важно для iOS */
+    border-radius: 0; /* Убираем скругление */
 }
 
 .input-field {
     border: none;
     border-bottom: 1px solid #D9D9D9;
-    padding: 6px 2px;
+    padding: 4px 2px;
     background: transparent;
     transition: all 0.3s ease;
-    
+    -webkit-appearance: none; /* Важно для iOS */
+    border-radius: 0; /* Убираем скругление */
 }
 
 .input-field.invalid {
