@@ -1,10 +1,10 @@
-const btn = document.getElementById('upBtn');
+const upBtn = document.getElementById('upBtn');
 
 window.addEventListener('scroll', () => {
-  btn.classList.toggle('show', window.scrollY > 300);
+  upBtn.classList.toggle('show', window.scrollY > 300);
 });
 
-btn.addEventListener('click', () => {
+upBtn.addEventListener('click', () => {
   window.scrollTo({
     top: 0,
     behavior: 'smooth' 

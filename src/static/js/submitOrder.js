@@ -66,6 +66,5 @@ async function submitForm(event) {
     console.error('Ошибка:', error);
     alert('Произошла ошибка при отправке заказа: ' + error.message);
 }
-
 }
 
