@@ -4,11 +4,11 @@ const openBtn = document.getElementById('openModal');
 const closeBtn = document.getElementById('closeModal');
 
 openBtn.addEventListener('click', () => {
-  modal.classList.add('show');
+  modal.classList.add('showK');
 });
 
 closeBtn.addEventListener('click', () => {
-  modal.classList.remove('show');
+  modal.classList.remove('showK');
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////

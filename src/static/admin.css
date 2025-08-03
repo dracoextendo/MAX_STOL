@@ -164,6 +164,103 @@ td {
     cursor: pointer;
 }
 
+.add-button {
+    text-decoration: none;
+    border: none;
+    color: #fff;
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 .save-button:hover {
     background-color: #555;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal button{
+    text-decoration: none;
+    border: none;
+    color: #fff;
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 8px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: black;
+}
+
+.modal-body {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.col {
+  flex: 1;
+  min-width: 250px;
+  padding: 0 10px;
+}
+
+.col p {
+    padding-block: 10px;
+}
+
+.close-button svg{
+    width: 24px;
+    height: 24px;
+    stroke: #2E363E;
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.head{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.head h1{
+    margin: 0;
 }
