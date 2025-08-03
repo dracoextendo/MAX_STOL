@@ -53,7 +53,7 @@
                         <td>{{ order.telegram | default('', true) }}</td>
                         <td>{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
                         <td class="actions">
-                            <button class="table-button"><svg class="svg-icon"><use xlink:href="../../static/sprite.svg#magnifier"></use></svg></button>
+                            <button id="{{ order.id }}" class="table-button close-button" onclick="deleteIndividualOrder(this)"><svg class="svg-icon"><use xlink:href="../../static/sprite.svg#close-btn"></use></svg></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -62,4 +62,5 @@
         </div>
     </div>
     <script src="../../static/js/admin/logout.js"></script>
+    <script src="../../static/js/admin/individualOrderDelete.js"></script>
 </body>

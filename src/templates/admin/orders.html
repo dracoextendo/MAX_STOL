@@ -31,6 +31,35 @@
         </div>
         <div class="main-content">
             <h1>Заказы</h1>
+            <div id="orderModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Детали заказа #<span id="modal-order-id"></span></h2>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col">
+                      <p><strong>Имя:</strong> <span id="modal-username"></span></p>
+                      <p><strong>Телефон:</strong> <span id="modal-phone"></span></p>
+                      <p><strong>Email:</strong> <span id="modal-email"></span></p>
+                      <p><strong>Telegram:</strong> <span id="modal-telegram"></span></p>
+                    </div>
+                    <div class="col">
+                      <p><strong>Товар:</strong> <span id="modal-product-name"></span></p>
+                      <p><strong>Цвет столешницы:</strong> <span id="modal-desk-color"></span></p>
+                      <p><strong>Цвет каркаса:</strong> <span id="modal-frame-color"></span></p>
+                      <p><strong>Глубина:</strong> <span id="modal-depth"></span></p>
+                      <p><strong>Длина:</strong> <span id="modal-length"></span></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <p><strong>Дата создания:</strong> <span id="modal-created-at"></span></p>
+                      <button class="del-btn" onclick="deleteOrder(this)">Удалить</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -54,8 +83,12 @@
                         <td>{{ order.telegram | default('', true) }}</td>
                         <td>{{ order.product_name }}</td>
                         <td>{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td style="display: none">{{ order.desk_color }}</td>
+                        <td style="display: none">{{ order.frame_color }}</td>
+                        <td style="display: none">{{ order.depth }}</td>
+                        <td style="display: none">{{ order.length }}</td>
                         <td class="actions">
-                            <button class="table-button"><svg class="svg-icon"><use xlink:href="../../static/sprite.svg#magnifier"></use></svg></button>
+                            <button id="look-btn-{{ order.id }}" class="table-button"><svg class="svg-icon"><use xlink:href="../../static/sprite.svg#magnifier"></use></svg></button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -64,4 +97,5 @@
         </div>
     </div>
     <script src="../../static/js/admin/logout.js"></script>
+    <script src="../../static/js/admin/ordersModal.js"></script>
 </body>
