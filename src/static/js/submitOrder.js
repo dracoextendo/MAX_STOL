@@ -29,6 +29,12 @@ async function submitForm(event) {
         const modal = document.getElementById('modal');
         modal.style.display = 'block';
 
+        const closeModalBtn =  modal.querySelector('#closeModal');
+
+        closeModalBtn.addEventListener('click', (event) => {
+        modal.style.display = 'none';
+        });
+
         setTimeout(() => {
         modal.style.display = 'none';
         }, 3000);
