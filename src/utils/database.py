@@ -8,6 +8,6 @@ class Base(DeclarativeBase):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
 
-engine = create_async_engine(db_config.DATABASE_URL, connect_args={"ssl": None},)
+engine = create_async_engine(db_config.DATABASE_URL, pool_pre_ping=True, pool_recycle=3600, connect_args={"ssl": None},)
 async_session_maker = async_sessionmaker(engine, class_=AsyncSession)
 

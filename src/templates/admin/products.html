@@ -30,7 +30,39 @@
             </div>
         </div>
         <div class="main-content">
-            <h1>Товары</h1>
+            <div class="head">
+                <h1>Товары</h1>
+                <button class="add-button">Добавить товар</button>
+            </div>
+            <div id="orderModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Товар #<span id="modal-order-id"></span></h2>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col">
+                      <p><strong>Имя:</strong> <span id="modal-username"></span></p>
+                      <p><strong>Телефон:</strong> <span id="modal-phone"></span></p>
+                      <p><strong>Email:</strong> <span id="modal-email"></span></p>
+                      <p><strong>Telegram:</strong> <span id="modal-telegram"></span></p>
+                    </div>
+                    <div class="col">
+                      <p><strong>Товар:</strong> <span id="modal-product-name"></span></p>
+                      <p><strong>Цвет столешницы:</strong> <span id="modal-desk-color"></span></p>
+                      <p><strong>Цвет каркаса:</strong> <span id="modal-frame-color"></span></p>
+                      <p><strong>Глубина:</strong> <span id="modal-depth"></span></p>
+                      <p><strong>Длина:</strong> <span id="modal-length"></span></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <p><strong>Дата создания:</strong> <span id="modal-created-at"></span></p>
+                      <button class="del-btn" onclick="deleteProduct(this)">Удалить</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <table>
                 <thead>
                     <tr>
