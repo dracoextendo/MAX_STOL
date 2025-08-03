@@ -49,7 +49,7 @@ async function submitForm(event) {
     closeModalBtn.addEventListener('click', closeModal);
 
     // Автоматическое закрытие через 3 секунды
-    setTimeout(closeModal, 3000);
+    setTimeout(closeModal, 5000);
 
     form.reset();
     formValidation.email = true;
