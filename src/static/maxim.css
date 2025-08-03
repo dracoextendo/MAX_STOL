@@ -1038,6 +1038,7 @@ dialog::backdrop {
     cursor: pointer;
     color: #2E363E;
     line-height: 20px;
+    border: 2px solid #F6F6F6;
 }
 
 .radio-buttons input[type="radio"]:checked + .checkbox-button {
@@ -1132,7 +1133,7 @@ input{
 .input-field {
     border: none;
     border-bottom: 1px solid #D9D9D9;
-    padding: 4px 2px;
+    padding: 6px 2px;
     background: transparent;
     transition: all 0.3s ease;
     
