@@ -1,25 +1,22 @@
 ///////////////////////////////////////////////////////////////////ВСЕ ПЕРЕМЕНННЫЕ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const dialog = document.getElementById('orderDialog')
-const dialogOpener = document.querySelectorAll('.openDialogBtn')
-const dialogCloser = dialog.querySelector('.closeDialogBtn')
+const orderDialog = document.getElementById('orderDialog')
+const orderDialogOpener = document.querySelectorAll('.openDialogBtn')
+const orderDialogCloser = orderDialog.querySelector('.closeDialogBtn')
 const origin = window.location.origin
-let open_modal = document.querySelectorAll('.open_modal');
-let close_modal = document.getElementById('close_modal');
-let modal = document.getElementById('modal');
-let body = document.getElementsByTagName('body')[0]; 
 
 
 //////////////////////////////////////////////////////// ОСНОВНОЙ ПОПАП (КАРТОЧКА ТОВАРА + API + JSON)////////////////////////////////////////////////////////////////////////////////
 async function openModalAndLockScroll() {
+  document.body.classList.add('scroll-lock');
   const apiData = await getData(this.id);
-  const img1 = dialog.querySelector(".img1")
-  const deskColorInputs = dialog.querySelector(".desk-color > .radio-buttons")
-  const frameColorInputs = dialog.querySelector(".frame-color > .radio-buttons")
-  const depthInputs = dialog.querySelector(".depth > .radio-buttons")
-  const lengthInputs = dialog.querySelector(".length > .radio-buttons")
-  const productName = dialog.querySelector(".product-description > h4")
-  const productDescription = dialog.querySelector(".product-description > p")
-  const productPrice = dialog.querySelector(".product-price > h4")
+  const img1 = orderDialog.querySelector(".img1")
+  const deskColorInputs = orderDialog.querySelector(".desk-color > .radio-buttons")
+  const frameColorInputs = orderDialog.querySelector(".frame-color > .radio-buttons")
+  const depthInputs = orderDialog.querySelector(".depth > .radio-buttons")
+  const lengthInputs = orderDialog.querySelector(".length > .radio-buttons")
+  const productName = orderDialog.querySelector(".product-description > h4")
+  const productDescription = orderDialog.querySelector(".product-description > p")
+  const productPrice = orderDialog.querySelector(".product-price > h4")
 
   deskColorInputs.innerHTML = '';
   frameColorInputs.innerHTML = '';
@@ -110,8 +107,7 @@ async function openModalAndLockScroll() {
   });
 
   img1.setAttribute("src", apiData.product.first_image)
-  dialog.showModal();
-  document.body.classList.add('scroll-lock');
+  orderDialog.showModal();
 }
 
 function returnScroll() {
@@ -119,7 +115,7 @@ function returnScroll() {
 }
 
 function close() {
-  dialog.close()
+  orderDialog.close()
   returnScroll()
 }
 
@@ -131,13 +127,13 @@ function closeOnBackDropClick({ currentTarget, target }) {
   }
 }
 
-dialogCloser.addEventListener('click', close)
-dialogOpener.forEach(opener => {
+orderDialogCloser.addEventListener('click', close)
+orderDialogOpener.forEach(opener => {
   opener.addEventListener('click', openModalAndLockScroll);
 });
 
-dialog.addEventListener('click', closeOnBackDropClick)
-dialog.addEventListener('cancel', (event) => {
+orderDialog.addEventListener('click', closeOnBackDropClick)
+orderDialog.addEventListener('cancel', (event) => {
   returnScroll()
 });
 

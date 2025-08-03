@@ -12,21 +12,23 @@
     rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link rel="stylesheet" href="../static/simple-adaptive-slider.css">
+  <link rel="icon" href="../static/img/favicon.png" type="image/png">
 </head>
 
 <body>
-   <div id="modal" class="modal">
-            <div class="modal_txt">
-              <svg class="svg-icon"><use xlink:href="../static/sprite.svg#check"></use></svg><p>Ваша заявка отправлена!&nbsp</p>
-              <div class="close-button" id="closeModal">
-                <svg class="success-close">
-                  <use xlink:href="../static/sprite.svg#close-btn"></use>
-                </svg></div>
-            </div>
-          </div>
-  <dialog class="dialog" id="orderDialog" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"  autofocus="false" tabindex="0">
+  <div id="modal" class="modal">
+    <div class="modal_txt">
+      <svg class="svg-icon"><use xlink:href="../static/sprite.svg#check"></use></svg><p>Ваша заявка отправлена!&nbsp</p>
+      <div class="close-button" id="closeModal">
+        <svg class="success-close">
+          <use xlink:href="../static/sprite.svg#close-btn"></use>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <dialog class="dialog" id="orderDialog">
     <div class="dialog-wrapper">
-      <div class="dialog-inner" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"  autofocus="false" tabindex="0">
+      <div class="dialog-inner">
         <div class="heading">
           <h3>Оформление заказа</h3>
           <div class="close-button closeDialogBtn">
@@ -65,7 +67,7 @@
                 </div>
                 <div class="order-user-field">
                   <h4>Telegram</h4>
-                  <input type="text" class="input-field" placeholder="Введите ваш логин" name="telegram" autofocus="false" autocomplete="off">
+                  <input type="text" class="input-field" placeholder="Введите ваше имя пользователя" name="telegram" autofocus="false" autocomplete="off">
                 </div>
             </div>
             <div class="order-config">
@@ -90,6 +92,42 @@
         <button type="button" class="button openModal" id="submitOrderBtn" onclick="submitForm(event)" disabled>Заказать</button>
       </div>
     </div>
+  </dialog>
+  <dialog class="dialog" id="individualOrderDialog">
+    <div class="individual-dialog-wrapper">
+      <div class="dialog-inner">
+        <div class="heading">
+          <h3>Заявка на индивидуальный проект</h3>
+          <div class="close-button closeDialogBtn">
+            <svg>
+              <use xlink:href="../static/sprite.svg#close-btn"></use>
+            </svg>
+          </div>
+        </div>
+        <div class="individual-description">
+          <p>{{ content.individual_order_description | safe }}</p>
+        </div>
+        <form class="oder-user-fieldset" id="orderForm" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"  autofocus="false" tabindex="0">
+          <div class="individual-order-user">
+                <div class="order-user-field">
+                  <h4 class="field-title">ФИО*</h4>
+                  <input type="text" class="input-field" name="fullname" placeholder="Введите ваше ФИО" autocomplete="off" required oninput="validateFullName(this)" maxlength="255">
+                </div>
+                <div class="order-user-field">
+                  <h4 class="field-title">Телефон*</h4>
+                  <input placeholder="+7 (___) ___-__-__" type="tel" class="input-field" name="phone" autocomplete="off" required oninput="validatePhone(this)">
+                </div>
+                <div class="order-user-field">
+                  <h4 class="field-title">E-mail</h4>
+                  <input type="email" class="input-field" placeholder="Введите ваш E-mail" name="email"  autocomplete="off"  oninput="validateEmail(this)">
+                </div>
+                <div class="order-user-field">
+                  <h4>Telegram</h4>
+                  <input type="text" class="input-field" placeholder="Введите ваше имя пользователя" name="telegram" autofocus="false" autocomplete="off">
+                </div>
+            </div>
+        </form>
+        <button type="button" class="button openModal" id="submitIndividualOrderBtn" onclick="submitIndividualForm(event)" disabled>Оставить заявку</button>
   </dialog>
   <header>
     <div class="container">
@@ -245,7 +283,7 @@
           <h4>{{ content.individual_order_sub | safe }}</h4>
           <h2>{{ content.individual_order_title | safe }}</h2>
           <p>{{ content.individual_order_description | safe }}</p>
-          <button class="button">{{ content.individual_order_button | safe }}</button>
+          <button class="button individualOpenDialogBtn">{{ content.individual_order_button | safe }}</button>
         </div>
         <img src="../static/img/individual-order.png" alt="photo">
       </div>
@@ -349,6 +387,7 @@
     </a>
   </footer>
   <script src="../static/js/popup.js"></script>
+  <script src="../static/js/individualPopup.js"></script>
   <script src="../static/js/softscroll.js"></script>
   <script src="../static/js/submitOrder.js"></script>
   <script src="../static/js/scrollButton.js"></script>
@@ -359,13 +398,13 @@
       new ItcSimpleSlider('#slider-1', {
         loop: true,
         autoplay: true,
-        interval: 5000,
+        interval: 8000,
         swipe: true,
       });
     });
   </script>
   {% for product in products %}
-    <script>
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       // инициализация 2 слайдера с нужными настройками
       new ItcSimpleSlider('#card-slider-{{ product.id }}', {
@@ -378,8 +417,6 @@
   </script>
   {% endfor %}
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- Подключение Inputmask -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
   <script  src="../static/js/validation.js"></script>
 </body>
