@@ -109,6 +109,7 @@
   background-color: #D9D9D9;
   background-clip: padding-box;
   cursor: pointer;
+  transition: all 0.5s ease;
 }
 
 .itcss__indicator_active {
